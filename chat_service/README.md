@@ -1,6 +1,6 @@
 # RESTful API (first draft)
 ### Send
-##### POST /send
+##### POST sock/send
 <pre>
 request
 <code>
@@ -10,6 +10,32 @@ request
         "msg": ...,
         "sender": ...,
         "room_id": ...
+    }
+}
+</code>
+</pre>
+
+<pre>
+respond
+<code>
+{
+    "status": "ok or error",
+    "data": {
+        ...
+    }
+    "error": "error_msg"
+}
+</code>
+</pre>
+
+##### POST sock/createRoom
+<pre>
+request
+<code>
+{
+    "action": "create room",
+    "data": {
+        "room_id": ...shoud be something meaningful
     }
 }
 </code>

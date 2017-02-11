@@ -17,6 +17,8 @@ app.set('port', port);
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+// set io a part of app
+app.set('io', io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
