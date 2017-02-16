@@ -6,13 +6,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('chat_service:server');
 
+var config = require('./config');
+var rooms = require('./internal/room_data')
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var sock = require('./routes/sock');
 
 var app = express();
-var port = process.env.PORT || '3000';
+var port = process.env.PORT || config.PORT;
 app.set('port', port);
 
 var server = require('http').createServer(app);
@@ -81,6 +84,16 @@ io.on('connection', function (socket) {
     socket.on('my other event', function (data) {
         console.log(data);
     });
+
+    //data = {room_id: 'asdf', user: 'mgao16'}
+    socket.on('join', function (data) {
+        console.log(data);
+        if(!rooms.room_id) {
+            io.to(socket.id).emit("error", {data: 'room_id does not exist'});
+        } else {
+            io.to(socket.id).emit("ok", {data: 'joined room_id'});
+        }
+    })
 });
 
 /**

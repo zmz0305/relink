@@ -8,9 +8,16 @@ var rooms = require('../internal/room_data');
 router.post("/send", function (req, res) {
     console.log(req.body.room_id);
     console.log(req.body.message);
+    console.log(req.body.user);
     room_id = req.body.room_id;
     message = req.body.message;
-    module.parent.exports.get('io').to(room_id).emit('message', {'message': message});
+    user = req.body.message;
+    if(!room_id || !message || !user){
+        res.status(500);
+        res.send({status: '500 Internal Error', data: 'missing values, must have room_id, message, user'});
+    }
+    module.parent.exports.get('io').to(room_id).emit('message', {'message': message, "user": user});
+    res.status(200);
     res.send({status: '200 OK'});
 });
 
@@ -22,9 +29,14 @@ router.post("/createRoom", function (req, res) {
     // add room_id and return ok
     if(room_id && !rooms.room_id){
         rooms.room_id = 1;
-        res.send({status: '200 OK', data: room_id + 'room created'});
+        res.status(201);
+        res.send({status: '201 Created', data: room_id + 'room created'});
+    } else if(room_id && rooms.room_id){
+        res.status(201);
+        res.send({status: '201 Created', data: room_id + 'room already exist'});
     } else {
-        res.send({status: '500 INTERNAL ERROR', data: room_id + 'room creation failed'});
+        res.status(500);
+        res.send({status: '500 Internal error', data: room_id + 'creation failed'});
     }
 });
 
