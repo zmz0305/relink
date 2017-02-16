@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script>
         var socket = io.connect('http://localhost:3000');
         socket.on('news', function (data) {
@@ -14,6 +15,26 @@
 </head>
 <body>
 
-
+    <form id="send">
+        id:<input name="room_id" type="text" placeholder="room_id"/>
+        message:<input name="message" type="text" placeholder="message"/>
+        <input type="submit" value="send" />
+    </form>
+    <script>
+        (function () {
+            $("#send").submit(function (e) {
+                url = 'sock/send';
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: $('#send').serialize(),
+                    success: function(data){
+                        console.log(data)
+                    }
+                });
+                e.preventDefault();
+            });
+        })();
+    </script>
 </body>
 </html>

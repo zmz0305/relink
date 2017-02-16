@@ -1,0 +1,20 @@
+{
+  "name": "relink_chat_service",
+  "homepage": "https://github.com/zmz0305/relink",
+  "authors": [
+    "zmz0305 <zmz305@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}

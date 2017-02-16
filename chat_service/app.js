@@ -9,6 +9,7 @@ var debug = require('debug')('chat_service:server');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var sock = require('./routes/sock');
 
 var app = express();
 var port = process.env.PORT || '3000';
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/sock/', sock);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -73,6 +75,8 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 io.on('connection', function (socket) {
+    console.log("Incomming connection: " + socket.id);
+
     socket.emit('news', { hello: 'world' });
     socket.on('my other event', function (data) {
         console.log(data);
