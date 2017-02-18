@@ -19,7 +19,7 @@ request
 respond
 <code>
 {
-    "status": "ok or error",
+    "status": "ok" or "error",
     "data": {
         ...
     }
@@ -33,7 +33,7 @@ respond
 request
 <code>
 {
-    "action": "create room",
+    "action": "create_room",
     "data": {
         "room_id": ...shoud be something meaningful
     }
