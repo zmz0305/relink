@@ -21,6 +21,7 @@ POST: {
 }
 
 
+
 accounts/login
 
 POST: {
@@ -32,8 +33,21 @@ POST: {
 }
 
 
+
+
 accounts/logout
 
 POST: {}
 
 will redirect to accounts/index
+
+
+
+accounts/delete_user
+
+POST: {
+
+        email = 'email'
+
+}
+
