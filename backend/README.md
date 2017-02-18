@@ -18,6 +18,8 @@ POST: {
         
         firstname = "firstname"
         
+        isInstructor = "True" or "False" //default is False
+        
 }
 
 
