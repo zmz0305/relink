@@ -78,7 +78,7 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 io.on('connection', function (socket) {
-    console.log("Incomming connection: " + socket.id);
+    console.log("Incomming connection from: " + socket.id);
 
     socket.emit('news', { hello: 'world' });
     socket.on('my other event', function (data) {
@@ -86,11 +86,23 @@ io.on('connection', function (socket) {
     });
 
     //data = {room_id: 'asdf', user: 'mgao16'}
+
+    socket.on('create_room', function (data) {
+      console.log('received create room request.')
+      if(rooms.check_room(data.room_id)) {
+          io.to(socket.id).emit("error", {data: 'room_id already created'});
+      } else {
+          rooms.add_room(room_id, user)
+          io.to(socket.id).emit("ok", {data: 'created room_id'});
+      }
+    })
+
     socket.on('join', function (data) {
         console.log(data);
-        if(!rooms.room_id) {
+        if(!rooms.check_room(data.room_id)) {
             io.to(socket.id).emit("error", {data: 'room_id does not exist'});
         } else {
+            rooms.join_room(room_id, user)
             io.to(socket.id).emit("ok", {data: 'joined room_id'});
         }
     })
