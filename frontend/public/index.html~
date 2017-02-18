@@ -12,6 +12,8 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<script src="jquery-3.1.1.min.js"></script>
+		<script src="./js/index.js"></script>
 	</head>
 	<body>
 
@@ -36,7 +38,14 @@
 						<div class="6u 12u$(mobile)"><input type="text" class="text" name="firstname" placeholder="First Name" /></div>
 						<div class="6u 12u$(mobile)"><input type="text" class="text" name="secondname" placeholder="Second Name" /></div>
 						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" /></div>
-						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" class="text" name="password" placeholder="Password" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" class="text" name="confirmPassword" placeholder="Confirm Password" /></div>
+						<div class="12u 12u$(mobile)"> Register as a:
+							<input type="radio" name="type"
+							value="Instructor">Instructor
+							<input type="radio" name="type" value="Student"
+							checked="checked">Student
+						</div>
 						<div class="12u$">
 							<ul class="actions">
 								<li><input type="submit" value="Submit" /></li>
