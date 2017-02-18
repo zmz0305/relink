@@ -18,7 +18,10 @@ POST: {
         
         firstname = "firstname"
         
+        isInstructor = "True" or "False" //default is False
+        
 }
+
 
 
 accounts/login
@@ -32,8 +35,21 @@ POST: {
 }
 
 
+
+
 accounts/logout
 
 POST: {}
 
 will redirect to accounts/index
+
+
+
+accounts/delete_user
+
+POST: {
+
+        email = 'email'
+
+}
+
