@@ -10,7 +10,8 @@ class AccountTest(TestCase):
     user_data = {'email': 'rli17@illinois.edu',
                      'password': '1234acd',
                      'lastname': 'Li',
-                     'firstname': 'Ranran'}
+                     'firstname': 'Ranran',
+                     'isInstructor': 'True'}
 
     def setUp(self):
         print "running setup"
