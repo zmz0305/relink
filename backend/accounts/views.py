@@ -23,7 +23,7 @@ def register_view(request):
     instructor, created = Group.objects.get_or_create(name='instructor')
     student, created = Group.objects.get_or_create(name='student')
     try:
-        email = request.POST['email']
+        email = request.POST['username']
     except KeyError:
         return HttpResponse('Please check your email')
 
@@ -68,7 +68,7 @@ def register_view(request):
 
 @csrf_exempt
 def login_view(request):
-    email = request.POST['email']
+    email = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=email, password=password)
     if user is not None:
@@ -87,7 +87,7 @@ def logout_view(request):
 @csrf_exempt
 def delete_user(request):
     try:
-        email = request.POST['email']
+        email = request.POST['username']
     except KeyError:
         return HttpResponse('Please check your email')
     try:
