@@ -19,7 +19,7 @@ $(document).ready(
 			  	lastname: $("#rLastName").val(),
 			  	password: $("#rPassword").val(),
 			  	username: $("#rEmail").val(),
-			  	isInstructor : $('input[name=userType]:checked', '#register').val() === "Student"
+			  	isInstructor: $('input[name=userType]:checked', '#register').val() === "Instructor" ? "True" : "False"
 			};
 			
 			$.ajax({
