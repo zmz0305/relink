@@ -1,28 +1,61 @@
 $(document).ready(
 	function(){
+
+		var clearInputs = function() {
+		  	$('#rFirstName').val("");
+		  	$("#rLastName").val("");
+		  	$("#rPassword").val("");
+		  	$("#rEmail").val("");
+		  	$("#lEmail").val("");
+		  	$("#lPassword").val("");
+		}
+
 		$( "#register" ).submit(function( event ) {
 			event.preventDefault();
+
+			var rawData = {
+			  	firstname: $('#rFirstName').val(),
+			  	lastname: $("#rLastName").val(),
+			  	password: $("#rPassword").val(),
+			  	username: $("#rEmail").val(),
+			  	isInstructor : $('input[name=userType]:checked', '#register').val() === "Student"
+			};
 			
 			$.ajax({
 			  type: "POST",
 			  url: "http://127.0.0.1:8000/accounts/register",
-			  data: {
-			  	firstname: $('#rFirstName').val(),
-			  	lastname: $("#rLastName").val(),
-			  	password: $("#rPassword").val(),
-			  	username: $("#rEmail").val()
-			  },
+			  data: rawData,
 			  success: function(data) {
-			  	console.log("success");
+			  	alert(data);
+			  	clearInputs();
 			  },
 			  error: function(data) {
 			  	console.log(data);
-			  },
-			  complete: function(data) {
-			  	console.log(data);
 			  }
 			});
+		});
 
-			
+		$( "#login" ).submit(function (event) {
+			event.preventDefault();
+
+			var rawData = {
+				username: $("#lEmail").val(),
+				password: $("#lPassword").val()
+			}
+
+			console.log(rawData);
+
+			$.ajax({
+				type: "POST",
+				url: "http://127.0.0.1:8000/accounts/login",
+				data: rawData,
+				success: function(data) {
+					alert(data);
+					clearInputs();
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
 		});
 });

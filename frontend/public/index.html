@@ -36,15 +36,13 @@
 				<form method="post" action="#" id="register">
 					<div class="row 50%">
 						<div class="6u 12u$(mobile)"><input type="text" id="rFirstName" class="text" name="firstname" placeholder="First Name" /></div>
-						<div class="6u 12u$(mobile)"><input type="text" id="rSecondName" class="text" name="secondname" placeholder="Last Name" /></div>
+						<div class="6u 12u$(mobile)"><input type="text" id="rLastName" class="text" name="secondname" placeholder="Last Name" /></div>
 						<div class="12u$ 12u$(mobile)"><input type="text" id="rEmail" class="text" name="email" placeholder="Email" /></div>
 						<div class="12u 12u$(mobile)"><input type="password" id="rPassword" class="text" name="password" placeholder="Password" /></div>
 						<div class="12u 12u$(mobile)"><input type="password" id="rConfirmPassword" class="text" name="confirmPassword" placeholder="Confirm Password" /></div>
 						<div class="12u 12u$(mobile)"> Register as a:
-							<input type="radio" name="type"
-							value="Instructor">Instructor
-							<input type="radio" name="type" value="Student"
-							checked="checked">Student
+							<input type="radio" name="userType" value="Instructor">Instructor
+							<input type="radio" name="userType" value="Student" checked="checked">Student
 						</div>
 						<div class="12u$">
 							<ul class="actions">
@@ -60,10 +58,10 @@
 				<header>
 					<h2>Login</h2>
 				</header>
-				<form method="post" action="#">
+				<form method="post" action="#" id="login">
 					<div class="row 50%">
-						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" /></div>
-						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" /></div>
+						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" id="lEmail" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" id="lPassword" /></div>
 						<div class="12u$">
 							<ul class="actions">
 								<li><input type="submit" value="Submit" /></li>
