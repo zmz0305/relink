@@ -58,7 +58,7 @@ class AccountTest(TestCase):
     def test_login_success(self):
         self.register_request()
         response = self.login_correct_request()
-        self.assertEqual(response, 'Success in login')
+        self.assertEqual(response, 'Teacher login')
 
     def test_logout(self):
         self.register_request()

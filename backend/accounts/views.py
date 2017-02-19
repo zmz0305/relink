@@ -73,7 +73,10 @@ def login_view(request):
     user = authenticate(username=email, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponse("Success in login")
+        if user.groups.filter(name='instructor').exists():
+            return HttpResponse("Teacher login")
+        else:
+            return HttpResponse("Student login")
     else:
         return HttpResponse("Authentication Failed")
 
