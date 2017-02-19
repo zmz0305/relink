@@ -5,6 +5,7 @@ $(document).ready(
 		  	$('#rFirstName').val("");
 		  	$("#rLastName").val("");
 		  	$("#rPassword").val("");
+		  	$("#rConfirmPassword").val("");
 		  	$("#rEmail").val("");
 		  	$("#lEmail").val("");
 		  	$("#lPassword").val("");
