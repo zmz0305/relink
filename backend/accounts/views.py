@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib.auth.models import Group
 
 
 # Create your views here.
@@ -19,8 +20,10 @@ def index(request):
 
 @csrf_exempt
 def register_view(request):
+    instructor, created = Group.objects.get_or_create(name='instructor')
+    student, created = Group.objects.get_or_create(name='student')
     try:
-        email = request.POST['email']
+        email = request.POST['username']
     except KeyError:
         return HttpResponse('Please check your email')
 
@@ -39,11 +42,12 @@ def register_view(request):
     except KeyError:
         return HttpResponse('Please check your last name')
 
+    isInstructor = request.POST.get('isInstructor', 'False')
+
     # Validate email
     try:
         validate_email(email)
     except forms.ValidationError:
-        print("invalid email")
         return HttpResponse("Email is not valid")
     # Check if user already exist
     try:
@@ -52,22 +56,27 @@ def register_view(request):
         user = User.objects.create_user(email, email, password)
         user.last_name = last_name
         user.first_name = first_name
+        if(isInstructor == "True"):
+            user.groups.add(instructor)
+        else:
+            user.groups.add(student)
         user.save()
-        print("created a new user")
         return HttpResponse("Create user successfully")
     else:
-        print("user is already exists")
         return HttpResponse("User already exists")
 
 
 @csrf_exempt
 def login_view(request):
-    email = request.POST['email']
+    email = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=email, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponse("Success in login")
+        if user.groups.filter(name='instructor').exists():
+            return HttpResponse("Teacher login")
+        else:
+            return HttpResponse("Student login")
     else:
         return HttpResponse("Authentication Failed")
 
@@ -81,7 +90,7 @@ def logout_view(request):
 @csrf_exempt
 def delete_user(request):
     try:
-        email = request.POST['email']
+        email = request.POST['username']
     except KeyError:
         return HttpResponse('Please check your email')
     try:

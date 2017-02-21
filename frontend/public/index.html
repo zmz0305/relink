@@ -6,12 +6,14 @@
 -->
 <html>
 	<head>
-		<title>Overflow by HTML5 UP</title>
+		<title>Relink</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="index.js"></script>
 	</head>
 	<body>
 
@@ -31,12 +33,17 @@
 				<header>
 					<h2>Register</h2>
 				</header>
-				<form method="post" action="#">
+				<form method="post" action="#" id="register">
 					<div class="row 50%">
-						<div class="6u 12u$(mobile)"><input type="text" class="text" name="firstname" placeholder="First Name" /></div>
-						<div class="6u 12u$(mobile)"><input type="text" class="text" name="secondname" placeholder="Second Name" /></div>
-						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" /></div>
-						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" /></div>
+						<div class="6u 12u$(mobile)"><input type="text" id="rFirstName" class="text" name="firstname" placeholder="First Name" /></div>
+						<div class="6u 12u$(mobile)"><input type="text" id="rLastName" class="text" name="secondname" placeholder="Last Name" /></div>
+						<div class="12u$ 12u$(mobile)"><input type="text" id="rEmail" class="text" name="email" placeholder="Email" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" id="rPassword" class="text" name="password" placeholder="Password" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" id="rConfirmPassword" class="text" name="confirmPassword" placeholder="Confirm Password" /></div>
+						<div class="12u 12u$(mobile)"> Register as a:
+							<input type="radio" name="userType" value="Instructor">Instructor
+							<input type="radio" name="userType" value="Student" checked="checked">Student
+						</div>
 						<div class="12u$">
 							<ul class="actions">
 								<li><input type="submit" value="Submit" /></li>
@@ -51,10 +58,10 @@
 				<header>
 					<h2>Login</h2>
 				</header>
-				<form method="post" action="#">
+				<form method="post" action="#" id="login">
 					<div class="row 50%">
-						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" /></div>
-						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" /></div>
+						<div class="12u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" id="lEmail" /></div>
+						<div class="12u 12u$(mobile)"><input type="password" class="text" name="name" placeholder="Password" id="lPassword" /></div>
 						<div class="12u$">
 							<ul class="actions">
 								<li><input type="submit" value="Submit" /></li>

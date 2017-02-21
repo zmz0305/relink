@@ -7,10 +7,11 @@ import requests
 
 class AccountTest(TestCase):
 
-    user_data = {'email': 'rli17@illinois.edu',
+    user_data = {'username': 'rli17@illinois.edu',
                      'password': '1234acd',
                      'lastname': 'Li',
-                     'firstname': 'Ranran'}
+                     'firstname': 'Ranran',
+                     'isInstructor': 'True'}
 
     def setUp(self):
         print "running setup"
@@ -23,18 +24,18 @@ class AccountTest(TestCase):
         return content
 
     def delete_test_user(self):
-        post_data = {'email': self.user_data['email']}
+        post_data = {'username': self.user_data['username']}
         requests.post('http://127.0.0.1:8000/accounts/delete/', data=post_data)
 
     def login_failed_request(self):
-        post_data = {'email': self.user_data['email'],
+        post_data = {'username': self.user_data['username'],
                      'password': '1234'}
         response = requests.post('http://127.0.0.1:8000/accounts/login/', data=post_data)
         print response.content
         return response.content
 
     def login_correct_request(self):
-        post_data = {'email': self.user_data['email'],
+        post_data = {'username': self.user_data['username'],
                      'password': self.user_data['password']}
         response = requests.post('http://127.0.0.1:8000/accounts/login/', data=post_data)
         print response.content
@@ -57,7 +58,7 @@ class AccountTest(TestCase):
     def test_login_success(self):
         self.register_request()
         response = self.login_correct_request()
-        self.assertEqual(response, 'Success in login')
+        self.assertEqual(response, 'Teacher login')
 
     def test_logout(self):
         self.register_request()

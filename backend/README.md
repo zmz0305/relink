@@ -34,6 +34,7 @@ POST: {
    
 }
 
+will return "Teacher login" or "Student login"
 
 
 
