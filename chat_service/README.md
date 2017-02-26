@@ -55,11 +55,12 @@ respond
 </pre>
 
 
-# SOCKET 
-## MongoDB 
-# room collection
+# SOCKET
+
+
+# MongoDB
+#### room collection
 <pre>
-request
 <code>
 {
     "room_name": " ",
@@ -72,9 +73,8 @@ request
 }
 </code>
 </pre>
-# post question
+#### post question
 <pre>
-request
 <code>
 {
     "message_msg": " ",
@@ -86,9 +86,8 @@ request
 </code>
 </pre>
 
-# vote question
+#### vote question
 <pre>
-request
 <code>
 {
     "message_id": value
