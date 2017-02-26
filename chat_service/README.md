@@ -56,3 +56,27 @@ respond
 
 
 # SOCKET 
+## MongoDB 
+# post question
+<pre>
+request
+<code>
+{
+    "question": " ",
+    "question_id": value
+    "question_vote": 0
+}
+</code>
+</pre>
+
+# vote question
+<pre>
+request
+<code>
+{
+    "question_id": value
+    ...Then "question_vote": ++
+}
+</code>
+</pre>
+
