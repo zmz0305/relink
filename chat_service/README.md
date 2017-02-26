@@ -62,9 +62,9 @@ respond
 request
 <code>
 {
-    "question": " ",
-    "question_id": value
-    "question_vote": 0
+    "message": " ",
+    "message_id": value
+    "message_vote": 0
 }
 </code>
 </pre>
@@ -74,8 +74,8 @@ request
 request
 <code>
 {
-    "question_id": value
-    ...Then "question_vote": ++
+    "message_id": value
+    ...Then "message_vote": ++
 }
 </code>
 </pre>
