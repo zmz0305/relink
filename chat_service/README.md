@@ -57,14 +57,31 @@ respond
 
 # SOCKET 
 ## MongoDB 
+# room collection
+<pre>
+request
+<code>
+{
+    "room_name": " ",
+    "room_id": " ", //must be unique, otherwise too complicated to resolve conflicts
+    //format: time+user_id, time accurate to millisecond
+    "room_user": {
+        "user_id": " ",
+        ...// contains all users in this room
+    }
+}
+</code>
+</pre>
 # post question
 <pre>
 request
 <code>
 {
-    "message": " ",
+    "message_msg": " ",
     "message_id": value
     "message_vote": 0
+    "room_id": value
+    "user_id": value
 }
 </code>
 </pre>
@@ -75,7 +92,7 @@ request
 <code>
 {
     "message_id": value
-    ...Then "message_vote": ++
+    ... "message_vote": ++
 }
 </code>
 </pre>
