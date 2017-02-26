@@ -66,10 +66,10 @@ respond
     "room_name": " ",
     "room_id": " ", //must be unique, otherwise too complicated to resolve conflicts
     //format: time+user_id, time accurate to millisecond
-    "room_user": {
-        "user_id": " ",
+    "room_user": [
+        {"user_id": " "},
         ...// contains all users in this room
-    }
+    ]
 }
 </code>
 </pre>
