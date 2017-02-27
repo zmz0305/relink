@@ -4,22 +4,26 @@
 var mongoose = require('mongoose');
 var Room = require('../models/room');
 
-mongoose.connect("mongodb://127.0.0.1:27017");
-
+/**
+ * create a room in mongodb
+ * @param room {room_id: 'something cannot be empty, should be unique', room_name: 'name'}
+ * @param cb
+ */
 module.exports.createRoom = function(room, cb) {
-    console.log(room);
+    console.log('Creating room: ' + JSON.stringify(room));
     var newroom = new Room();
-    var room_name = room.room_name | "";
+    var room_name = room.room_name || "";
     var room_id = room.room_id;
     if(!room_id) {
-        var err = {status: 'error', data: 'room_id is required.'};
+        var err = {status: 'createRoom error', data: 'room_id is required.'};
         cb(err, undefined);
     } else {
-        room.room_id = room_id;
-        room.room_name = room_name;
-        room.save(function (err, data) {
+        newroom.room_id = room_id;
+        newroom.room_name = room_name;
+        newroom.save(function (err, data) {
            if(err) {
-               cb(err, data);
+               cb(err, {status: 'createRoom error',
+                        data: 'room ' + newroom.room_id + ' is not created'});
            } else {
                cb(err, data);
            }
@@ -37,9 +41,9 @@ module.exports.existRoom = function (room_id, cb) {
                 cb(err, undefined);
             } else {
                 if (!data || data.length == 0) {
-                    cb(err, {status: 'ok', data: "room_id does not exist"});
+                    cb(err, {status: 'existRoom ok', data: "room_id does not exist"});
                 } else {
-                    cb(err, {status: 'ok', data: data});
+                    cb(err, {status: 'existRoom ok', data: data});
                 }
             }
         });
