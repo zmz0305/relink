@@ -53,3 +53,13 @@ module.exports.existRoom = function (room_id, cb) {
         });
     }
 }
+
+/**
+ * add user into some room
+ * @param data {user: 'gmzsb', room_id: 'sbroom'}
+ * @param cb
+ */
+module.exports.joinRoom = function (data, cb) {
+    // TODO: implement this
+    console.log('yoyoyoyoyo')
+}

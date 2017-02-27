@@ -1,16 +1,13 @@
-# RESTful API (first draft)
+# RESTful API (second draft)
 ### Send
 ##### POST sock/send
 <pre>
 request
 <code>
 {
-    "action": "send",
-    "data": {
-        "msg": ...,
-        "sender": ...,
-        "room_id": ...
-    }
+    "msg": ...,
+    "user": ...,
+    "room_id": ...
 }
 </code>
 </pre>
@@ -21,9 +18,8 @@ respond
 {
     "status": "ok" or "error",
     "data": {
-        ...
+        ... //some detailed information
     }
-    "error": "error_msg"
 }
 </code>
 </pre>
@@ -35,7 +31,7 @@ request
 {
     "action": "create_room",
     "data": {
-        "room_id": ...shoud be something meaningful
+        "room_id": ...shoud be something meaningful and unique
     }
 }
 </code>
@@ -47,9 +43,8 @@ respond
 {
     "status": "ok or error",
     "data": {
-        ...
+        ... // some detailed info
     }
-    "error": "error_msg"
 }
 </code>
 </pre>
@@ -73,6 +68,8 @@ respond
 }
 </code>
 </pre>
+
+## experiental ones 
 #### post question
 <pre>
 <code>
