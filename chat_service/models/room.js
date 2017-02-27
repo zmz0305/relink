@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var roomSchema = new mongoose.Schema({
     "room_name": String,
     "room_id": {type: String, unique:true, dropDup: true},
+    'createdAt': {type: Date, default: new Date()},
     "room_user": [mongoose.Schema.Types.Mixed]
 });
 

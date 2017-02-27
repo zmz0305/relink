@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('chat_service:server');
 
 var config = require('./config');
-var rooms = require('./internal/room_data')
-
+// var rooms = require('./internal/room_data')
+var mongo_apis = require('./utility/mongo_apis');
+var configuration = require('./config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +21,8 @@ app.set('port', port);
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var mongoose = require('mongoose');
+mongoose.connect(configuration.MONGO_URI);
 
 // set io a part of app
 app.set('io', io);
@@ -86,17 +89,6 @@ io.on('connection', function (socket) {
     });
 
     //data = {room_id: 'asdf', user: 'mgao16'}
-
-    socket.on('create_room', function (data) {
-      console.log('received create room request.')
-      if(rooms.check_room(data.room_id)) {
-          io.to(socket.id).emit("error", {data: 'room_id already created'});
-      } else {
-          rooms.add_room(room_id, user)
-          io.to(socket.id).emit("ok", {data: 'created room_id'});
-      }
-    })
-
     socket.on('join', function (data) {
         console.log(data);
         if(!rooms.check_room(data.room_id)) {

@@ -1,7 +1,6 @@
 /**
  * Created by zmz0305 on 2/26/17.
  */
-var mongoose = require('mongoose');
 var Room = require('../models/room');
 
 /**
@@ -31,6 +30,11 @@ module.exports.createRoom = function(room, cb) {
     }
 }
 
+/**
+ * Check if there is a room with room_id
+ * @param room_id The room_id, in string
+ * @param cb
+ */
 module.exports.existRoom = function (room_id, cb) {
     if(!room_id) {
         var err = {status: 'error', data: 'room_id is required.'};
@@ -41,7 +45,7 @@ module.exports.existRoom = function (room_id, cb) {
                 cb(err, undefined);
             } else {
                 if (!data || data.length == 0) {
-                    cb(err, {status: 'existRoom ok', data: "room_id does not exist"});
+                    cb(err, {status: 'existRoom ok', data: undefined});
                 } else {
                     cb(err, {status: 'existRoom ok', data: data});
                 }
