@@ -1,5 +1,5 @@
 # RESTful API (second draft)
-### Send
+### Send message 
 ##### POST sock/send
 <pre>
 request
@@ -13,7 +13,7 @@ request
 </pre>
 
 <pre>
-respond
+response
 <code>
 {
     "status": "ok" or "error",
@@ -24,6 +24,16 @@ respond
 </code>
 </pre>
 
+### Chatroom related
+##### GET sock/room
+```
+response
+
+{
+	"status" : "jjblowd",
+	"data" : [all the rooms] 
+}
+```
 ##### POST sock/createRoom
 <pre>
 request
@@ -38,7 +48,7 @@ request
 </pre>
 
 <pre>
-respond
+response
 <code>
 {
     "status": "ok or error",

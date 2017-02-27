@@ -8,7 +8,7 @@ var debug = require('debug')('chat_service:server');
 
 var config = require('./config');
 // var rooms = require('./internal/room_data')
-var mongo_apis = require('./utility/mongo_apis');
+var room_apis = require('./database/room_apis');
 var configuration = require('./config');
 
 var routes = require('./routes/index');

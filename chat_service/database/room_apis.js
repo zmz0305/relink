@@ -31,7 +31,7 @@ module.exports.createRoom = function(room, cb) {
 }
 
 /**
- * Check if there is a room with room_id
+ * Check if there is a room with room_id, if there is, return the room data
  * @param room_id The room_id, in string
  * @param cb
  */
@@ -52,6 +52,20 @@ module.exports.existRoom = function (room_id, cb) {
             }
         });
     }
+}
+
+/**
+ * Get all rooms
+ * @param cb
+ */
+module.exports.getRooms = function (cb) {
+    Room.find(function(err, data) {
+        if(err) {
+            cb(err, undefined);
+        } else {
+            cb(err, data);
+        }
+    })
 }
 
 /**
