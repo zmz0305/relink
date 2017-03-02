@@ -54,3 +54,17 @@ POST: {
 
 }
 
+
+accounts/classroom/id
+
+GET request
+
+will return "find classroom: " + id      or   "Classroom not found"
+
+
+accounts/newroom
+
+POST request to create new room
+
+
+

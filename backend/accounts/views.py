@@ -8,11 +8,12 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
-
+from django.urls import reverse
 
 # Create your views here.
-from django.http import HttpResponse
-
+from django.http import HttpResponse,HttpResponseRedirect
+from .models import VirtualClassroom
+from django.urls import resolve
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -100,3 +101,18 @@ def delete_user(request):
     else:
         user.delete()
 
+
+@csrf_exempt
+def create_classroom(request):
+    room = VirtualClassroom.objects.create()
+    room.save()
+    #TODO: associate the room with the instructor
+
+
+@csrf_exempt
+def classroom_view(request):
+    func, args, kwargs = resolve(request.path)
+    if VirtualClassroom.objects.filter(id=kwargs['room_id']).exists():
+        return HttpResponse("find classroom: " + str(kwargs['room_id']))
+    else:
+        return HttpResponse("Classroom not found")

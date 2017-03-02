@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 import requests
 
 # Create your tests here.
-
-
+from .models import VirtualClassroom
+from django.test.client import RequestFactory
+#from .views import MyView, my_view
+from .views import classroom_view
 class AccountTest(TestCase):
 
     user_data = {'username': 'rli17@illinois.edu',
@@ -15,7 +17,8 @@ class AccountTest(TestCase):
 
     def setUp(self):
         print "running setup"
-        self.delete_test_user()
+        self.factory = RequestFactory()
+        #self.delete_test_user()
 
     def register_request(self):
         response = requests.post('http://127.0.0.1:8000/accounts/register/', data=self.user_data)
@@ -66,6 +69,11 @@ class AccountTest(TestCase):
         response = self.logout_request()
         self.assertEqual(response, "Hello, world. You're at the index.")
 
+    def test_classroom(self):
+        room = VirtualClassroom.objects.create()
+        request = self.factory.get('/accounts/classroom/'+str(room.id))
+        response = classroom_view(request)
+        self.assertEqual(response.content, "find classroom: " + str(room.id))
 #
 # users = User.objects.filter(username='rli17@illinois.edu')
 # for u in users:
