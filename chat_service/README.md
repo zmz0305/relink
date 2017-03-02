@@ -62,10 +62,20 @@ response
 
 # SOCKET
 #### Join room
+
 ```
+frontend sends
 emit('join', {room_id: 'some_id', user: 'username'});
 ```
+```
+server response
 
+emit("error", {data: 'room_id does not exist'});
+
+or
+
+emit("ok", {data: 'joined room_id'});
+```
 
 # MongoDB
 #### room collection
