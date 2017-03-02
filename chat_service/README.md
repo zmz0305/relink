@@ -16,7 +16,7 @@ request
 response
 <code>
 {
-    "status": "ok" or "error",
+    "status": "200 ok" or "500 error",
     "data": {
         ... //some detailed information
     }
@@ -39,10 +39,8 @@ response
 request
 <code>
 {
-    "action": "create_room",
-    "data": {
-        "room_id": ...shoud be something meaningful and unique
-    }
+    "room_id": ...shoud be something meaningful and unique
+    "room_name": name, "" by default
 }
 </code>
 </pre>
@@ -51,7 +49,7 @@ request
 response
 <code>
 {
-    "status": "ok or error",
+    "status": "200 ok or 500 error",
     "data": {
         ... // some detailed info
     }
