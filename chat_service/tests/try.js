@@ -17,7 +17,18 @@ mongoose.connect(configs.MONGO_URI);
 //     console.log('data: ', data);
 // })
 
-room_apis.getRooms(function(err, data) {
+// room_apis.getRooms(function(err, data) {
+//     console.log('err', err);
+//     console.log('data: ', data);
+// })
+//
+// room_apis.leaveRoom({room_id: 'someroom', user: 'zmz'}, function (err, data) {
+//     console.log('err', err);
+//     console.log('data: ', data);
+// })
+
+//
+room_apis.joinRoom({room_id: 'someroom', user: 'zmz'}, function (err, data) {
     console.log('err', err);
     console.log('data: ', data);
 })

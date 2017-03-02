@@ -70,10 +70,44 @@ module.exports.getRooms = function (cb) {
 
 /**
  * add user into some room
- * @param data {user: 'gmzsb', room_id: 'sbroom'}
+ * @param data {user: 'name', room_id: 'unique id'}
  * @param cb
  */
 module.exports.joinRoom = function (data, cb) {
     // TODO: implement this
-    console.log('yoyoyoyoyo')
+    var room_id = data.room_id;
+    var userid = data.user;
+    console.log(room_id, userid);
+    if(!room_id || !userid) {
+        cb({status: 'error', data: 'room_id and user name is required'}, undefined);
+    } else {
+        Room.findOneAndUpdate({room_id: room_id},
+            {$addToSet: {'room_user': {'user_id': userid}}},
+            {new: true},
+            function (err, res) {
+            cb(err, res);
+        });
+    }
 }
+
+/**
+ * remove user from room
+ * @param data {user: 'name', room_id: 'unique id'}
+ * @param cb
+ */
+module.exports.leaveRoom = function (data, cb) {
+    var room_id = data.room_id;
+    var userid = data.user;
+    console.log(room_id, userid);
+    if(!room_id || !userid) {
+        cb({status: 'error', data: 'room_id and user name is required'}, undefined);
+    } else {
+        Room.findOneAndUpdate({room_id: room_id},
+            {$pull: {'room_user': {'user_id': userid}}},
+            {new: true},
+            function (err, res) {
+                cb(err, res);
+            });
+    }
+}
+
