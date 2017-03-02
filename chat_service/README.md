@@ -61,6 +61,10 @@ response
 
 
 # SOCKET
+#### Join room
+```
+emit('join', {room_id: 'some_id', user: 'username'});
+```
 
 
 # MongoDB
