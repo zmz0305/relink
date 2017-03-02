@@ -10,7 +10,7 @@ var resMsg = require('../utility/utils').resMsg;
 router.post("/send", function (req, res) {
     var room_id = req.body.room_id;
     var message = req.body.message;
-    var user = req.body.message;
+    var user = req.body.user;
 
     // if any of the three values is missing, throw error
     if(!room_id || !message || !user){
