@@ -1,3 +1,6 @@
-npm install
+Run Frontend: {
 
-npm start
+        npm install
+        
+        npm start        
+}
