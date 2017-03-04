@@ -3,12 +3,6 @@
 exports.__esModule = true;
 exports['default'] = matchMiddleware;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _historyLibCreateLocation = require('history/lib/createLocation');
-
-var _historyLibCreateLocation2 = _interopRequireDefault(_historyLibCreateLocation);
-
 var _actionCreators = require('./actionCreators');
 
 var _constants = require('./constants');
@@ -24,9 +18,8 @@ function matchMiddleware(match) {
             var url = _action$payload.url;
             var callback = _action$payload.callback;
 
-            var location = _historyLibCreateLocation2['default'](url);
-            match(location, function (error, redirectLocation, routerState) {
-              if (!error && !redirectLocation) {
+            match(url, function (error, redirectLocation, routerState) {
+              if (!error && !redirectLocation && routerState) {
                 dispatch(_actionCreators.routerDidChange(routerState));
               }
               callback(error, redirectLocation, routerState);

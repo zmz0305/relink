@@ -9,8 +9,9 @@ function replaceRoutesMiddleware(replaceRoutes) {
   return function () {
     return function (next) {
       return function (action) {
-        if (action.type === _constants.REPLACE_ROUTES) {
-          replaceRoutes(action.payload);
+        var isInitRoutes = action.type === _constants.INIT_ROUTES;
+        if (isInitRoutes || action.type === _constants.REPLACE_ROUTES) {
+          replaceRoutes(action.payload, isInitRoutes);
         }
         return next(action);
       };

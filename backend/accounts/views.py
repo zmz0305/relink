@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse
 
 # Create your views here.
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError
 from .models import VirtualClassroom
 from django.urls import resolve
 
@@ -103,16 +103,25 @@ def delete_user(request):
 
 
 @csrf_exempt
+@login_required
 def create_classroom(request):
-    room = VirtualClassroom.objects.create()
-    room.save()
-    #TODO: associate the room with the instructor
-
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        room = VirtualClassroom.objects.create()
+        room.instructorId = current_user.id
+        room.save()
+        return HttpResponse("%d" % room.id)
+    else:
+        return HttpResponseServerError()
 
 @csrf_exempt
-def classroom_view(request):
+@login_required
+def join_room_view(request):
     func, args, kwargs = resolve(request.path)
     if VirtualClassroom.objects.filter(id=kwargs['room_id']).exists():
         return HttpResponse("find classroom: " + str(kwargs['room_id']))
     else:
-        return HttpResponse("Classroom not found")
+        return HttpResponseServerError()
+
+
+

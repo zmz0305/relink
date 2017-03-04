@@ -5,8 +5,9 @@ import requests
 # Create your tests here.
 from .models import VirtualClassroom
 from django.test.client import RequestFactory
-#from .views import MyView, my_view
-from .views import classroom_view
+from .views import *
+
+
 class AccountTest(TestCase):
 
     user_data = {'username': 'rli17@illinois.edu',
@@ -18,34 +19,40 @@ class AccountTest(TestCase):
     def setUp(self):
         print "running setup"
         self.factory = RequestFactory()
-        #self.delete_test_user()
+        self.test_user = User.objects.create_user('mgao16@illinois.edu', 'mgao16@illinois.edu', '123abc')
 
     def register_request(self):
-        response = requests.post('http://127.0.0.1:8000/accounts/register/', data=self.user_data)
+        request = self.factory.post('/accounts/register', data=self.user_data)
+        request.session = {}
+        response = register_view(request)
         content = response.content
         print content
         return content
 
     def delete_test_user(self):
         post_data = {'username': self.user_data['username']}
-        requests.post('http://127.0.0.1:8000/accounts/delete/', data=post_data)
+        self.factory.post('/accounts/delete/', data=post_data)
 
     def login_failed_request(self):
         post_data = {'username': self.user_data['username'],
                      'password': '1234'}
-        response = requests.post('http://127.0.0.1:8000/accounts/login/', data=post_data)
+        request = self.factory.post('/accounts/login', data=post_data)
+        request.session = {}
+        response = login_view(request)
         print response.content
         return response.content
 
     def login_correct_request(self):
         post_data = {'username': self.user_data['username'],
                      'password': self.user_data['password']}
-        response = requests.post('http://127.0.0.1:8000/accounts/login/', data=post_data)
+        request = self.factory.post('/accounts/login', data=post_data)
+        request.session = {}
+        response = login_view(request)
         print response.content
         return response.content
 
     def logout_request(self):
-        response = requests.post('http://127.0.0.1:8000/accounts/logout/')
+        response = logout_view(self.factory.post('/accounts/logout'))
         print response.content
         return response.content
 
@@ -70,11 +77,22 @@ class AccountTest(TestCase):
         self.assertEqual(response, "Hello, world. You're at the index.")
 
     def test_classroom(self):
-        room = VirtualClassroom.objects.create()
-        request = self.factory.get('/accounts/classroom/'+str(room.id))
-        response = classroom_view(request)
-        self.assertEqual(response.content, "find classroom: " + str(room.id))
-#
+        create_room_request = self.factory.get('/accounts/newroom/')
+        create_room_request.user = self.test_user
+        group = Group(name='instructor')
+        group.save()
+        self.test_user.groups.add(group)
+        create_room_respose = create_classroom(create_room_request)
+        print('test class room id', create_room_respose.content)
+        request = self.factory.get('/accounts/classroom/'+str(create_room_respose.content))
+        response = join_room_view(request)
+        self.assertEqual(response.content, "find classroom: " + str(create_room_respose.content))
+
+    def tearDown(self):
+        for user in User.objects.all():
+            user.delete()
+        for classroom in VirtualClassroom.objects.all():
+            classroom.delete()
 # users = User.objects.filter(username='rli17@illinois.edu')
 # for u in users:
 #     u.delete()

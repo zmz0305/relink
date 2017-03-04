@@ -32,7 +32,9 @@ var _actionCreators = require('./actionCreators');
 
 exports.historyAPI = _actionCreators.historyAPI;
 exports.pushState = _actionCreators.pushState;
+exports.push = _actionCreators.push;
 exports.replaceState = _actionCreators.replaceState;
+exports.replace = _actionCreators.replace;
 exports.setState = _actionCreators.setState;
 exports.go = _actionCreators.go;
 exports.goBack = _actionCreators.goBack;

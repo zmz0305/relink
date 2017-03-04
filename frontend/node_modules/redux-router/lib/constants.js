@@ -11,6 +11,8 @@ var HISTORY_API = '@@reduxReactRouter/historyAPI';
 exports.HISTORY_API = HISTORY_API;
 var MATCH = '@@reduxReactRouter/match';
 exports.MATCH = MATCH;
+var INIT_ROUTES = '@@reduxReactRouter/initRoutes';
+exports.INIT_ROUTES = INIT_ROUTES;
 var REPLACE_ROUTES = '@@reduxReactRouter/replaceRoutes';
 
 exports.REPLACE_ROUTES = REPLACE_ROUTES;

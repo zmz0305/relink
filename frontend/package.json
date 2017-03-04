@@ -16,9 +16,11 @@
     "core-js": "~2.4.1",
     "history": "^4.5.1",
     "react": "^15.4.2",
+    "react-bootstrap": "~0.30.7",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
     "react-router": "^3.0.2",
-    "redux-router": "^1.0.0-beta3",
+    "redux": "^3.6.0",
     "webpack": "~2.2.1",
     "webpack-dev-server": "~2.4.1"
   },
