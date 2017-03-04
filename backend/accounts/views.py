@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse
 
 # Create your views here.
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect, HttpResponseBadRequest
 from .models import VirtualClassroom
 from django.urls import resolve
 
@@ -103,11 +103,16 @@ def delete_user(request):
 
 
 @csrf_exempt
+@login_required
 def create_classroom(request):
-    room = VirtualClassroom.objects.create()
-    room.save()
-    #TODO: associate the room with the instructor
-
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        room = VirtualClassroom.objects.create()
+        room.instructorId = current_user.id
+        room.save()
+        return HttpResponse("%d" % room.id)
+    else:
+        return HttpResponseBadRequest()
 
 @csrf_exempt
 def classroom_view(request):
