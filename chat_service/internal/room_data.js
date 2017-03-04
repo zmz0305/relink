@@ -29,4 +29,3 @@ exports.check_room = function(room_name){
   return false
 }
 
-exports.debug_info = {room_plp, room_arr}

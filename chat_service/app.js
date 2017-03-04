@@ -43,6 +43,14 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/sock/', sock);
 
+var allowCrossDomain = function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+    next();
+};
+app.use(allowCrossDomain);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -94,8 +102,12 @@ io.on('connection', function (socket) {
         if(!rooms.check_room(data.room_id)) {
             io.to(socket.id).emit("error", {data: 'room_id does not exist'});
         } else {
-            rooms.join_room(room_id, user)
+            rooms.join_room(room_id, user);
             io.to(socket.id).emit("ok", {data: 'joined room_id'});
+            socket.join(room_id, function () {
+                console.log(socket.rooms);
+                io.to(room_id, 'a new user ' + user + 'entered room.');
+            })
         }
     })
 });
