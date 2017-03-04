@@ -85,7 +85,7 @@ class AccountTest(TestCase):
         create_room_respose = create_classroom(create_room_request)
         print('test class room id', create_room_respose.content)
         request = self.factory.get('/accounts/classroom/'+str(create_room_respose.content))
-        response = classroom_view(request)
+        response = join_room_view(request)
         self.assertEqual(response.content, "find classroom: " + str(create_room_respose.content))
 
     def tearDown(self):

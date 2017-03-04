@@ -1,10 +1,16 @@
 # Relink_backend
 
+Home Page
 
 accounts/index
 
-home page
+GET
 
+NO Parameters required
+
+
+
+Register
 
 accounts/register
 
@@ -23,6 +29,7 @@ POST: {
 }
 
 
+Login
 
 accounts/login
 
@@ -34,9 +41,12 @@ POST: {
    
 }
 
-will return "Teacher login" or "Student login"
+Code: 200
+
+Content: "Teacher login" or "Student login"
 
 
+Log Out
 
 accounts/logout
 
@@ -55,16 +65,50 @@ POST: {
 }
 
 
+
+### Join Room
+
 accounts/classroom/id
 
 GET request
 
-will return "find classroom: " + id      or   "Classroom not found"
+#### Success:
 
+Code:  200
+
+Content: "find classroom: " + id
+
+#### Fail:
+
+Code: 500
+
+Content: ""
+
+
+
+### Create Room
 
 accounts/newroom
 
 POST request to create new room
+
+POST: {}
+
+#### Success:
+
+Code:  200
+
+Content: "id"
+
+#### Fail:
+
+Code: 500
+
+Content: ""
+
+If the user is not logged in
+Will be redirect to login page
+
 
 
 
