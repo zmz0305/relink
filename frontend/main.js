@@ -13,6 +13,7 @@ import Chat from './scenes/Chat.jsx';
 import AddClass from './scenes/AddClass.jsx';
 
 const store = createStore(inc);
+export default store;
 
 ReactDOM.render(
 	<Provider store={store}>

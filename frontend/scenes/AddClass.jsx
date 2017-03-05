@@ -1,11 +1,18 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
+import store from '../main.js'
 
 export default class AddClass extends React.Component {
   constructor(props){
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+
+    const userObj = store.getState();
+    if (userObj.username == "" || userObj.isInstructor == false) {
+      this.props.router.push('/');
+    }
   }
+
   onSubmit(event){
     event.preventDefault();
     console.log("Hello");
@@ -20,6 +27,7 @@ export default class AddClass extends React.Component {
       }
     });
   }
+  
   render(){
     return(
       <div>

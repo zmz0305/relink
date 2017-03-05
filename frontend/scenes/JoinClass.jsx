@@ -1,5 +1,6 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
+import store from '../main.js'
 
 export default class JoinClass extends React.Component {
   constructor(props){
@@ -7,6 +8,10 @@ export default class JoinClass extends React.Component {
     this.state = {id:''};
     this.onSubmit = this.onSubmit.bind(this);
     this.setValue = this.setValue.bind(this);
+
+    if (store.getState().username == "") {
+      this.props.router.push('/');
+    }
   }
   onSubmit(event){
     event.preventDefault();
@@ -23,9 +28,11 @@ export default class JoinClass extends React.Component {
       }
     });
   }
+
   setValue(event) {
     this.setState({[event.target.name]: event.target.value});
   }
+  
   render(){
     return(
       <div>
