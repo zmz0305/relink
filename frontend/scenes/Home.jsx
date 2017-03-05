@@ -21,6 +21,8 @@ export default class Home extends React.Component{
             <button onClick={() => {this.navigate('/login')}}>Login</button>
             <br/>
             <button onClick={() => {this.navigate('/register')}}>Register</button>
+            <br/>
+            <button onClick={() => {this.navigate('/')}}>Logout</button>
             {this.props.children}
          </div>
       ); 
