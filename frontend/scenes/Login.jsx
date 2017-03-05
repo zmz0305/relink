@@ -12,10 +12,9 @@ export default class Login extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     console.log(this.state);
-
     $.ajax({
       type: "POST",
-      url: "http://127.0.0.1:8000/accounts/login",
+      url: baseURL+"accounts/login",
       data: this.state,
       success: function(data) {
         console.log(data);

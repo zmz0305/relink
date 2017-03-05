@@ -11,10 +11,10 @@ export default class JoinClass extends React.Component {
   onSubmit(event){
     event.preventDefault();
     console.log(this.state);
-    
+    const BaseURL ="http://127.0.0.1:8000/accounts";
     $.ajax({
       type:"GET",
-      url:"http://127.0.0.1:8000/accounts/classroom/"+this.state.id,
+      url:BaseURL+"/classroom/"+this.state.id,
       success: function(data){
         console.log(data);
       },

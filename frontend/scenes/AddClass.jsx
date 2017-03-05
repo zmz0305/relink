@@ -8,10 +8,10 @@ export default class AddClass extends React.Component {
   }
   onSubmit(event){
     event.preventDefault();
-    console.log("Hello");
+    const BaseURL ="http://127.0.0.1:8000/accounts";
     $.ajax({
       type:"POST",
-      url:"http://127.0.0.1:8000/accounts/newroom/",
+      url:BaseURL + "/newroom/",
       success: function(data){
         console.log(data);
       },
