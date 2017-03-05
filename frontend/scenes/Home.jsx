@@ -13,8 +13,23 @@ export default class Home extends React.Component{
    }
 
    logout() {
-      store.dispatch({type: 'LOGOUT'});
-      this.props.router.push('/');
+      const router = this.props.router;
+
+      $.ajax({
+         type: "POST",
+         url: "http://127.0.0.1:8000/accounts/logout",
+         cache: false,
+         xhrFields: {
+            withCredentials: true
+         },
+         success: function(data) {
+            store.dispatch({type: 'LOGOUT'});
+            router.push('/');
+         },
+         error: function(data) {
+           console.log(data);
+         }
+      });  
    }
 
    render() {

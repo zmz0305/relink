@@ -16,12 +16,17 @@ export default class JoinClass extends React.Component {
 
   onSubmit(event){
     event.preventDefault();
+    const router = this.props.router;
     
     $.ajax({
       type:"GET",
       url:"http://127.0.0.1:8000/accounts/classroom/"+this.state.id,
+      xhrFields: {
+        withCredentials: true
+      },
       success: function(data){
         console.log(data);
+        router.push('/room');
       },
       error: function(data){
         console.log(data);

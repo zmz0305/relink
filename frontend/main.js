@@ -23,6 +23,7 @@ ReactDOM.render(
 	        <Route path="/register" component={Register} />
 	        <Route path="/instructor" component={AddClass} />
 	        <Route path="/student" component={JoinClass} />
+	        <Route path="/room" component={Chat} />
 	    </Route>
 	  </Router>
   </Provider>
