@@ -13,6 +13,7 @@ import Chat from './scenes/Chat.jsx';
 import AddClass from './scenes/AddClass.jsx';
 
 const store = createStore(inc);
+export default store;
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -22,6 +23,7 @@ ReactDOM.render(
 	        <Route path="/register" component={Register} />
 	        <Route path="/instructor" component={AddClass} />
 	        <Route path="/student" component={JoinClass} />
+	        <Route path="/room" component={Chat} />
 	    </Route>
 	  </Router>
   </Provider>
