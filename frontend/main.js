@@ -8,8 +8,9 @@ import inc from './reducers/index.js';
 import Home from './scenes/Home.jsx';
 import Login from './scenes/Login.jsx';
 import Register from './scenes/Register.jsx';
-
+import JoinClass from './scenes/JoinClass.jsx';
 import Chat from './scenes/Chat.jsx';
+import AddClass from './scenes/AddClass.jsx';
 
 const store = createStore(inc);
 
@@ -19,8 +20,8 @@ ReactDOM.render(
 	    <Route path="/" component={Home}>
 	        <Route path="/login" component={Login} />
 	        <Route path="/register" component={Register} />
-	        <Route path="/instructor" component={Chat} />
-	        <Route path="/student" component={Chat} />
+	        <Route path="/instructor" component={AddClass} />
+	        <Route path="/student" component={JoinClass} />
 	    </Route>
 	  </Router>
   </Provider>
