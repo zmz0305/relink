@@ -13,12 +13,13 @@ export default class AddClass extends React.Component {
     }
   }
 
-  onSubmit(event){
+  onSubmit(event) {
     event.preventDefault();
-    console.log("Hello");
+    const baseUrl = "http://127.0.0.1:8000/accounts/newroom/";
     $.ajax({
-      type:"POST",
-      url:"http://127.0.0.1:8000/accounts/newroom/",
+      type: "POST",
+      url: baseUrl,
+      cache: false,
       success: function(data){
         console.log(data);
       },
@@ -28,7 +29,7 @@ export default class AddClass extends React.Component {
     });
   }
   
-  render(){
+  render() {
     return(
       <div>
       <form onSubmit = {this.onSubmit}>

@@ -1,6 +1,6 @@
 const initialState = {
-	username: "",
-	isInstructor: false
+	username: "ii@i.com",
+	isInstructor: true
 }
 
 const inc = (state = initialState, action) => {

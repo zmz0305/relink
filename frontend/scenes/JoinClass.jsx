@@ -13,9 +13,9 @@ export default class JoinClass extends React.Component {
       this.props.router.push('/');
     }
   }
+
   onSubmit(event){
     event.preventDefault();
-    console.log(this.state);
     
     $.ajax({
       type:"GET",
@@ -32,7 +32,7 @@ export default class JoinClass extends React.Component {
   setValue(event) {
     this.setState({[event.target.name]: event.target.value});
   }
-  
+
   render(){
     return(
       <div>

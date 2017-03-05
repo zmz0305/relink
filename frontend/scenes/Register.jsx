@@ -4,7 +4,7 @@ import LabelInput from '../components/LabelInput.jsx';
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {username: '', password: '', firstname: '', lastname: '', isInstructor: false};
+    this.state = {username: '', password: '', firstname: '', lastname: '', isInstructor: "False"};
     this.onSubmit = this.onSubmit.bind(this);
     this.updateInstructorState = this.updateInstructorState.bind(this);
     this.setValue = this.setValue.bind(this);
@@ -13,13 +13,17 @@ export default class Register extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     console.log(this.state);
+    const router = this.props.router;
 
     $.ajax({
       type: "POST",
       url: "http://127.0.0.1:8000/accounts/register",
       data: this.state,
+      cache: false,
       success: function(data) {
-        console.log(data);
+        if (data == "Create user successfully") {
+          router.push('/');
+        }
       },
       error: function(data) {
         console.log(data);
@@ -47,10 +51,10 @@ export default class Register extends React.Component {
 
               Instructor/Student:<br/>
               <label>Student
-                <input name="isInstructor" value="false" type="radio" defaultChecked="true" onChange={() => {this.updateInstructorState(false)}}/>
+                <input name="isInstructor" value="false" type="radio" defaultChecked="true" onChange={() => {this.updateInstructorState("False")}}/>
               </label>
               <label>Instructor
-                <input name="isInstructor" value="true" type="radio" onChange={() => {this.updateInstructorState(true)}} />
+                <input name="isInstructor" value="true" type="radio" onChange={() => {this.updateInstructorState("True")}} />
               </label><br/>
               <button type="submit" >Register</button>
             </form>

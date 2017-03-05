@@ -34,7 +34,9 @@ export default class Login extends React.Component {
       type: "POST",
       url: "http://127.0.0.1:8000/accounts/login",
       data: this.state,
+      cache: false,
       success: function(data) {
+        console.log(data);
         if (data == "Student login") {
           store.dispatch(login(username, false));
           router.push('/student');
