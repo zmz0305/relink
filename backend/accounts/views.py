@@ -18,6 +18,8 @@ from pymongo import MongoClient
 import requests
 
 client = MongoClient("mongodb://127.0.0.1:27017/test")
+base_rul = "http://localhost:3000/"
+
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -86,7 +88,7 @@ def login_view(request):
         return HttpResponse("Authentication Failed")
 
 
-@login_required
+#@login_required
 @csrf_exempt
 def logout_view(request):
     logout(request)
@@ -114,17 +116,10 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        url = "http://localhost:3000/sock/createRoom"
-        roomid = request.POST.get('room_id')
-        data = { "room_id": roomid, "room_name": "name2"}
-        response = requests.post(url, data=data)
-        if response.status_code == 200:
-            return HttpResponse("%d" % roomid)
-        else:
-            return HttpResponseServerError("create room failed")
+        return HttpResponse("%d" % room.id)
+
     else:
-        print "no user found"
-        return HttpResponseServerError("authentication failed")
+        return HttpResponseServerError()
 
 
 @csrf_exempt
