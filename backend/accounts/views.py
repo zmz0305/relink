@@ -14,6 +14,10 @@ from django.urls import reverse
 from django.http import HttpResponse,HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError
 from .models import VirtualClassroom
 from django.urls import resolve
+from pymongo import MongoClient
+import requests
+
+client = MongoClient("mongodb://127.0.0.1:27017/test")
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -110,9 +114,18 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        return HttpResponse("%d" % room.id)
+        url = "http://localhost:3000/sock/createRoom"
+        roomid = request.POST.get('room_id')
+        data = { "room_id": roomid, "room_name": "name2"}
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            return HttpResponse("%d" % roomid)
+        else:
+            return HttpResponseServerError("create room failed")
     else:
-        return HttpResponseServerError()
+        print "no user found"
+        return HttpResponseServerError("authentication failed")
+
 
 @csrf_exempt
 @login_required
@@ -124,4 +137,24 @@ def join_room_view(request):
         return HttpResponseServerError()
 
 
+@csrf_exempt
+@login_required
+def post_quiz(request):
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        print "instructor can post quiz"
+        #TODO: call chat service api
+    else:
+        return HttpResponseServerError()
+
+
+@csrf_exempt
+@login_required
+def post_topic(request):
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        print "instructor can post topic"
+        #TODO: call chat service api
+    else:
+        return HttpResponseServerError()
 

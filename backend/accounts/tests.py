@@ -15,7 +15,7 @@ class AccountTest(TestCase):
                      'lastname': 'Li',
                      'firstname': 'Ranran',
                      'isInstructor': 'True'}
-
+    room_data = {'room_id':9}
     def setUp(self):
         print "running setup"
         self.factory = RequestFactory()
@@ -46,7 +46,8 @@ class AccountTest(TestCase):
         post_data = {'username': self.user_data['username'],
                      'password': self.user_data['password']}
         request = self.factory.post('/accounts/login', data=post_data)
-        request.session = {}
+        request.session = self.client.session
+        request.session.create()
         response = login_view(request)
         print response.content
         return response.content
@@ -73,20 +74,22 @@ class AccountTest(TestCase):
     def test_logout(self):
         self.register_request()
         self.login_correct_request()
+        self.user =  User.AnonymousUser;
         response = self.logout_request()
         self.assertEqual(response, "Hello, world. You're at the index.")
 
     def test_classroom(self):
-        create_room_request = self.factory.get('/accounts/newroom/')
+        create_room_request = self.factory.post('/accounts/newroom/',data={'room_id': 9})
         create_room_request.user = self.test_user
         group = Group(name='instructor')
         group.save()
         self.test_user.groups.add(group)
         create_room_respose = create_classroom(create_room_request)
         print('test class room id', create_room_respose.content)
-        request = self.factory.get('/accounts/classroom/'+str(create_room_respose.content))
-        response = join_room_view(request)
-        self.assertEqual(response.content, "find classroom: " + str(create_room_respose.content))
+        request = self.factory.post('/accounts/classroom/'+str(create_room_respose.content) )
+        request.user = self.test_user
+        #response = join_room_view(request)
+        self.assertEqual("", "find classroom: " + str(create_room_respose.content))
 
     def tearDown(self):
         for user in User.objects.all():
