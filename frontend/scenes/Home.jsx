@@ -1,5 +1,6 @@
 import React from 'react';
 import store from '../main.js'
+import { Button } from 'react-bootstrap'
 
 export default class Home extends React.Component{
    constructor(props) {
@@ -38,7 +39,7 @@ export default class Home extends React.Component{
          <div>
             RELINK {value}
             <br/>
-            <button onClick={() => {this.navigate('/')}}>Home</button>
+            <Button bsStyle="success" bsSize="small" onClick={() => {this.navigate('/')}}>Home</Button>
             <br/>
             <button onClick={() => {this.navigate('/login')}}>Login</button>
             <br/>
