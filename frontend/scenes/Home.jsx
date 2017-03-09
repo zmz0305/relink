@@ -46,7 +46,10 @@ export default class Home extends React.Component{
             <button onClick={() => {this.navigate('/register')}}>Register</button>
             <br/>
             <button onClick={this.logout} >Logout</button>
-            {this.props.children}
+
+            <div style={{marginLeft: '1in', marginRight: '1in'}}>
+               {this.props.children}
+            </div>
          </div>
       ); 
    }

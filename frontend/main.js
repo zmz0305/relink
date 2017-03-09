@@ -11,6 +11,7 @@ import Register from './scenes/Register.jsx';
 import JoinClass from './scenes/JoinClass.jsx';
 import Chat from './scenes/Chat.jsx';
 import AddClass from './scenes/AddClass.jsx';
+import CreateQuiz from './scenes/CreateQuiz.jsx'
 
 const store = createStore(inc);
 export default store;
@@ -24,6 +25,7 @@ ReactDOM.render(
 	        <Route path="/instructor" component={AddClass} />
 	        <Route path="/student" component={JoinClass} />
 	        <Route path="/room" component={Chat} />
+	        <Route path="/createquiz" component={CreateQuiz} />
 	    </Route>
 	  </Router>
   </Provider>
