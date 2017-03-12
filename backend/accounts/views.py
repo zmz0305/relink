@@ -126,6 +126,7 @@ def insert_room_to_mongo(room):
     print(insert_id)
 
 
+
 @csrf_exempt
 @login_required
 def create_classroom(request):
@@ -144,7 +145,6 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
-    print request.user.id
     mongo_user = db.users.find_one({"user_id": request.user.id})
     pprint.pprint(db.users.find_one({"user_id": request.user.id}))
     if VirtualClassroom.objects.filter(id=int(room_id)).exists():
