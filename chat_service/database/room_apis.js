@@ -4,28 +4,41 @@
 var Room = require('../models/room');
 
 /**
+ * delete everything from room table
+ * @param cb
+ */
+module.exports.cleanupRoom = function (cb) {
+    console.log('Cleaning room...');
+    Room.remove({}, function(err, res) {
+        cb(err, res)
+    });
+}
+
+/**
  * create a room in mongodb
  * @param room {room_id: 'something cannot be empty, should be unique', room_name: 'name'}
  * @param cb
  */
-module.exports.createRoom = function(room, cb) {
+module.exports.createRoom = function (room, cb) {
     console.log('Creating room: ' + JSON.stringify(room));
     var newroom = new Room();
     var room_name = room.room_name || "";
     var room_id = room.room_id;
-    if(!room_id) {
+    if (!room_id) {
         var err = {status: 'createRoom error', data: 'room_id is required.'};
         cb(err, undefined);
     } else {
         newroom.room_id = room_id;
         newroom.room_name = room_name;
         newroom.save(function (err, data) {
-           if(err) {
-               cb(err, {status: 'createRoom error',
-                        data: 'room ' + newroom.room_id + ' is not created'});
-           } else {
-               cb(err, data);
-           }
+            if (err) {
+                cb(err, {
+                    status: 'createRoom error',
+                    data: 'room ' + newroom.room_id + ' is not created'
+                });
+            } else {
+                cb(err, data);
+            }
         });
     }
 }
@@ -36,7 +49,7 @@ module.exports.createRoom = function(room, cb) {
  * @param cb
  */
 module.exports.existRoom = function (room_id, cb) {
-    if(!room_id) {
+    if (!room_id) {
         var err = {status: 'error', data: 'room_id is required.'};
         cb(err, undefined);
     } else {
@@ -59,8 +72,8 @@ module.exports.existRoom = function (room_id, cb) {
  * @param cb
  */
 module.exports.getRooms = function (cb) {
-    Room.find(function(err, data) {
-        if(err) {
+    Room.find(function (err, data) {
+        if (err) {
             cb(err, undefined);
         } else {
             cb(err, data);
@@ -74,19 +87,18 @@ module.exports.getRooms = function (cb) {
  * @param cb
  */
 module.exports.joinRoom = function (data, cb) {
-    // TODO: implement this
     var room_id = data.room_id;
     var userid = data.user;
     console.log(room_id, userid);
-    if(!room_id || !userid) {
+    if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
         Room.findOneAndUpdate({room_id: room_id},
             {$addToSet: {'room_user': {'user_id': userid}}},
             {new: true},
             function (err, res) {
-            cb(err, res);
-        });
+                cb(err, res);
+            });
     }
 }
 
@@ -99,7 +111,7 @@ module.exports.leaveRoom = function (data, cb) {
     var room_id = data.room_id;
     var userid = data.user;
     console.log(room_id, userid);
-    if(!room_id || !userid) {
+    if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
         Room.findOneAndUpdate({room_id: room_id},

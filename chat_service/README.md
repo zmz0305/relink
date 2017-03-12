@@ -75,6 +75,12 @@ or
 emit("ok", {data: 'joined room_id'});
 ```
 
+#### receive message
+```
+backend sends
+('message', {room_id})
+```
+
 # MongoDB
 #### room collection
 <pre>
