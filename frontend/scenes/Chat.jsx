@@ -1,34 +1,49 @@
 import React from 'react';
-const divStyle = {
-   'list-style-type':'none',
-};
+import io from 'socket.io-client';
+let socket = io('http://localhost:3000');
 
-var Chat = React.createClass({
-   
-  getInitialState:function(){
-    if (localStorage.relink_username === null || localStorage.relink_username == '') {
-      this.props.router.push('/');
-    }
-    return {
-      username: localStorage.relink_username,
-      messages:["Hello", "Hi", "What's Up?", "Nothing Much", "Nice"]
-    }
-  },
+export default class Chat extends React.Component {
+  constructor(props){
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    socket.emit('join', {
+      room_id : 9,
+      user : "student@gmail.com"
+    });
+    socket.on('error', function(data){
+      console.log(data);
+    });
+    socket.on('ok', function(data){
+      console.log(data);
+    });
+  }
 
-  render: function() {
-    var listItems = this.state.messages.map((message)=>
-      <li>{message}</li>
-    ); 
+
+  onSubmit(event) {
+    event.preventDefault();
+/*socket.emit('client:sendMessage', {
+      "msg" : "".
+      "user" : "student@gmail.com",
+      "room_id" : 9
+    }); */
+  }
+  
+  render() {
     return(
       <div>
-        <ul style={divStyle}>{listItems}</ul>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <input type="submit" value="Send Message" />
-        </form>
+      <form onSubmit = {this.onSubmit}>
+        <button type="submit">SEND MESSAGE</button>
+      </form>
       </div>
     );
   }
-});
+};
 
-export default Chat;
+
+
+
+
+
+
+
+
