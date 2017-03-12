@@ -1,7 +1,7 @@
 import React from 'react';
 import store from '../main.js'
-import { Button } from 'react-bootstrap'
-
+import { Button, Nav, Navbar, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
+import { Route, RouteHandler, Link } from 'react-router';
 export default class Home extends React.Component{
    constructor(props) {
       super(props);
@@ -37,20 +37,17 @@ export default class Home extends React.Component{
       const { value } = this.props
       return (
          <div>
-            RELINK {value}
-            <br/>
-            <Button bsStyle="success" bsSize="small" onClick={() => {this.navigate('/')}}>Home</Button>
-            <br/>
-            <button onClick={() => {this.navigate('/login')}}>Login</button>
-            <br/>
-            <button onClick={() => {this.navigate('/register')}}>Register</button>
-            <br/>
-            <button onClick={this.logout} >Logout</button>
-
-            <div style={{marginLeft: '1in', marginRight: '1in'}}>
+         <Nav bsStyle="pills">
+          <NavItem eventKey={1} onClick={() => {this.navigate('/')}}>Home</NavItem>
+          <NavItem eventKey={2} onClick={() => {this.navigate('/login')}}>Login</NavItem>
+          <NavItem eventKey={3} onClick={() => {this.navigate('/register')}}>Register</NavItem>
+          <NavItem eventKey={4} onClick={this.logout}>Logout</NavItem>
+        </Nav>
+        <div style={{marginLeft: '1in', marginRight: '1in'}}>
                {this.props.children}
-            </div>
          </div>
+         </div>
+
       ); 
    }
 };

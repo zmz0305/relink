@@ -11,14 +11,19 @@ from django.contrib.auth.models import Group
 from django.urls import reverse
 
 # Create your views here.
-from django.http import HttpResponse,HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError
 from .models import VirtualClassroom
 from django.urls import resolve
 from pymongo import MongoClient
+import pprint
 import requests
 
-client = MongoClient("mongodb://127.0.0.1:27017/test")
-base_rul = "http://localhost:3000/"
+
+client = MongoClient('localhost', 27017)
+db = client['test-database']
+rooms_collection = db['rooms']
+users_collection = db['users']
+chat_service_url = "http://localhost:3000/"
 
 
 def index(request):
@@ -67,6 +72,7 @@ def register_view(request):
             user.groups.add(instructor)
         else:
             user.groups.add(student)
+        insert_user_to_mongo(user)
         user.save()
         return HttpResponse("Create user successfully")
     else:
@@ -92,6 +98,7 @@ def login_view(request):
 @csrf_exempt
 def logout_view(request):
     logout(request)
+    return HttpResponse("user get logout")
 
 
 @csrf_exempt
@@ -108,6 +115,22 @@ def delete_user(request):
         user.delete()
 
 
+def insert_user_to_mongo(user):
+    result = {"user_id": user.id,
+              "email": user.username}
+    insert_id = db.users.insert_one(result).inserted_id
+    print insert_id
+
+
+def insert_room_to_mongo(room):
+    result = {"room_name": room.name,
+              "room_id": room.id,
+              "room_user": []}
+    insert_id = db.rooms.insert_one(result).inserted_id
+    print(insert_id)
+
+
+
 @csrf_exempt
 @login_required
 def create_classroom(request):
@@ -116,6 +139,7 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
+        insert_room_to_mongo(room)
         return HttpResponse("%d" % room.id)
 
     else:
@@ -124,13 +148,49 @@ def create_classroom(request):
 
 @csrf_exempt
 @login_required
-def join_room_view(request):
-    func, args, kwargs = resolve(request.path)
-    if VirtualClassroom.objects.filter(id=kwargs['room_id']).exists():
-        return HttpResponse("find classroom: " + str(kwargs['room_id']))
+def join_room_view(request, room_id):
+    mongo_user = db.users.find_one({"user_id": request.user.id})
+    pprint.pprint(db.users.find_one({"user_id": request.user.id}))
+    if VirtualClassroom.objects.filter(id=int(room_id)).exists():
+        room = db.rooms.find_one({"room_id": int(room_id)})
+        if room is not None:
+            old_users = room['room_user']
+            if mongo_user not in old_users:
+                old_users.append(mongo_user)
+                room['room_user'] = old_users
+                db.rooms.save(room)
+                pprint.pprint(db.rooms.find_one({"room_id": int(room_id)}))
+        if request.user.groups.filter(name="instructor").exists():
+            return HttpResponse("Instructor, find classroom: " + str(room_id))
+        else:
+            return HttpResponse("Student, find classroom: " + str(room_id))
     else:
         return HttpResponseServerError()
 
+
+
+@csrf_exempt
+@login_required
+def send_message(request):
+    try:
+        roomid = request.POST['room_id']
+    except KeyError:
+        return HttpResponse('Please check roomid')
+    try:
+        msg = request.POST['message']
+    except KeyError:
+        return HttpResponse('Please check message')
+    print int(roomid),str(msg)
+    data = {"msg": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
+    headers = {}
+    print data
+    url = chat_service_url+"sock/send"
+    print url
+    response = requests.post(url, data=data, headers=headers)
+    if response.status_code == 200:
+        return HttpResponse("Message sent")
+    else:
+        return HttpResponseServerError("Message send failed")
 
 @csrf_exempt
 @login_required
