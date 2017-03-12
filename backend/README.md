@@ -110,5 +110,28 @@ If the user is not logged in
 Will be redirect to login page
 
 
+### Send Message
 
+accounts/message
 
+POST request to send a message to backend for authentication and forwarding to chat service
+
+```
+{
+        "msg": ...,
+        "user": ...,
+        "room_id": ...,
+}
+
+```
+Response
+```
+{
+    "status": "200 ok" or "500 error",
+    "data": {
+        ... //some detailed information
+    }
+}
+```
+
+### Create Quiz
