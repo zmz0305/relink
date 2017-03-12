@@ -16,11 +16,15 @@ from .models import VirtualClassroom
 from django.urls import resolve
 from pymongo import MongoClient
 import pprint
+import requests
+
 
 client = MongoClient('localhost', 27017)
 db = client['test-database']
 rooms_collection = db['rooms']
 users_collection = db['users']
+chat_service_url = "http://localhost:3000/"
+
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -156,10 +160,37 @@ def join_room_view(request, room_id):
                 room['room_user'] = old_users
                 db.rooms.save(room)
                 pprint.pprint(db.rooms.find_one({"room_id": int(room_id)}))
-        return HttpResponse("find classroom: " + str(room_id))
+        if request.user.groups.filter(name="instructor").exists():
+            return HttpResponse("Instructor, find classroom: " + str(room_id))
+        else:
+            return HttpResponse("Student, find classroom: " + str(room_id))
     else:
         return HttpResponseServerError()
 
+
+
+@csrf_exempt
+@login_required
+def send_message(request):
+    try:
+        roomid = request.POST['room_id']
+    except KeyError:
+        return HttpResponse('Please check roomid')
+    try:
+        msg = request.POST['message']
+    except KeyError:
+        return HttpResponse('Please check message')
+    print int(roomid),str(msg)
+    data = {"msg": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
+    headers = {}
+    print data
+    url = chat_service_url+"sock/send"
+    print url
+    response = requests.post(url, data=data, headers=headers)
+    if response.status_code == 200:
+        return HttpResponse("Message sent")
+    else:
+        return HttpResponseServerError("Message send failed")
 
 @csrf_exempt
 @login_required
