@@ -145,24 +145,21 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
-    print request.user.id
-    if request.user.groups.filter(name="instructor").exists():
-        mongo_user = db.users.find_one({"user_id": request.user.id})
-        pprint.pprint(db.users.find_one({"user_id": request.user.id}))
-        if VirtualClassroom.objects.filter(id=int(room_id)).exists():
-            room = db.rooms.find_one({"room_id": int(room_id)})
-            if room is not None:
-                old_users = room['room_user']
-                if mongo_user not in old_users:
-                    old_users.append(mongo_user)
-                    room['room_user'] = old_users
-                    db.rooms.save(room)
-                    pprint.pprint(db.rooms.find_one({"room_id": int(room_id)}))
-            return HttpResponse("find classroom: " + str(room_id))
-        else:
-            return HttpResponseServerError()
+    mongo_user = db.users.find_one({"user_id": request.user.id})
+    pprint.pprint(db.users.find_one({"user_id": request.user.id}))
+    if VirtualClassroom.objects.filter(id=int(room_id)).exists():
+        room = db.rooms.find_one({"room_id": int(room_id)})
+        if room is not None:
+            old_users = room['room_user']
+            if mongo_user not in old_users:
+                old_users.append(mongo_user)
+                room['room_user'] = old_users
+                db.rooms.save(room)
+                pprint.pprint(db.rooms.find_one({"room_id": int(room_id)}))
+        return HttpResponse("find classroom: " + str(room_id))
     else:
-        return HttpResponseServerError("Not instructor")
+        return HttpResponseServerError()
+
 
 @csrf_exempt
 @login_required
