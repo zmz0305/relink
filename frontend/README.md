@@ -16,7 +16,7 @@ Quiz Data Structure
                 {
                         "question": "Some question",
                         "answers": ["Answer 1", "Answer 2", "Anwser 3"],
-                        "correct": 0
+                        "correct": 1
                 }
 	]
 }
