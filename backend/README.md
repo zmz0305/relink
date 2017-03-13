@@ -118,7 +118,7 @@ POST request to send a message to backend for authentication and forwarding to c
 
 ```
 {
-        "msg": ...,
+        "message": ...,
         "room_id": ...,
 }
 
