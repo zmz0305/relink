@@ -1,3 +1,9 @@
+# HOW to run
+- ```npm install && npm start```
+- ```npm test``` to run tests.
+- ```npm initdb``` to cleanup and initialize test database.
+- <b>Warning!</b> running ```npm test``` and ```npm initdb``` will restore test database to original state. Check your database url! Do not run them on production database!
+
 # RESTful API (second draft)
 ### Send message 
 ##### POST sock/send
