@@ -180,13 +180,9 @@ def send_message(request):
         msg = request.POST['message']
     except KeyError:
         return HttpResponse('Please check message')
-    print int(roomid),str(msg)
-    data = {"msg": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
-    headers = {}
-    print data
+    data = {"message": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
     url = chat_service_url+"sock/send"
-    print url
-    response = requests.post(url, data=data, headers=headers)
+    response = requests.post(url, data=data)
     if response.status_code == 200:
         return HttpResponse("Message sent")
     else:
