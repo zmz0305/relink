@@ -19,7 +19,7 @@ describe('Mongodb Tests', function() {
     });
 
     describe('#getRooms()', function () {
-        it('it should return all rooms in Mongodb, ' +
+        it('It should return all rooms in Mongodb, ' +
             'run data_generator before testing this', function (done) {
             room_apis.getRooms(function (err, res) {
                 console.log(res);
@@ -33,7 +33,7 @@ describe('Mongodb Tests', function() {
     });
 
     describe('#createrRoom()', function () {
-        it('it should create an room in Mongdb with id wocao', function (done) {
+        it('It should create an room in Mongdb with id wocao', function (done) {
             room_apis.createRoom({'room_id': 'wocao', 'room_name': 'wocao'}, function (err, res) {
                 assert.equal(err, undefined);
                 assert.equal(res.room_id, 'wocao');
@@ -43,7 +43,17 @@ describe('Mongodb Tests', function() {
         })
     });
 
-
+    describe('#existsUserInRoom()', function () {
+        it('Check if user is inside of one specified room', function (done) {
+            room_apis.existUserInRoom({room_id: 'room1', user_id: 'mgao16'}, function (err, res) {
+                assert.equal(err, undefined);
+                assert.equal(res.data.room_id, 'room1');
+                assert.equal(res.status, 'existRoom ok');
+                assert.equal(res.user_index, 1);
+                done();
+            })
+        })
+    })
 
 
 });

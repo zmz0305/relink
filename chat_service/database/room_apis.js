@@ -20,7 +20,6 @@ module.exports.cleanupRoom = function (cb) {
  * @param cb
  */
 module.exports.createRoom = function (room, cb) {
-    console.log('Creating room: ' + JSON.stringify(room));
     var newroom = new Room();
     var room_name = room.room_name || "";
     var room_id = room.room_id;
@@ -81,6 +80,34 @@ module.exports.getRooms = function (cb) {
     })
 }
 
+module.exports.existUserInRoom = function(data, cb) {
+    var room_id = data.room_id;
+    var user_id = data.user_id;
+    if (!room_id || !user_id) {
+        var err = {status: 'error', data: 'room_id and user_id is required. At least one of them is missing.'};
+        cb(err, undefined);
+    } else {
+        Room.findOne({room_id: room_id}, function (err, data) {
+            if (err) {
+                cb(err, undefined);
+            } else {
+                if (!data || data.length == 0) {
+                    cb(err, {status: 'Room not found', data: undefined});
+                } else {
+                    var users = data.room_user;
+                    var idx = users.map(function(e){return e.user_id}).indexOf(user_id);
+                    // console.log(idx);
+                    if(idx == -1){
+                        cb(err, {status: 'user not in room', data: data});
+                    } else {
+                        cb(err, {status: 'existRoom ok', user_index: idx, data: data});
+                    }
+                }
+            }
+        });
+    }
+}
+
 /**
  * add user into some room
  * @param data {user: 'name', room_id: 'unique id'}
@@ -89,7 +116,6 @@ module.exports.getRooms = function (cb) {
 module.exports.joinRoom = function (data, cb) {
     var room_id = data.room_id;
     var userid = data.user;
-    console.log(room_id, userid);
     if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
@@ -110,7 +136,6 @@ module.exports.joinRoom = function (data, cb) {
 module.exports.leaveRoom = function (data, cb) {
     var room_id = data.room_id;
     var userid = data.user;
-    console.log(room_id, userid);
     if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
