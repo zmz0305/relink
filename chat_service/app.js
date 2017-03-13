@@ -88,6 +88,23 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+var dbCheckRoom = function(rid){
+  room_apis.existRoom(rid, function(err, obj){
+    if(obj.status == 'existRoom ok'){
+      return true
+    }
+    return false
+  })
+}
+
+var dbJoinRoom = function(duser, drid){
+  room_apis.joinRoom({room_id: drid, user: duser}, function(err, res){
+    if(err){
+      console.log(err)
+    }
+  })
+}
+
 io.on('connection', function (socket) {
     console.log("Incomming connection from: " + socket.id);
 
@@ -98,14 +115,14 @@ io.on('connection', function (socket) {
 
     //data = {room_id: 'asdf', user: 'mgao16'}
     socket.on('join', function (data) {
-        console.log(data);
-        if(!rooms.check_room(data.room_id)) {
+        //console.log(data);
+        if(dbCheckRoom(data.room_id)) {
             io.to(socket.id).emit("error", {data: 'room_id does not exist'});
         } else {
-            rooms.join_room(room_id, user);
             io.to(socket.id).emit("ok", {data: 'joined room_id'});
             socket.join(room_id, function () {
-                console.log(socket.rooms);
+                //console.log(socket.rooms);
+                dbJoinRoom(data.user, data.room_id)
                 io.to(room_id, 'a new user ' + user + 'entered room.');
             })
         }
