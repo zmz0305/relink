@@ -1,0 +1,42 @@
+{
+  "test_num" : 1,
+  "test1" : {
+    "url" : "localhost",
+    "post_num" : 3000,
+    "get_num" : 3000,
+    "sock_num" : 3001,
+    "testing_procedure" : [
+      {
+        "type" : "post",
+        "request" : "/sock/create_room",
+        "data" : {
+          "room_id" : 123
+        },
+        "expectedCode" : "200",
+        "expectedMsg" : "Any"
+      },
+      {
+        "type" : "post",
+        "request" : "/sock/send",
+        "data" : {
+          "msg" : "Hello!",
+          "sender" : "Songyu",
+          "room_id" : 123
+        },
+        "expectedCode" : "200",
+        "expectedMsg" : "Any"
+      },
+      {
+        "type" : "post",
+        "request" : "/sock/send",
+        "data" : {
+          "msg" : "Hello x 2",
+          "sender" : "Songyu",
+          "room_id" : 123
+        },
+        "expectedCode" : "200",
+        "expectedMsg" : "Any"
+      }
+    ]
+  }
+}
