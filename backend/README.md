@@ -169,6 +169,8 @@ Response
 
 ### Post Quiz
 
+accounts/postquiz
+
 POST request to send quizid to backend for authentication
 
 ```
