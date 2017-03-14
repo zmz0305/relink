@@ -197,10 +197,12 @@ def send_message(request):
 @csrf_exempt
 @login_required
 def create_quiz(request):
+    global current_quiz_id
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         try:
             quiz_file_name= os.path.join(quiz_dir, str(current_quiz_id))
+            current_quiz_id += 1
             quiz_content = request.POST['quiz']
             with open(quiz_file_name, 'w') as quiz_file:
                 quiz_file.write(quiz_content)
