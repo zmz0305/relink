@@ -19,6 +19,7 @@ import pprint
 import requests
 import os
 
+from django.utils.html import escape
 
 from Relink.settings import BASE_DIR
 
@@ -32,7 +33,8 @@ chat_service_url = "http://localhost:3000/"
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the index.")
+    return HttpResponse('session from index: ' + escape((request.session.keys())))
+    # return HttpResponse('FUCK');
 
 
 @csrf_exempt
@@ -139,6 +141,7 @@ def insert_room_to_mongo(room):
 @csrf_exempt
 @login_required
 def create_classroom(request):
+    return HttpResponse('session from create classroom: ' + escape(request.session.keys()))
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         room = VirtualClassroom.objects.create()

@@ -16,15 +16,16 @@ export default class AddClass extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const username = store.getState().username;
-
+    $.support.cors = true;
     $.ajax({
       type: "POST",
       url: "http://127.0.0.1:8000/accounts/newroom/",
-      cache: false,
+      // cache: false,
       xhrFields: {
-        withCredentials: true
+        withCredentials: true,
+        crossDomain: true
       },
-      data: {'username': username},
+      // data: {'username': username},
       success: function(data){
         console.log(data);
         router.push('/room');

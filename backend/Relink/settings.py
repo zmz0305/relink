@@ -14,7 +14,8 @@ import os
 import django.contrib.auth
 
 # Redirect user to login if certain page requires login
-LOGIN_URL = '/accounts/login'
+# LOGIN_URL = '/accounts/login'
+LOGIN_URL = 'index'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -123,11 +124,28 @@ USE_L10N = True
 
 USE_TZ = True
 
-#CORS_ORIGIN_WHITELIST = ('localhost:8080')
+# CORS_ORIGIN_WHITELIST = ('localhost:8080')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
