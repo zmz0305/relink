@@ -141,7 +141,6 @@ def insert_room_to_mongo(room):
 @csrf_exempt
 @login_required
 def create_classroom(request):
-    return HttpResponse('session from create classroom: ' + escape(request.session.keys()))
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         room = VirtualClassroom.objects.create()
