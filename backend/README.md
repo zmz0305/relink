@@ -135,9 +135,9 @@ Response
 
 ### Create Quiz
 
-accounts/postquiz
+accounts/createquiz
 
-POST request to send a message to backend for authentication
+POST request to send a quiz to backend for authentication
 
 ```
 {
@@ -157,6 +157,26 @@ POST request to send a message to backend for authentication
         }
 }
 
+```
+
+Response
+```
+{
+    "status": "200 ok" or "500 error",
+    "data": quizid
+}
+```
+
+### Post Quiz
+
+accounts/postquiz
+
+POST request to send quizid to backend for authentication
+
+```
+{
+        "quizid": ...
+}
 ```
 
 Response
