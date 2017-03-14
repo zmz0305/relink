@@ -17,12 +17,17 @@ from django.urls import resolve
 from pymongo import MongoClient
 import pprint
 import requests
+import os
 
+
+from Relink.settings import BASE_DIR
 
 client = MongoClient('localhost', 27017)
 db = client['test-database']
 rooms_collection = db['rooms']
 users_collection = db['users']
+current_quiz_id = 0
+quiz_dir = os.path.join(BASE_DIR, 'resource', 'quiz')
 chat_service_url = "http://localhost:3000/"
 
 
@@ -188,13 +193,38 @@ def send_message(request):
     else:
         return HttpResponseServerError("Message send failed")
 
+
+@csrf_exempt
+@login_required
+def create_quiz(request):
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        try:
+            quiz_file_name= os.path.join(quiz_dir, str(current_quiz_id))
+            quiz_content = request.POST['quiz']
+            with open(quiz_file_name, 'w') as quiz_file:
+                quiz_file.write(quiz_content)
+            return HttpResponse(quiz_file_name)
+        except KeyError:
+            return HttpResponse("Please check if quiz field exists", status=500)
+    else:
+        return HttpResponseServerError()
+
+
 @csrf_exempt
 @login_required
 def post_quiz(request):
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
-        print "instructor can post quiz"
-        #TODO: call chat service api
+        try:
+            quiz_file_name = request.POST['quizid']
+            try:
+                with open(quiz_file_name, 'r') as quiz_file:
+                    return HttpResponse(quiz_file.read())
+            except IOError:
+                return HttpResponse("Please check the quizid is valid", status=500)
+        except KeyError:
+            return HttpResponse("Please check if quizid field exists", status=500)
     else:
         return HttpResponseServerError()
 
