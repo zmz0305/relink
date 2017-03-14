@@ -134,3 +134,55 @@ Response
 ```
 
 ### Create Quiz
+
+accounts/createquiz
+
+POST request to send a quiz to backend for authentication
+
+```
+{
+        "quiz": {
+	        "questions": [
+                        {
+                                "question": "Some question",
+                                "answers": ["Answer 1", "Answer 2", "Anwser 3"],
+                                "correct": 0
+                        }
+                        {
+                                "question": "Some question",
+                                "answers": ["Answer 1", "Answer 2", "Anwser 3"],
+                                "correct": 1
+                        }
+	        ]
+        }
+}
+
+```
+
+Response
+```
+{
+    "status": "200 ok" or "500 error",
+    "data": quizid
+}
+```
+
+### Post Quiz
+
+accounts/postquiz
+
+POST request to send quizid to backend for authentication
+
+```
+{
+        "quizid": ...
+}
+```
+
+Response
+```
+{
+    "status": "200 ok" or "500 error",
+    "data": quizid
+}
+```
