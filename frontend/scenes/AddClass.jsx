@@ -16,6 +16,8 @@ export default class AddClass extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const username = store.getState().username;
+    const router = this.props.router;
+    
     $.support.cors = true;
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.crossDomain ={
