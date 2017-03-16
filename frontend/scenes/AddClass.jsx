@@ -16,6 +16,8 @@ export default class AddClass extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const username = store.getState().username;
+    const router = this.props.router;
+
     $.support.cors = true;
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.crossDomain ={
@@ -27,7 +29,7 @@ export default class AddClass extends React.Component {
     });
 
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "http://127.0.0.1:8000/accounts/newroom/",
       async: true,
       // cache: false,
@@ -45,7 +47,7 @@ export default class AddClass extends React.Component {
       }
     });
   }
-  
+
   render() {
     return(
       <div>

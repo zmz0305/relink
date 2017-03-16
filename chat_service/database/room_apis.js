@@ -53,12 +53,16 @@ module.exports.existRoom = function (room_id, cb) {
         cb(err, undefined);
     } else {
         Room.findOne({room_id: room_id}, function (err, data) {
+            console.log('room_id:', room_id);
             if (err) {
+                console.log('err', err);
                 cb(err, undefined);
             } else {
                 if (!data || data.length == 0) {
-                    cb(err, {status: 'existRoom ok', data: undefined});
+                    console.log('not found', data);
+                    cb(err, {status: 'existRoom ok, but not found', data: undefined});
                 } else {
+                    console.log('found!', data);
                     cb(err, {status: 'existRoom ok', data: data});
                 }
             }
@@ -83,6 +87,7 @@ module.exports.getRooms = function (cb) {
 module.exports.existUserInRoom = function(data, cb) {
     var room_id = data.room_id;
     var user_id = data.user_id;
+    console.log(user_id);
     if (!room_id || !user_id) {
         var err = {status: 'error', data: 'room_id and user_id is required. At least one of them is missing.'};
         cb(err, undefined);
@@ -92,13 +97,14 @@ module.exports.existUserInRoom = function(data, cb) {
                 cb(err, undefined);
             } else {
                 if (!data || data.length == 0) {
-                    cb(err, {status: 'Room not found', data: undefined});
+                    cb(err, {code: 404, status: 'Room not found', data: undefined});
                 } else {
                     var users = data.room_user;
+                    console.log(users);
                     var idx = users.map(function(e){return e.user_id}).indexOf(user_id);
-                    // console.log(idx);
+                    console.log(idx);
                     if(idx == -1){
-                        cb(err, {status: 'user not in room', data: data});
+                        cb(err, {code: 404, status: 'user not in room', data: data});
                     } else {
                         cb(err, {status: 'existRoom ok', user_index: idx, data: data});
                     }
