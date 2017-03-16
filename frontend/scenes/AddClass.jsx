@@ -29,6 +29,7 @@ export default class AddClass extends React.Component {
     $.ajax({
       type: "POST",
       url: "http://127.0.0.1:8000/accounts/newroom/",
+      async: true,
       // cache: false,
       xhrFields: {
         withCredentials: true,

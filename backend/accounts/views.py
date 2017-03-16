@@ -33,8 +33,8 @@ chat_service_url = "http://localhost:3000/"
 
 
 def index(request):
-    return HttpResponse('Login requred!');
-    # return HttpResponse('session from index: ' + escape((request.session.keys())))
+    # return HttpResponse('Login requred!');
+    return HttpResponse('session from index: ' + escape((request.session.keys())))
 
 @csrf_exempt
 def register_view(request):
@@ -140,6 +140,7 @@ def insert_room_to_mongo(room):
 @csrf_exempt
 @login_required
 def create_classroom(request):
+    # return HttpResponse('session from index: ' + escape((request.session.keys())))
     print(request)
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
