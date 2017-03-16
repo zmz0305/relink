@@ -7,7 +7,7 @@ export default class Chat extends React.Component {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     socket.emit('join', {
-      room_id : 9,
+      room_id : '22',
       user : "student@gmail.com"
     });
     socket.on('error', function(data){
@@ -27,7 +27,7 @@ export default class Chat extends React.Component {
       "room_id" : 9
     }); */
   }
-  
+
   render() {
     return(
       <div>
@@ -38,12 +38,3 @@ export default class Chat extends React.Component {
     );
   }
 };
-
-
-
-
-
-
-
-
-

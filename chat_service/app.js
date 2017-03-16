@@ -122,15 +122,15 @@ io.on('connection', function (socket) {
     socket.on('join', function (data) {
         //console.log(data);
         dbCheckRoom(data.room_id, function(){
-          io.to(socket.id).emit("error", {data: 'room_id does not exist'});
-        }, function(){
           io.to(socket.id).emit("ok", {data: 'joined room_id'});
-          socket.join(room_id, function () {
+          socket.join(data.room_id, function () {
               //console.log(socket.rooms);
               dbJoinRoom(data.user, data.room_id, function(){
-                io.to(room_id, 'a new user ' + user + 'entered room.');
+                io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
               })
           })
+        }, function(){
+            io.to(socket.id).emit("error", {data: 'room_id does not exist'});
         })
     })
 });

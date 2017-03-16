@@ -20,14 +20,15 @@ router.post("/send", function (req, res) {
     }
 
     // send using io from parent module (which is app in app.js)
-    room_apis.existRoom(room_id, function (err, data) {
+    room_apis.existUserInRoom({room_id: room_id, user_id: user}, function (err, data) {
         if(err) {
             res.status(500);
             res.send({status: '500 internal error', data: 'Error in confirming room_id'});
         } else {
-            if(!data) { // if there is no data returned
+            if(!data.data || data.code == 404) { // if there is no data returned
+                console.log(data.status)
                 res.status(404);
-                res.send({status: '404 not found', data: 'room_id not found'});
+                res.send({status: '404 not found', data: 'room_id or user not found'});
             } else {
                 // the room_id is valid, send to message to this room
                 module.parent.exports.get('io').to(room_id)

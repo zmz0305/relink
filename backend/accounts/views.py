@@ -24,9 +24,8 @@ from django.utils.html import escape
 from Relink.settings import BASE_DIR
 
 client = MongoClient('localhost', 27017)
-db = client['test-database']
+db = client['test']
 rooms_collection = db['rooms']
-users_collection = db['users']
 current_quiz_id = 0
 quiz_dir = os.path.join(BASE_DIR, 'resource', 'quiz')
 chat_service_url = "http://localhost:3000/"
@@ -78,7 +77,6 @@ def register_view(request):
             user.groups.add(instructor)
         else:
             user.groups.add(student)
-        insert_user_to_mongo(user)
         user.save()
         return HttpResponse("Create user successfully")
     else:
@@ -121,16 +119,9 @@ def delete_user(request):
         user.delete()
 
 
-def insert_user_to_mongo(user):
-    result = {"user_id": user.id,
-              "email": user.username}
-    insert_id = db.users.insert_one(result).inserted_id
-    print insert_id
-
-
 def insert_room_to_mongo(room):
     result = {"room_name": room.name,
-              "room_id": room.id,
+              "room_id": str(room.id),
               "room_user": []}
     insert_id = db.rooms.insert_one(result).inserted_id
     print(insert_id)
@@ -147,7 +138,7 @@ def create_classroom(request):
         room.instructorId = current_user.id
         room.save()
         insert_room_to_mongo(room)
-        return HttpResponse("%d" % room.id)
+        return HttpResponse("%s" % str(room.id))
 
     else:
         return HttpResponseServerError()
@@ -156,17 +147,18 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
-    mongo_user = db.users.find_one({"user_id": request.user.id})
-    pprint.pprint(db.users.find_one({"user_id": request.user.id}))
+    mongo_user_id = str(request.user.id)
+    mongo_user = {"user_id": mongo_user_id}
     if VirtualClassroom.objects.filter(id=int(room_id)).exists():
-        room = db.rooms.find_one({"room_id": int(room_id)})
+        room = db.rooms.find_one({"room_id": str(room_id)})
         if room is not None:
             old_users = room['room_user']
-            if mongo_user not in old_users:
+            old_user_ids = [old_user['user_id'] for old_user in old_users]
+            if mongo_user_id not in old_user_ids:
                 old_users.append(mongo_user)
                 room['room_user'] = old_users
                 db.rooms.save(room)
-                pprint.pprint(db.rooms.find_one({"room_id": int(room_id)}))
+                pprint.pprint(db.rooms.find_one({"room_id": str(room_id)}))
         if request.user.groups.filter(name="instructor").exists():
             return HttpResponse("Instructor, find classroom: " + str(room_id))
         else:
@@ -242,4 +234,3 @@ def post_topic(request):
         #TODO: call chat service api
     else:
         return HttpResponseServerError()
-
