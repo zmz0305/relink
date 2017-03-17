@@ -1,11 +1,12 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
+var ajax = require('../components/AjaxCall.jsx');
 
 export default class JoinClass extends React.Component {
   constructor(props){
     super(props);
-    this.state = {id:''};
+    this.state = {roomId:''};
     this.onSubmit = this.onSubmit.bind(this);
     this.setValue = this.setValue.bind(this);
 
@@ -16,22 +17,19 @@ export default class JoinClass extends React.Component {
 
   onSubmit(event){
     event.preventDefault();
+    const roomId = this.state.roomId;
     const router = this.props.router;
     
-    $.ajax({
-      type:"GET",
-      url:"http://127.0.0.1:8000/accounts/classroom/"+this.state.id,
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function(data){
-        console.log(data);
+    ajax("GET", "/accounts/classroom" + roomId,
+      function(success) {
+        console.log(success);
+        store.dispatch({type: 'JOINROOM', roomId: roomId});
         router.push('/room');
       },
-      error: function(data){
-        console.log(data);
+      function(error) {
+        console.log(error);
       }
-    });
+    )
   }
 
   setValue(event) {
@@ -43,7 +41,7 @@ export default class JoinClass extends React.Component {
       <div>
       ENTER CLASS CODE<br/>
       <form onSubmit = {this.onSubmit}>
-        <LabelInput name="id" label="Class Code" type="text" onChange={this.setValue} />
+        <LabelInput name="roomId" label="Class Code" type="text" onChange={this.setValue} />
         <button type="submit">Submit Code</button>
       </form>
       </div>
