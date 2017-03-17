@@ -6,9 +6,10 @@ export default class Chat extends React.Component {
   constructor(props){
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+
     socket.emit('join', {
-      room_id : '22',
-      user : "student@gmail.com"
+      room_id : '3',
+      user : "instructor@gmail.com"
     });
     socket.on('error', function(data){
       console.log(data);
@@ -16,16 +17,39 @@ export default class Chat extends React.Component {
     socket.on('ok', function(data){
       console.log(data);
     });
+
+    this.state  = {
+      "room_id" : '3',
+      "messages" : []
+    }
+
+    socket.on("message", {
+      room_id: '3'
+    }, function(data) {
+      console.log(data)
+    })
   }
 
 
   onSubmit(event) {
     event.preventDefault();
-/*socket.emit('client:sendMessage', {
-      "msg" : "".
-      "user" : "student@gmail.com",
-      "room_id" : 9
-    }); */
+  $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:8000/accounts/message",
+      data: {
+        "message" : "Hello",
+        "room_id" : 3
+      },
+      cache: false,
+      success: function(data) {
+        alert("success");
+        console.log(data);
+      },
+      error: function(data) {
+        alert("error")
+        console.log(data);
+      }
+    });
   }
 
   render() {
