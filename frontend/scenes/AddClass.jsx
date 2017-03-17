@@ -1,6 +1,8 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
+var ajax = require('../components/AjaxCall.jsx');
+
 
 export default class AddClass extends React.Component {
   constructor(props){
@@ -18,34 +20,16 @@ export default class AddClass extends React.Component {
     const username = store.getState().username;
     const router = this.props.router;
 
-    $.support.cors = true;
-    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-      options.crossDomain ={
-        crossDomain: true
-      };
-      options.xhrFields = {
-        withCredentials: true
-      };
-    });
-
-    $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/accounts/newroom/",
-      async: true,
-      // cache: false,
-      xhrFields: {
-        withCredentials: true,
-        crossDomain: true
-      },
-      // data: {'username': username},
-      success: function(data){
-        console.log(data);
+    ajax("GET", "/accounts/newroom", {},
+      function(success) {
+        console.log(success);
+        store.dispatch({type: 'JOINROOM', roomId: success});
         router.push('/room');
       },
-      error: function(data){
-        console.log(data);
+      function(error) {
+        console.log(error);
       }
-    });
+    );
   }
 
   render() {

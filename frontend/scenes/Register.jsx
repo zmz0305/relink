@@ -1,5 +1,6 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
+var ajax = require('../components/AjaxCall.jsx');
 
 export default class Register extends React.Component {
   constructor(props) {
@@ -15,20 +16,17 @@ export default class Register extends React.Component {
     console.log(this.state);
     const router = this.props.router;
 
-    $.ajax({
-      type: "POST",
-      url: "http://127.0.0.1:8000/accounts/register",
-      data: this.state,
-      cache: false,
-      success: function(data) {
-        if (data == "Create user successfully") {
+    ajax("POST", "accounts/register", this.state,
+      function(success) {
+        console.log(success)
+        if (success == "Create user successfully") {
           router.push('/');
         }
       },
-      error: function(data) {
-        console.log(data);
+      function(error) {
+        console.log(error);
       }
-    });
+    );
   }
 
   updateInstructorState(bool) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
+var ajax = require('../components/AjaxCall.jsx');
 
 function login(name, isInstructor) {
   return {
@@ -30,27 +31,23 @@ export default class Login extends React.Component {
     const username = this.state.username;
     const router = this.props.router;
 
-    $.ajax({
-      type: "POST",
-      url: "http://127.0.0.1:8000/accounts/login",
-      data: this.state,
-      cache: false,
-      success: function(data) {
-        console.log(data);
-        if (data == "Student login") {
+    ajax("POST", "/accounts/login", this.state,
+      function(sucess) {
+        console.log(sucess)
+        if (sucess == "Student login") {
           store.dispatch(login(username, false));
           router.push('/student');
-        } else if (data == "Teacher login") {
+        } else if (sucess == "Teacher login") {
           store.dispatch(login(username, true));
           router.push('/instructor');
-        } else if (data == "Authentication Failed"){
+        } else if (sucess == "Authentication Failed"){
           alert("Authentication Failed");
         }
       },
-      error: function(data) {
-        console.log(data);
+      function(error) {
+        console.log(error);
       }
-    });
+    );
   }
 
   setValue(event) {
