@@ -1,13 +1,15 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
+import { Button } from 'react-bootstrap'
 var ajax = require('../components/AjaxCall.jsx');
 
 
 export default class AddClass extends React.Component {
   constructor(props){
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.createClass = this.createClass.bind(this);
+    this.createQuiz = this.createQuiz.bind(this);
 
     const userObj = store.getState();
     if (userObj.username == "" || userObj.isInstructor == false) {
@@ -15,8 +17,7 @@ export default class AddClass extends React.Component {
     }
   }
 
-  onSubmit(event) {
-    event.preventDefault();
+  createClass(event) {
     const username = store.getState().username;
     const router = this.props.router;
 
@@ -32,12 +33,16 @@ export default class AddClass extends React.Component {
     );
   }
 
+  createQuiz(event) {
+    this.props.router.push('/createQuiz');
+  }
+
   render() {
     return(
       <div>
-      <form onSubmit = {this.onSubmit}>
-        <button type="submit">CREATE NEW CLASS</button>
-      </form>
+        <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
+        <br />
+        <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
       </div>
     );
   }
