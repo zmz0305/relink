@@ -197,7 +197,6 @@ def ensure_dir(file_path):
 @csrf_exempt
 @login_required
 def create_quiz(request):
-    global current_quiz_id
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         user_folder = os.path.join(quiz_dir, str(current_user.id))
@@ -222,7 +221,7 @@ def post_quiz(request):
     if current_user.groups.filter(name="instructor").exists():
         try:
             quiz_file_name = request.POST['quizname']
-            quiz_file_path = quiz_file_name = os.path.join(quiz_dir, str(current_user.id), quiz_file_name)
+            quiz_file_path = os.path.join(quiz_dir, str(current_user.id), quiz_file_name)
             try:
                 with open(quiz_file_path, 'r') as quiz_file:
                     return HttpResponse(quiz_file.read())
