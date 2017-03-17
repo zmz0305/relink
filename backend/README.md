@@ -183,6 +183,6 @@ Response
 ```
 {
     "status": "200 ok" or "500 error",
-    "data": quizid
+    "data": quiz
 }
 ```
