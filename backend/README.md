@@ -154,7 +154,9 @@ POST request to send a quiz to backend for authentication
                                 "correct": 1
                         }
 	        ]
-        }
+        },
+
+        "quizname": "somename"
 }
 
 ```
@@ -175,7 +177,7 @@ POST request to send quizid to backend for authentication
 
 ```
 {
-        "quizid": ...
+        "quizname": ...
 }
 ```
 
@@ -183,6 +185,6 @@ Response
 ```
 {
     "status": "200 ok" or "500 error",
-    "data": quiz
+    "data": quiz content
 }
 ```
