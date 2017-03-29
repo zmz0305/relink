@@ -2,6 +2,8 @@ import React from 'react';
 import store from '../main.js'
 import { Button, Nav, Navbar, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import { Route, RouteHandler, Link } from 'react-router';
+var ajax = require('../components/AjaxCall.jsx');
+
 export default class Home extends React.Component{
    constructor(props) {
       super(props);
@@ -16,21 +18,15 @@ export default class Home extends React.Component{
    logout() {
       const router = this.props.router;
 
-      $.ajax({
-         type: "POST",
-         url: "http://127.0.0.1:8000/accounts/logout",
-         cache: false,
-         xhrFields: {
-            withCredentials: true
-         },
-         success: function(data) {
-            store.dispatch({type: 'LOGOUT'});
-            router.push('/');
-         },
-         error: function(data) {
-           console.log(data);
-         }
-      });  
+      ajax("POST", "/accounts/logout", {},
+        function(success) {
+          store.dispatch({type: 'LOGOUT'});
+          router.push('/');
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
    }
 
    render() {

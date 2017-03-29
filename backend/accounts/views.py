@@ -18,6 +18,7 @@ from pymongo import MongoClient
 import pprint
 import requests
 import os
+import pickle
 
 from django.utils.html import escape
 
@@ -26,14 +27,13 @@ from Relink.settings import BASE_DIR
 client = MongoClient('localhost', 27017)
 db = client['test']
 rooms_collection = db['rooms']
-current_quiz_id = 0
 quiz_dir = os.path.join(BASE_DIR, 'resource', 'quiz')
 chat_service_url = "http://localhost:3000/"
 
 
 def index(request):
-    return HttpResponse('Login requred!');
-    # return HttpResponse('session from index: ' + escape((request.session.keys())))
+    # return HttpResponse('Login requred!');
+    return HttpResponse('session from index: ' + escape((request.session.keys())))
 
 @csrf_exempt
 def register_view(request):
@@ -131,6 +131,7 @@ def insert_room_to_mongo(room):
 @csrf_exempt
 @login_required
 def create_classroom(request):
+    # return HttpResponse('session from index: ' + escape((request.session.keys())))
     print(request)
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
@@ -188,15 +189,21 @@ def send_message(request):
         return HttpResponseServerError("Message send failed")
 
 
+def ensure_dir(file_path):
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+
+
 @csrf_exempt
 @login_required
 def create_quiz(request):
-    global current_quiz_id
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
+        user_folder = os.path.join(quiz_dir, str(current_user.id))
+        ensure_dir(user_folder)
         try:
-            quiz_file_name= os.path.join(quiz_dir, str(current_quiz_id))
-            current_quiz_id += 1
+            quiz_name = request.POST['quizname']
+            quiz_file_name = os.path.join(quiz_dir, str(current_user.id), quiz_name)
             quiz_content = request.POST['quiz']
             with open(quiz_file_name, 'w') as quiz_file:
                 quiz_file.write(quiz_content)
@@ -213,9 +220,10 @@ def post_quiz(request):
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         try:
-            quiz_file_name = request.POST['quizid']
+            quiz_file_name = request.POST['quizname']
+            quiz_file_path = os.path.join(quiz_dir, str(current_user.id), quiz_file_name)
             try:
-                with open(quiz_file_name, 'r') as quiz_file:
+                with open(quiz_file_path, 'r') as quiz_file:
                     return HttpResponse(quiz_file.read())
             except IOError:
                 return HttpResponse("Please check the quizid is valid", status=500)

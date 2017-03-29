@@ -120,7 +120,8 @@ io.on('connection', function (socket) {
 
     //data = {room_id: 'asdf', user: 'mgao16'}
     socket.on('join', function (data) {
-        //console.log(data);
+        console.log('new join');
+        console.log(data)
         dbCheckRoom(data.room_id, function(){
           io.to(socket.id).emit("ok", {data: 'joined room_id'});
           socket.join(data.room_id, function () {
