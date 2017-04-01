@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^posttopic', views.post_topic, name='posttopic'),
     url(r'^message', views.send_message, name='message'),
     url(r'^listquiz', views.list_all_quiz, name='listquiz'),
+    url(r'^sendquiz', views.send_quiz, name='sendquiz'),
 ]
