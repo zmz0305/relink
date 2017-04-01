@@ -11,6 +11,7 @@ export default class CreateQuiz extends React.Component {
     this.setValue = this.setValue.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.saveQuiz = this.saveQuiz.bind(this);
   }
 
   setValue(event) {
@@ -34,6 +35,10 @@ export default class CreateQuiz extends React.Component {
 			this.setState({questionCount: this.state.questionCount - 1, questions: newArray});
     }
 	}
+
+  saveQuiz() {
+    console.log(this.state);
+  }
 
   render() {
     var questions = [];

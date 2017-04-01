@@ -16,7 +16,7 @@ export default class Register extends React.Component {
     console.log(this.state);
     const router = this.props.router;
 
-    ajax("POST", "accounts/register", this.state,
+    ajax("POST", "/accounts/register", this.state,
       function(success) {
         console.log(success)
         if (success == "Create user successfully") {
