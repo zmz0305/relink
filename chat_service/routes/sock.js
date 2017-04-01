@@ -41,10 +41,44 @@ router.post("/send", function (req, res) {
 
 });
 
+router.post("/sendQuiz", function (req, res) {
+    var room_id = req.body.room_id;
+    var quiz_name = req.body.quiz_name;
+    var user = req.body.user;
+
+    // if any of the three values is missing, throw error
+    if(!room_id || !quiz_name || !user){
+        res.status(500);
+        res.send({status: '500 Internal Error',
+            data: 'missing values, must have room_id, quiz_name, user'});
+    }
+
+    // send using io from parent module (which is app in app.js)
+    room_apis.existUserInRoom({room_id: room_id, user_id: user}, function (err, data) {
+        if(err) {
+            res.status(500);
+            res.send({status: '500 internal error', data: 'Error in confirming room_id'});
+        } else {
+            if(!data.data || data.code == 404) { // if there is no data returned
+                console.log(data.status)
+                res.status(404);
+                res.send({status: '404 not found', data: 'room_id or user not found'});
+            } else {
+                // the room_id is valid, send to message to this room
+                module.parent.exports.get('io').to(room_id)
+                    .emit('commands', {'type': 'quiz', 'quiz_name': quiz_name, "user": user});
+                res.status(200);
+                res.send({status: '200 OK', data: 'Message sent'});
+            }
+        }
+    })
+})
+
 router.post("/createRoom", function (req, res) {
     logger.debug('/createRoom: room_id: ' + req.body.room_id);
     var room_id = req.body.room_id;
     var room_name = req.body.room_name;
+
     // if room_id is valid and rooms does not have this room_id in database yet,
     // add room_id and return ok
     if(!room_id){

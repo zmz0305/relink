@@ -109,6 +109,11 @@ backend sends
 ('message', {room_id})
 ```
 
+#### forward message
+```
+emit('message', {'message': message, 'user': user})
+```
+
 #### forward quiz message
 ```
 emit('commands', {type: 'quiz', name: 'quiz_name'})
