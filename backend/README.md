@@ -191,7 +191,7 @@ Response
 
 ### Get all Quiz
 
-accounts/getquiznames
+accounts/listquiz
 
 Get request to get all quiz names of an instructor
 
