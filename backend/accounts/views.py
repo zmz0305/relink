@@ -19,6 +19,7 @@ import pprint
 import requests
 import os
 import pickle
+import json
 
 from django.utils.html import escape
 
@@ -194,6 +195,7 @@ def ensure_dir(file_path):
         os.makedirs(file_path)
 
 
+
 @csrf_exempt
 @login_required
 def create_quiz(request):
@@ -232,6 +234,17 @@ def post_quiz(request):
     else:
         return HttpResponseServerError()
 
+@csrf_exempt
+@login_required
+def list_all_quiz(request):
+    current_user = request.user
+    result = []
+    if current_user.groups.filter(name="instructor").exists():
+        quiz_file_path = os.path.join(quiz_dir, str(current_user.id))
+        if os.path.exists(quiz_file_path):
+            for quiz in os.listdir(quiz_file_path):
+                result.append(quiz)
+    return HttpResponse(json.dumps(result))
 
 @csrf_exempt
 @login_required
