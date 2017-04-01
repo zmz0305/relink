@@ -87,7 +87,6 @@ module.exports.getRooms = function (cb) {
 module.exports.existUserInRoom = function(data, cb) {
     var room_id = data.room_id;
     var user_id = data.user_id;
-    console.log(user_id);
     if (!room_id || !user_id) {
         var err = {status: 'error', data: 'room_id and user_id is required. At least one of them is missing.'};
         cb(err, undefined);
@@ -100,7 +99,6 @@ module.exports.existUserInRoom = function(data, cb) {
                     cb(err, {code: 404, status: 'Room not found', data: undefined});
                 } else {
                     var users = data.room_user;
-                    console.log(users);
                     var idx = users.map(function(e){return e.user_id}).indexOf(user_id);
                     console.log(idx);
                     if(idx == -1){
