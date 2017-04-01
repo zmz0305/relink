@@ -19,6 +19,7 @@ import pprint
 import requests
 import os
 import pickle
+import json
 
 from django.utils.html import escape
 
@@ -194,6 +195,7 @@ def ensure_dir(file_path):
         os.makedirs(file_path)
 
 
+
 @csrf_exempt
 @login_required
 def create_quiz(request):
@@ -214,24 +216,54 @@ def create_quiz(request):
         return HttpResponseServerError()
 
 
+
+@csrf_exempt
+@login_required
+def send_quiz(request):
+    current_user = request.user
+    if current_user.groups.filter(name="instructor").exists():
+        quiz_file_name = request.POST['quizname']
+        roomid = request.POST['room_id']
+        data = {"quiz_name": quiz_file_name, "user": str(request.user.id), "room_id": str(roomid)}
+        url = chat_service_url + "sock/sendQuiz"
+        print data, url
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            return HttpResponse("Quiz sent")
+        else:
+            return HttpResponseServerError("Quiz send failed")
+    else:
+         return HttpResponseServerError("Quiz send failed, not instructor")
+
+
 @csrf_exempt
 @login_required
 def post_quiz(request):
-    current_user = request.user
-    if current_user.groups.filter(name="instructor").exists():
+    #current_user = request.user
+    instuctorid = request.POST["instructor_id"]
+    try:
+        quiz_file_name = request.POST['quizname']
+        quiz_file_path = os.path.join(quiz_dir, str(instuctorid), quiz_file_name)
         try:
-            quiz_file_name = request.POST['quizname']
-            quiz_file_path = os.path.join(quiz_dir, str(current_user.id), quiz_file_name)
-            try:
-                with open(quiz_file_path, 'r') as quiz_file:
-                    return HttpResponse(quiz_file.read())
-            except IOError:
-                return HttpResponse("Please check the quizid is valid", status=500)
-        except KeyError:
-            return HttpResponse("Please check if quizid field exists", status=500)
-    else:
-        return HttpResponseServerError()
+            with open(quiz_file_path, 'r') as quiz_file:
+                return HttpResponse(quiz_file.read())
+        except IOError:
+            return HttpResponse("Please check the quizid is valid", status=500)
+    except KeyError:
+        return HttpResponse("Please check if quizid field exists", status=500)
 
+
+@csrf_exempt
+@login_required
+def list_all_quiz(request):
+    current_user = request.user
+    result = []
+    if current_user.groups.filter(name="instructor").exists():
+        quiz_file_path = os.path.join(quiz_dir, str(current_user.id))
+        if os.path.exists(quiz_file_path):
+            for quiz in os.listdir(quiz_file_path):
+                result.append(quiz)
+    return HttpResponse(json.dumps(result))
 
 @csrf_exempt
 @login_required

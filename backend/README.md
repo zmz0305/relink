@@ -178,6 +178,7 @@ POST request to send quizid to backend for authentication
 ```
 {
         "quizname": ...
+        "instructor_id": ...
 }
 ```
 
@@ -186,5 +187,42 @@ Response
 {
     "status": "200 ok" or "500 error",
     "data": quiz content
+}
+```
+
+
+### Send Quiz
+
+accounts/sendquiz
+
+POST request to send quizid to backend for authentication and then call chatservice
+
+```
+{
+        "quizname": ...
+        "room_id": ...
+}
+```
+
+Response
+```
+{
+    "status": "200 ok" or "500 error",
+    "data": quiz content
+}
+```
+
+
+### Get all Quiz
+
+accounts/listquiz
+
+Get request to get all quiz names of an instructor
+
+Response
+```
+{
+	"status": 200 "ok or 500 "error",
+	"data": ['quiz_name_one', 'quiz_name_two' ...]
 }
 ```

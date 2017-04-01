@@ -35,7 +35,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -43,7 +43,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/sock/', sock);
 
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
@@ -52,10 +52,10 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -63,57 +63,54 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
-
 
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-var dbCheckRoom = function(rid, cb1, cb2){
-  room_apis.existRoom(rid, function(err, obj){
-    if(obj.status == 'existRoom ok'){
-      cb1()
-    }
-    else{
-      cb2()
-    }
-  })
+var dbCheckRoom = function (rid, cb1, cb2) {
+    room_apis.existRoom(rid, function (err, obj) {
+        if (obj.status == 'existRoom ok') {
+            cb1();
+        } else {
+            cb2();
+        }
+    })
 }
 
-var dbJoinRoom = function(duser, drid, cb){
-  room_apis.joinRoom({room_id: drid, user: duser}, function(err, res){
-    if(err){
-      console.log(err)
-    }
-    else{
-      cb()
-    }
-  })
+var dbJoinRoom = function (duser, drid, cb) {
+    room_apis.joinRoom({room_id: drid, user: duser}, function (err, res) {
+        if (err) {
+            console.log(err);
+        } else {
+            cb();
+        }
+    })
 }
 
 io.on('connection', function (socket) {
     console.log("Incomming connection from: " + socket.id);
 
-    socket.emit('news', { hello: 'world' });
+    socket.emit('news', {hello: 'world'});
     socket.on('my other event', function (data) {
         console.log(data);
     });
@@ -122,15 +119,15 @@ io.on('connection', function (socket) {
     socket.on('join', function (data) {
         console.log('new join');
         console.log(data)
-        dbCheckRoom(data.room_id, function(){
-          io.to(socket.id).emit("ok", {data: 'joined room_id'});
-          socket.join(data.room_id, function () {
-              //console.log(socket.rooms);
-              dbJoinRoom(data.user, data.room_id, function(){
-                io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
-              })
-          })
-        }, function(){
+        dbCheckRoom(data.room_id, function () {
+            io.to(socket.id).emit("ok", {data: 'joined room_id'});
+            socket.join(data.room_id, function () {
+                //console.log(socket.rooms);
+                dbJoinRoom(data.user, data.room_id, function () {
+                    io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
+                })
+            })
+        }, function () {
             io.to(socket.id).emit("error", {data: 'room_id does not exist'});
         })
     })

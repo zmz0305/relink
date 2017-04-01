@@ -4,7 +4,7 @@
 - ```npm initdb``` to cleanup and initialize test database.
 - <b>Warning!</b> running ```npm test``` and ```npm initdb``` will restore test database to original state. Check your database url! Do not run them on production database!
 
-# RESTful API (second draft)
+# RESTful API (third draft)
 ### Send message 
 ##### POST sock/send
 <pre>
@@ -29,6 +29,28 @@ response
 }
 </code>
 </pre>
+
+
+### Send quiz
+##### POST sock/sendQuiz
+```
+request
+{
+    "user": ..,
+    "room_id": ...,
+    "quiz_name": quiz file name
+}
+```
+
+```
+response
+{
+    "status":
+    "data": {
+
+    }
+}
+```
 
 ### Chatroom related
 ##### GET sock/room
@@ -85,6 +107,16 @@ emit("ok", {data: 'joined room_id'});
 ```
 backend sends
 ('message', {room_id})
+```
+
+#### forward message
+```
+emit('message', {'message': message, 'user': user})
+```
+
+#### forward quiz message
+```
+emit('commands', {type: 'quiz', name: 'quiz_name'})
 ```
 
 # MongoDB
