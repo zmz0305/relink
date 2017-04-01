@@ -19,15 +19,16 @@ export default class JoinClass extends React.Component {
     event.preventDefault();
     const roomId = this.state.roomId;
     const router = this.props.router;
-    
-    ajax("GET", "/accounts/classroom" + roomId,
+    ajax("POST", "/accounts/classroom/" + roomId,
       function(success) {
-        console.log(success);
+        console.log("Success:" + success);
         store.dispatch({type: 'JOINROOM', roomId: roomId});
         router.push('/room');
       },
       function(error) {
-        console.log(error);
+        console.log("Error:" + error);
+        store.dispatch({type: 'JOINROOM', roomId: roomId});
+        router.push('/room');
       }
     )
   }
