@@ -78,7 +78,7 @@ router.get("/getRoomById", function(req, res) {
                     'Error when searching database for ' + room_id));
             } else {
                 if(!data) {
-                    res.status(400);
+                    res.status(404);
                     res.send(resMsg('404 not found',
                         'Cannot find room that is associated with this id'))
                 } else {

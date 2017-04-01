@@ -1,2 +1,3 @@
 *.pyc
 .DS_Store
+backend/db.sqlite3
