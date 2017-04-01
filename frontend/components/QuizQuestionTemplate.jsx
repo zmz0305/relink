@@ -9,7 +9,7 @@ export default class QuizQuestionTemplate extends React.Component {
 		this.removeAnswer = this.removeAnswer.bind(this);
 		this.setValue = this.setValue.bind(this);
 
-		this.state = { count: 2, question: "", answers: [null, null], correct: 0 }
+		this.state = { count: 2, question:"hi", answers: [null, null], correct: 0 }
 	}
 
 	addAnswer() {
@@ -36,7 +36,7 @@ export default class QuizQuestionTemplate extends React.Component {
 		}
 
 		return (
-			<FormGroup style={{marginBottom: '1cm'}}>
+			<FormGroup style={{marginBottom: '1cm'}} onChange={() => onChange(0, this.state)}>
 				<h3>Question {questionCount + 1} :</h3>
 				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?"  />
 				{answers}
