@@ -10,8 +10,8 @@
         "type" : "post",
         "request" : "/sock/createRoom",
         "data" : {
-          "room_id" : 123,
-          "room_name" : "Room123"
+          "room_id" : 1,
+          "room_name" : "Room1"
         },
         "expectedCode" : "200",
         "expectedMsg" : "Any"
@@ -20,7 +20,7 @@
         "type" : "post",
         "request" : "/sock/getRoomById",
         "data" : {
-          "room_id" : 123
+          "room_id" : 1
         },
         "expectedCode" : "200",
         "expectedMsg" : "Any"
@@ -37,17 +37,17 @@
         "type" : "post",
         "request" : "/sock/createRoom",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 2,
           "room_name" : "Room123"
         },
-        "expectedCode" : "500",
+        "expectedCode" : "200",
         "expectedMsg" : "Any"
       },
       {
         "type" : "post",
         "request" : "/sock/send",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 2,
           "user" : "111",
           "message" : "Hello Illinois."
         },
@@ -66,7 +66,7 @@
         "type" : "post",
         "request" : "/sock/createRoom",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 3,
           "room_name" : "Room123"
         },
         "expectedCode" : "200",
@@ -76,15 +76,15 @@
         "type" : "socket",
         "request" : "join",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 3,
           "user" : "111"
-        },
+        }
       },
       {
         "type" : "post",
         "request" : "/sock/send",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 3,
           "user" : "111",
           "message" : "Hello Illinois."
         },
@@ -103,7 +103,7 @@
         "type" : "post",
         "request" : "/sock/createRoom",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 4,
           "room_name" : "Room123"
         },
         "expectedCode" : "200",
@@ -113,15 +113,15 @@
         "type" : "socket",
         "request" : "join",
         "data" : {
-          "room_id" : 123,
+          "room_id" : 4,
           "user" : "111"
-        },
+        }
       },
       {
         "type" : "post",
         "request" : "/sock/send",
         "data" : {
-          "room_id" : 1,
+          "room_id" : 5,
           "user" : "111",
           "message" : "Hello Illinois."
         },

@@ -7,8 +7,9 @@ export default class QuizQuestionTemplate extends React.Component {
 		super(props);
 		this.addAnswer = this.addAnswer.bind(this);
 		this.removeAnswer = this.removeAnswer.bind(this);
+		this.setValue = this.setValue.bind(this);
 
-		this.state = { count: this.props.count }
+		this.state = { count: 2, question:"hi", answers: [null, null], correct: 0 }
 	}
 
 	addAnswer() {
@@ -20,8 +21,12 @@ export default class QuizQuestionTemplate extends React.Component {
 			this.setState({count: this.state.count - 1});
 	}
 
+	setValue(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
 	render() {
-		const { name, onChange, label } = this.props;
+		const { name, onChange, questionCount } = this.props;
 
 		var answers = [
   		<AnswerInput key={0} name={name} checked={true} onChange={onChange} />
@@ -31,9 +36,9 @@ export default class QuizQuestionTemplate extends React.Component {
 		}
 
 		return (
-			<FormGroup style={{marginBottom: '2cm'}}>
-				<h3>{label}:</h3>
-				<FormControl type="text" placeholder="What is your favorite color?"  />
+			<FormGroup style={{marginBottom: '1cm'}} onChange={() => onChange(0, this.state)}>
+				<h3>Question {questionCount + 1} :</h3>
+				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?"  />
 				{answers}
 
 				<Col smOffset={5} sm={5}>

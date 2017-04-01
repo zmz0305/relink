@@ -18,8 +18,8 @@ var http = require('http')
 // REST TEST STARTS HERE
 //
 // */
-var socket = require('socket.io-client')('http://localhost')
-
+var io = require('socket.io-client')
+var conn = io.connect('http://localhost:3000/')
 
 var unit_test = function(obj, done){
 	var url = obj.url
@@ -30,7 +30,7 @@ var unit_test = function(obj, done){
 		if(subtest.type == 'post'){
 			var data = subtest.data
 			describe('Respnse', function(){
-				describe('#test_post()', function(){
+				describe('#post()'+subtest.request, function(){
 					it('should get respnse of what expected', function(done){
 						test_post(url, port_num, subtest.request, data, function(ret, msg){
 							//console.log('response msg: ', str)
@@ -50,9 +50,12 @@ var unit_test = function(obj, done){
 				describe('#io_emit', function(){
 					it('simply send socket message to server', function(done){
 						//console.log('response msg: ', str)
-            socket.emit('join', {"room_id" : subtest.data.room_id, "user" : subtest.data.user}, function(data){
-              done()
-            })
+            // socket.emit('join', {"room_id" : subtest.data.room_id, "user" : subtest.data.user}, function(data){
+            //   done()
+            // })
+						conn.emit('join', {"room_id" : subtest.data.room_id, "user" : subtest.data.user}, function(data) {
+						    done()
+						})
 					})
 				})
 			})

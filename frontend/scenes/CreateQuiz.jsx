@@ -3,48 +3,65 @@ import store from '../main.js'
 import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl } from 'react-bootstrap'
 import QuizQuestionTemplate from '../components/QuizQuestionTemplate.jsx'
 
-export default class CreateQuiz extends React.Component{
-   constructor(props) {
-      super(props);
-      this.state = {count: 1};
+export default class CreateQuiz extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {questionCount: 1, questions: [null]};
 
-      this.setValue = this.setValue.bind(this);
-      this.removeQuestion = this.removeQuestion.bind(this);
-      this.addQuestion = this.addQuestion.bind(this);
-   }
+    this.setValue = this.setValue.bind(this);
+    this.removeQuestion = this.removeQuestion.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
+    this.saveQuiz = this.saveQuiz.bind(this);
+  }
 
   setValue(event) {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  setQuestion(index, question) {
+    var newArray = this.state.questions.slice();
+    newArray[index] = question;
+    this.setState({questions: newArray});
+  }
+
   addQuestion() {
-		this.setState({count: this.state.count + 1});
+    var newArray = this.state.questions.concat([null]);
+		this.setState({questionCount: this.state.questionCount + 1, questions: newArray});
 	}
 
 	removeQuestion() {
-		if (this.state.count != 1)
-			this.setState({count: this.state.count - 1});
+		if (this.state.questionCount != 1) {
+      var newArray = this.state.questions.slice(0,-1)
+			this.setState({questionCount: this.state.questionCount - 1, questions: newArray});
+    }
 	}
 
-   render() {
-   		var questions = [];
-   		for (var i = 0; i < this.state.count; i++) {
-  			questions.push(<QuizQuestionTemplate label={"Question " + (i+1)} count={2} name={"question" + i} key={i} onChange={this.setValue} />);
-			}
+  saveQuiz() {
+    console.log(this.state);
+  }
 
-      return (
-         <div>
-            <PageHeader>Create a quiz!</PageHeader>
-				    {questions}
-				    <Col smOffset={5} sm={5}>
-			        <Button bsStyle="primary" onClick={this.removeQuestion} >
-			          - Question
-			        </Button>
-			        <Button bsStyle="primary" onClick={this.addQuestion} >
-			          + Question
-			        </Button>
-			      </Col>
-         </div>
-      ); 
-   }
+  render() {
+    var questions = [];
+    for (var i = 0; i < this.state.questionCount; i++) {
+      questions.push(<QuizQuestionTemplate questionCount={i} name={"question" + i} key={i} onChange={this.setQuestion} />);
+    }
+
+    return (
+       <div>
+          <PageHeader>Create a quiz!</PageHeader>
+          <FormControl bsSize="lg" type="text" placeholder="Quiz Title"  />
+
+  		    {questions}
+  		    <Col smOffset={5} sm={5}>
+  	        <Button bsStyle="primary" onClick={this.removeQuestion} >
+  	          - Question
+  	        </Button>
+  	        <Button bsStyle="primary" onClick={this.addQuestion} >
+  	          + Question
+  	        </Button>
+  	      </Col>
+          <Button bsStyle="primary" onClick={this.saveQuiz}>Save Quiz</Button>
+       </div>
+    ); 
+  }
 };

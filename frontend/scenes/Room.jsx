@@ -11,22 +11,20 @@ export default class Room extends React.Component {
     super(props);
 
     const initState = store.getState();
-    console.log(initState)
     this.state = { roomId: initState.roomId, username: initState.username, messages: [], message: '' };
 
     const router = this.props.router;
     socket.emit('join', {
-      room_id : this.state.roomId,
+      room_id : initState.roomId,
       user : this.state.username
     });
     socket.on('ok', function(data) {
-      console.log(data);
-      socket.on('message', {room_id: this.state.roomId}, function(message) {
+      console.log("joined " + data);
+      socket.on('message', {room_id: initState.roomId}, function(message) {
         this.state.messages.append(message);
       })
     });
     socket.on('error', function(data){
-      console.log(data);
       router.push('/');
     });
 
@@ -38,8 +36,9 @@ export default class Room extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     
-    console.log("here " + this.state.message + " " + this.state.roomId);
-    ajax("POST", "/accounts/message", {"room_id": this.state.roomId, "message": 'a'},
+    const roomId = this.state.roomId;
+    const message = this.state.message;
+    ajax("POST", "/accounts/message", {"room_id": roomId, "message": message},
       function(success) {
         console.log(success);
         this.setState({message: ''});
