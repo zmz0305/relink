@@ -196,7 +196,7 @@ accounts/getquiznames
 Get request to get all quiz names of an instructor
 
 Response
-````
+```
 {
 	"status": 200 "ok or 500 "error",
 	"data": ['quiz_name_one', 'quiz_name_two' ...]
