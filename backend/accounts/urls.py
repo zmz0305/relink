@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^createquiz', views.create_quiz, name='createquiz'),
     url(r'^posttopic', views.post_topic, name='posttopic'),
     url(r'^message', views.send_message, name='message'),
+    url(r'^listquiz', views.list_all_quiz, name='listquiz'),
 ]
