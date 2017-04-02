@@ -16,6 +16,9 @@ const inc = (state = initialState, action) => {
     case 'JOINROOM':
       state.roomId = action.roomId;
       return state;
+    case 'EDITQUIZ':
+      state.quizName = action.quizName;
+      return state;
     default:
     	console.log(action);
       return state

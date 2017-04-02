@@ -33,7 +33,7 @@ export default class Room extends React.Component {
       console.log(this.state.messages);
       this.setState((prevState, props) => ({
         messages: prevState.messages.concat([message])
-        console.log(prevState);
+        //console.log(prevState);
       }));
     }.bind(this));
   }
