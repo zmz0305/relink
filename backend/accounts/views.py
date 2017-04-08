@@ -241,9 +241,12 @@ def send_quiz(request):
 def post_quiz(request):
     #current_user = request.user
     instuctorid = request.POST["instructor_id"]
+    user = User.objects.get(username=instuctorid)
+
+
     try:
         quiz_file_name = request.POST['quizname']
-        quiz_file_path = os.path.join(quiz_dir, str(instuctorid), quiz_file_name)
+        quiz_file_path = os.path.join(quiz_dir, str(user.id), quiz_file_name)
         try:
             with open(quiz_file_path, 'r') as quiz_file:
                 return HttpResponse(quiz_file.read())
