@@ -40,3 +40,4 @@ Build with security in mind.
 
 ## How to run server using script
 Use `sh main.sh` to start all services and press ctrl-c (or sending SIGINT) to kill all server processes.
+You cannot kill process running main.sh before pressing ctrl-c, otherwise it will be a big pain to kill all your server processes.
