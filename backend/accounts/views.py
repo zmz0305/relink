@@ -123,7 +123,7 @@ def delete_user(request):
 def insert_room_to_mongo(room, instructor_id):
     result = {"room_name": room.name,
               "room_id": str(room.id),
-              "room_user": [{"user_id": instructor_id}]}
+              "room_user": [{"user_id": str(instructor_id)}]}
     insert_id = db.rooms.insert_one(result).inserted_id
     print(insert_id)
 
