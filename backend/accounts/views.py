@@ -120,10 +120,10 @@ def delete_user(request):
         user.delete()
 
 
-def insert_room_to_mongo(room):
+def insert_room_to_mongo(room, instructor_id):
     result = {"room_name": room.name,
               "room_id": str(room.id),
-              "room_user": []}
+              "room_user": [{"user_id": instructor_id}]}
     insert_id = db.rooms.insert_one(result).inserted_id
     print(insert_id)
 
@@ -139,7 +139,7 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        insert_room_to_mongo(room)
+        insert_room_to_mongo(room, current_user.id)
         return HttpResponse("%s" % str(room.id))
 
     else:
@@ -176,13 +176,14 @@ def send_message(request):
     try:
         roomid = request.POST['room_id']
     except KeyError:
-        return HttpResponse('Please check roomid')
+        return HttpResponse('missing room_id in request')
     try:
         msg = request.POST['message']
     except KeyError:
         return HttpResponse('Please check message')
     data = {"message": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
     url = chat_service_url+"sock/send"
+    print(url)
     response = requests.post(url, data=data)
     if response.status_code == 200:
         return HttpResponse("Message sent")
