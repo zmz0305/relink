@@ -26,7 +26,7 @@ router.post("/send", function (req, res) {
             res.send({status: '500 internal error', data: 'Error in confirming room_id'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
-                console.log(data.status)
+                console.log("error in sock/send: ", data.status);
                 res.status(404);
                 res.send({status: '404 not found', data: 'room_id or user not found'});
             } else {
