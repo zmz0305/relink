@@ -120,10 +120,10 @@ def delete_user(request):
         user.delete()
 
 
-def insert_room_to_mongo(room):
+def insert_room_to_mongo(room, instructor_id):
     result = {"room_name": room.name,
               "room_id": str(room.id),
-              "room_user": []}
+              "room_user": [{"user_id": instructor_id}]}
     insert_id = db.rooms.insert_one(result).inserted_id
     print(insert_id)
 
@@ -139,7 +139,7 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        insert_room_to_mongo(room)
+        insert_room_to_mongo(room, current_user.id)
         return HttpResponse("%s" % str(room.id))
 
     else:
