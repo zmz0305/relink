@@ -1,5 +1,5 @@
 # Relink
-##### CS428/429 group project proposal 
+##### CS428/429 group project proposal
 ## Description
 - A centralized web platform that allows students to interact more during lectures.
 - Lecturers can create a virtual classroom on the platform and generate a class code. The students who are in the lecture can access the virtual classroom via this class code.
@@ -37,3 +37,6 @@ Students are unwilling to talk to strangers next to them even when instructors t
 - Build user-friendly user interface (always very challenging).
 System testing of the whole project.
 Build with security in mind.
+
+## How to run server using script
+Use `sh main.sh` to start all services and press ctrl-c (or sending SIGINT) to kill all server processes.

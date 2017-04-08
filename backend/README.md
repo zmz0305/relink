@@ -147,7 +147,7 @@ POST request to send a quiz to backend for authentication
                                 "question": "Some question",
                                 "answers": ["Answer 1", "Answer 2", "Anwser 3"],
                                 "correct": 0
-                        }
+                        },
                         {
                                 "question": "Some question",
                                 "answers": ["Answer 1", "Answer 2", "Anwser 3"],
