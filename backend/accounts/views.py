@@ -139,7 +139,7 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        insert_room_to_mongo(room, current_user.id)
+        insert_room_to_mongo(room, current_user.username)
         return HttpResponse("%s" % str(room.id))
 
     else:
@@ -149,7 +149,7 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
-    mongo_user_id = str(request.user.id)
+    mongo_user_id = str(request.user.username)
     mongo_user = {"user_id": mongo_user_id}
     if VirtualClassroom.objects.filter(id=int(room_id)).exists():
         room = db.rooms.find_one({"room_id": str(room_id)})
