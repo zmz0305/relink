@@ -176,7 +176,7 @@ def send_message(request):
     try:
         roomid = request.POST['room_id']
     except KeyError:
-        return HttpResponse('Please check roomid')
+        return HttpResponse('missing room_id in request')
     try:
         msg = request.POST['message']
     except KeyError:
