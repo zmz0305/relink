@@ -181,7 +181,7 @@ def send_message(request):
         msg = request.POST['message']
     except KeyError:
         return HttpResponse('Please check message')
-    data = {"message": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
+    data = {"message": str(msg), "user": str(request.user.username), "room_id": str(roomid)}
     url = chat_service_url+"sock/send"
     print(url)
     response = requests.post(url, data=data)
