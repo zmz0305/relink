@@ -183,6 +183,7 @@ def send_message(request):
         return HttpResponse('Please check message')
     data = {"message": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
     url = chat_service_url+"sock/send"
+    print(url)
     response = requests.post(url, data=data)
     if response.status_code == 200:
         return HttpResponse("Message sent")
