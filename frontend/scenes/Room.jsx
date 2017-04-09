@@ -27,14 +27,14 @@ export default class Room extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.setValue = this.setValue.bind(this);
+  }
 
-    socket.on('message', function(message) {
-      console.log(message);
-      // console.log(this.state.messages);
+  componentDidMount() {    
+    socket.on('message', message => {
       this.setState((prevState, props) => ({
         messages: prevState.messages.concat([message])
       }));
-    }.bind(this));
+    })
   }
 
   onSubmit(event) {
@@ -50,6 +50,7 @@ export default class Room extends React.Component {
         console.log(error)
       }
     );
+
   }
 
   setValue(event) {
@@ -57,10 +58,10 @@ export default class Room extends React.Component {
   }
 
   render() {
-    // var messages = [];
-    // for (var i = 0; i < this.state.messages.count; i++) {
-    //   answers.push(<p>{this.state.messages[i].name} {this.state.messages[i].username}</p>);
-    // }
+    var messages = [];
+    for (var i = 0; i < this.state.messages.length; i++) {
+      messages.push(<h4 key={i}>{this.state.messages[i].user}: {this.state.messages[i].message}</h4>);
+    }
 
     return(
       <div>
@@ -68,7 +69,8 @@ export default class Room extends React.Component {
           <LabelInput name="message" label="Message" type="text" onChange={this.setValue} />
           <Button bsStyle="primary" type="submit">Send Message</Button>
         </form>
-
+        <br/>
+        {messages}
       </div>
     );
   }
