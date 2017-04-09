@@ -102,6 +102,15 @@ def login_view(request):
 #@login_required
 @csrf_exempt
 def logout_view(request):
+    mongo_user_id = str(request.user.username)
+    mongo_user = {"user_id": mongo_user_id}
+    for room in db.rooms.find():
+        users = room['room_user']
+        #print users
+        if mongo_user in users:
+            users.remove(mongo_user)
+            db.rooms.save(room)
+        #print "after remove: ",users
     logout(request)
     return HttpResponse("user get logout")
 
