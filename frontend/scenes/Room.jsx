@@ -27,20 +27,19 @@ export default class Room extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.setValue = this.setValue.bind(this);
-    
+
     socket.on('message', function(message) {
       console.log(message);
       console.log(this.state.messages);
       this.setState((prevState, props) => ({
         messages: prevState.messages.concat([message])
-        console.log(prevState);
       }));
     }.bind(this));
   }
 
   onSubmit(event) {
     event.preventDefault();
-    
+
     const roomId = this.state.roomId;
     const message = this.state.message;
     ajax("POST", "/accounts/message", {"room_id": roomId, "message": message},
