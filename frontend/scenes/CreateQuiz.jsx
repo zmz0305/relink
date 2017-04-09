@@ -2,12 +2,23 @@ import React from 'react';
 import store from '../main.js'
 import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl } from 'react-bootstrap'
 import QuizQuestionTemplate from '../components/QuizQuestionTemplate.jsx'
+var ajax = require('../components/AjaxCall.jsx');
 
 export default class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
     this.state = {questionCount: 1, questions: [null]};
-
+    /*const quiz = store.getState();
+    if(quiz.quizName!=''){
+      ajax("POST", "/accounts/postquiz", {"quizname": quiz.quizName ,"instructor_id": quiz.username},
+      function(success) {
+        console.log(success);      
+      },
+      function(error) {
+        console.log(error);
+      }
+    );
+    } */
     this.setValue = this.setValue.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);

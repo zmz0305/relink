@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import io from 'socket.io-client';
 import store from '../main.js'
 import LabelInput from '../components/LabelInput.jsx';
@@ -19,7 +19,7 @@ export default class Room extends React.Component {
       user : this.state.username
     });
     socket.on('ok', function(data) {
-      console.log("joined " + data);
+      console.log("joined " + JSON.stringify(data));
     });
     socket.on('error', function(data){
       router.push('/');
@@ -30,7 +30,7 @@ export default class Room extends React.Component {
 
     socket.on('message', function(message) {
       console.log(message);
-      console.log(this.state.messages);
+      // console.log(this.state.messages);
       this.setState((prevState, props) => ({
         messages: prevState.messages.concat([message])
       }));
