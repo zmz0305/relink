@@ -7,18 +7,22 @@ var ajax = require('../components/AjaxCall.jsx');
 export default class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {questionCount: 1, questions: [null]};
-    /*const quiz = store.getState();
+    const quiz = store.getState();
+    this.state = {questionCount: 1, questions: [null], questionsHTML: [], quizTitle:quiz.quizName, emptyJSON:[]};
     if(quiz.quizName!=''){
+      var self = this;
       ajax("POST", "/accounts/postquiz", {"quizname": quiz.quizName ,"instructor_id": quiz.username},
       function(success) {
-        console.log(success);      
+        console.log(success);  
+        var quiz = JSON.parse(success)['questions'];
+        self.setState({'questionCount' : quiz.length+1})
+        self.setState({'questionsHTML': quiz});
       },
       function(error) {
         console.log(error);
       }
     );
-    } */
+    } 
     this.setValue = this.setValue.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
@@ -53,15 +57,18 @@ export default class CreateQuiz extends React.Component {
 
   render() {
     var questions = [];
-    for (var i = 0; i < this.state.questionCount; i++) {
-      questions.push(<QuizQuestionTemplate questionCount={i} name={"question" + i} key={i} onChange={this.setQuestion} />);
+    for (var i = this.state.questionsHTML.length; i < this.state.questionCount; i++) {
+      questions.push(<QuizQuestionTemplate questionCount={i} name={"question" + i} key={i} question='' savedAnswers='' onChange={this.setQuestion}/>);
     }
+
 
     return (
        <div>
           <PageHeader>Create a quiz!</PageHeader>
-          <FormControl bsSize="lg" type="text" placeholder="Quiz Title"  />
-
+          <FormControl bsSize="lg" type="text" placeholder="Quiz Title" value={this.state.quizTitle}/>
+          {this.state.questionsHTML.map(function(name, index){
+                    return <QuizQuestionTemplate questionCount={index} name={"question" + index} key={index} question={name['question']} savedAnswers={name['answers']} correctAnswer={name['correct']}/>;
+          })}
   		    {questions}
   		    <Col smOffset={5} sm={5}>
   	        <Button bsStyle="primary" onClick={this.removeQuestion} >
