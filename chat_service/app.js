@@ -87,15 +87,15 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-var dbCheckRoom = function (rid, cb1, cb2) {
-    room_apis.existRoom(rid, function (err, obj) {
-        if (obj.status == 'existRoom ok') {
-            cb1();
-        } else {
-            cb2();
-        }
-    })
-}
+// var dbCheckRoom = function (rid, cb1, cb2) {
+//     room_apis.existRoom(rid, function (err, obj) {
+//         if (obj && obj.status == 'existRoom ok') {
+//             cb1(err, obj);
+//         } else {
+//             cb2(err, obj);
+//         }
+//     })
+// }
 
 var dbJoinRoom = function (duser, drid, cb) {
     room_apis.joinRoom({room_id: drid, user: duser}, function (err, res) {
@@ -105,6 +105,16 @@ var dbJoinRoom = function (duser, drid, cb) {
             cb();
         }
     })
+}
+
+var dbCheckRoom = function (data, cb) {
+    console.log('dbCheckRoom: ', data);
+    room_apis.existUserInRoom(
+        {room_id: data.room_id, user_id: data.user},
+        function (err, data) {
+            cb(err, data);
+        }
+    );
 }
 
 io.on('connection', function (socket) {
@@ -117,19 +127,34 @@ io.on('connection', function (socket) {
 
     //data = {room_id: 'asdf', user: 'mgao16'}
     socket.on('join', function (data) {
-        console.log('new join');
-        console.log(data)
-        dbCheckRoom(data.room_id, function () {
-            io.to(socket.id).emit("ok", {data: 'joined room_id'});
-            socket.join(data.room_id, function () {
-                //console.log(socket.rooms);
-                dbJoinRoom(data.user, data.room_id, function () {
+        console.log('new join: ', data);
+        dbCheckRoom(data, function (err, res) {
+            if (err) {
+                console.log("socketio join room error", err);
+                console.log("socketio join room res: ", res);
+                io.to(socket.id).emit("error", {data: 'room_id does not exist'});
+            } else {
+                io.to(socket.id).emit("ok", {data: data.user + ' joined room_id:' + data.room_id});
+                socket.join(data.room_id, function () {
+                    console.log(socket.rooms);
+                    // dbJoinRoom(data.user, data.room_id, function () {
+                    //     io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
+                    // })
                     io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
-                })
-            })
-        }, function () {
-            io.to(socket.id).emit("error", {data: 'room_id does not exist'});
-        })
+                });
+            }
+        });
+
+    });
+
+    socket.on('logout', function (data) {
+        console.log('socketio logout: ', data);
+        socket.disconnect(true);
+    })
+
+    socket.on('disconnect', function() {
+        console.log('disconnect!');
+        socket.disconnect(true);
     })
 });
 

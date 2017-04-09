@@ -102,6 +102,15 @@ def login_view(request):
 #@login_required
 @csrf_exempt
 def logout_view(request):
+    mongo_user_id = str(request.user.username)
+    mongo_user = {"user_id": mongo_user_id}
+    for room in db.rooms.find():
+        users = room['room_user']
+        #print users
+        if mongo_user in users:
+            users.remove(mongo_user)
+            db.rooms.save(room)
+        #print "after remove: ",users
     logout(request)
     return HttpResponse("user get logout")
 
@@ -120,10 +129,10 @@ def delete_user(request):
         user.delete()
 
 
-def insert_room_to_mongo(room):
+def insert_room_to_mongo(room, instructor_id):
     result = {"room_name": room.name,
               "room_id": str(room.id),
-              "room_user": []}
+              "room_user": [{"user_id": str(instructor_id)}]}
     insert_id = db.rooms.insert_one(result).inserted_id
     print(insert_id)
 
@@ -139,7 +148,7 @@ def create_classroom(request):
         room = VirtualClassroom.objects.create()
         room.instructorId = current_user.id
         room.save()
-        insert_room_to_mongo(room)
+        insert_room_to_mongo(room, current_user.username)
         return HttpResponse("%s" % str(room.id))
 
     else:
@@ -149,7 +158,7 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
-    mongo_user_id = str(request.user.id)
+    mongo_user_id = str(request.user.username)
     mongo_user = {"user_id": mongo_user_id}
     if VirtualClassroom.objects.filter(id=int(room_id)).exists():
         room = db.rooms.find_one({"room_id": str(room_id)})
@@ -176,13 +185,14 @@ def send_message(request):
     try:
         roomid = request.POST['room_id']
     except KeyError:
-        return HttpResponse('Please check roomid')
+        return HttpResponse('missing room_id in request')
     try:
         msg = request.POST['message']
     except KeyError:
         return HttpResponse('Please check message')
-    data = {"message": str(msg), "user": str(request.user.id), "room_id": str(roomid)}
+    data = {"message": str(msg), "user": str(request.user.username), "room_id": str(roomid)}
     url = chat_service_url+"sock/send"
+    print(url)
     response = requests.post(url, data=data)
     if response.status_code == 200:
         return HttpResponse("Message sent")
