@@ -146,6 +146,11 @@ io.on('connection', function (socket) {
         });
 
     });
+
+    socket.on('logout', function (data) {
+        console.log('socketio logout: ', data);
+        
+    })
 });
 
 /**
