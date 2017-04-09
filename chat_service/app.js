@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
                 console.log("socketio join room res: ", res);
                 io.to(socket.id).emit("error", {data: 'room_id does not exist'});
             } else {
-                io.to(socket.id).emit("ok", {data: 'joined room_id' + data.room_id});
+                io.to(socket.id).emit("ok", {data: data.user + ' joined room_id:' + data.room_id});
                 socket.join(data.room_id, function () {
                     console.log(socket.rooms);
                     // dbJoinRoom(data.user, data.room_id, function () {
@@ -149,7 +149,12 @@ io.on('connection', function (socket) {
 
     socket.on('logout', function (data) {
         console.log('socketio logout: ', data);
-        
+        socket.disconnect(true);
+    })
+
+    socket.on('disconnect', function() {
+        console.log('disconnect!');
+        socket.disconnect(true);
     })
 });
 
