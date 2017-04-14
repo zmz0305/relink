@@ -11,7 +11,7 @@ router.post("/send", function (req, res) {
     var room_id = req.body.room_id;
     var message = req.body.message;
     var user = req.body.user;
-
+    console.log(req.body);
     // if any of the three values is missing, throw error
     if(!room_id || !message || !user){
         res.status(500);
@@ -32,7 +32,7 @@ router.post("/send", function (req, res) {
             } else {
                 // the room_id is valid, send to message to this room
                 module.parent.exports.get('io').to(room_id)
-                    .emit('message', {'message': message, "user": user});
+                    .emit('message', {message: message, user: user, anonymous:req.body.anonymous});
                 res.status(200);
                 res.send({status: '200 OK', data: 'Message sent'});
             }
@@ -124,4 +124,7 @@ router.get("/getRoomById", function(req, res) {
     }
 });
 
+router.post("/logout", function(req, res) {
+
+})
 module.exports = router;

@@ -147,7 +147,7 @@ io.on('connection', function (socket) {
 
     });
 
-    socket.on('logout', function (data) {
+    socket.on('leaveroom', function (data) {
         console.log('socketio logout: ', data);
         socket.disconnect(true);
     })
