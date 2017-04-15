@@ -8,30 +8,21 @@ var ajax = require('../components/AjaxCall.jsx');
 export default class AddClass extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {roomId:'', quizzes: [], quizitems: [], quiz: ''};
+        this.state = {roomId:'', quizNames: []};
         const userObj = store.getState();
         if (userObj.username == "" || userObj.isInstructor == false) {
             this.props.router.push('/');
         }
-    }
 
-    componentDidMount () {
         this.createClass = this.createClass.bind(this);
         this.createQuiz = this.createQuiz.bind(this);
         this.postQuiz = this.postQuiz.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.setValue = this.setValue.bind(this);
+
         ajax("POST", "/accounts/listquiz", {},
             function (success) {
-                console.log(success);
-                var success = JSON.parse(success);
-                this.setState({'quizzes': success}, function after() {
-                    console.log(this.state.quizzes);
-                    var quizzes = this.state.quizzes;
-                    var quizlist = quizzes.map((quiz) =>
-                        <Button bsStyle="primary" name={quiz} onClick={this.postQuiz}>{quiz}</Button>);
-                    this.setState({'quizitems': quizlist});
-                });
+                this.setState({'quizNames': JSON.parse(success)});
             }.bind(this),
             function (error) {
                 console.log(error);
@@ -45,7 +36,6 @@ export default class AddClass extends React.Component {
 
         ajax("GET", "/accounts/newroom", {},
             function (success) {
-                console.log(success);
                 store.dispatch({type: 'JOINROOM', roomId: success});
                 router.push('/room');
             },
@@ -90,6 +80,10 @@ export default class AddClass extends React.Component {
     }
 
     render() {
+        var quizList = [];
+        for(var i = 0; i < this.state.quizNames.length; i++) {
+            quizList.push(<Button bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
+        }       
         return (
             <div>
                 <form onSubmit = {this.onSubmit}>
@@ -100,7 +94,7 @@ export default class AddClass extends React.Component {
                 <br />
                 <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
                 <h3>Saved Quizzes</h3>
-                {this.state.quizitems}
+                {quizList}
             </div>
         );
     }

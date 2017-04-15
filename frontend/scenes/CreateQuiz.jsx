@@ -3,7 +3,7 @@ import store from '../main.js'
 import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl } from 'react-bootstrap'
 import QuizQuestionTemplate from '../components/QuizQuestionTemplate.jsx'
 import { createStore } from 'redux';
-import quiz from '../reducers/quiz.js';
+import quiz from '../reducers/quiz.js'
 var ajax = require('../components/AjaxCall.jsx');
 
 var quizStore = createStore(quiz);
@@ -11,16 +11,18 @@ var quizStore = createStore(quiz);
 class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
-      // ajax("POST", "/accounts/postquiz", {"quizname": quiz.quizName ,"instructor_id": quiz.username},
-      // function(success) {
-      //   console.log(success);  
-      //   var quiz = JSON.parse(success)['questions'];
-      //   self.setState({'questionCount' : quiz.length+1})
-      //   self.setState({'questionsHTML': quiz});
-      // },
-      // function(error) {
-      //   console.log(error);
-      // }
+
+    var state = store.getState()
+    console.log(state)
+    if(state.quizName != '') {
+      ajax("POST", "/accounts/postquiz", {"quizname": state.quizName ,"instructor_id": state.username},
+      function(success) {
+        console.log(success);
+      },
+      function(error) {
+        console.log(error);
+      })
+    }
     this.state = {questionCount: 1, quizName: ''};
 
     quizStore.subscribe(() => {

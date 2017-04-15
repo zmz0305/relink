@@ -11,10 +11,9 @@ export default class Room extends React.Component {
         super(props);
 
         const storeState = store.getState();
-        this.state = {anonymous: false, roomId: storeState.roomId, username: storeState.username, messages: [], message: '', counter: 0};
+        this.state = {anonymous: false, roomId: storeState.roomId, username: storeState.username, messages: [], message: ''};
         this.socket = storeState.socket;
-        const router = this.props.router;
-
+        
         this.onSubmit = this.onSubmit.bind(this);
         this.setValue = this.setValue.bind(this);
         this.setAnonymous = this.setAnonymous.bind(this);
