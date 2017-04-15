@@ -2,11 +2,11 @@
 
 ## configure
 
-python manager.py makemigrations
+python manage.py makemigrations
 
-python manager.py migrate
+python manage.py migrate
 
-python manager.py runser
+python manage.py runser
 
 Home Page
 
