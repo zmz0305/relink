@@ -22,6 +22,10 @@ export default class Room extends React.Component {
 
     componentDidMount() {
         const router = this.props.router;
+        if(!this.state.username) {
+            router.push('/');
+            return;
+        }
         // this.socket.emit('join', {
         //     room_id: this.state.roomId,
         //     user: this.state.username

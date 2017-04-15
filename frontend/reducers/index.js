@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 const initialState = {
-    username: "",
+    username: null,
     isInstructor: null,
     roomId: null,
     socket: null,
@@ -16,6 +16,7 @@ const index = (state = initialState, action) => {
             return state;
         case 'LOGOUT':
             state = initialState;
+            console.log('leaveroom: user ' + state.username + ', room_id: ' + state.roomId);
             state.socket.emit('leaveroom', {user: state.username, room_id: state.roomId});
             return state;
         case 'JOINROOM':
