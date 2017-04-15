@@ -152,8 +152,8 @@ io.on('connection', function (socket) {
         socket.disconnect(true);
     })
 
-    socket.on('disconnect', function() {
-        console.log('disconnect!');
+    socket.on('disconnect', function(data) {
+        console.log('disconnect!' + data);
         socket.disconnect(true);
     })
 });

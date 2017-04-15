@@ -28,8 +28,8 @@ export default class AddClass extends React.Component {
                 this.setState({'quizzes': success}, function after() {
                     console.log(this.state.quizzes);
                     var quizzes = this.state.quizzes;
-                    var quizlist = quizzes.map((quiz) =>
-                        <Button bsStyle="primary" name={quiz} onClick={this.postQuiz}>{quiz}</Button>);
+                    var quizlist = quizzes.map((quiz, i) =>
+                        <Button key={i} bsStyle="primary" name={quiz} onClick={this.postQuiz}>{quiz}</Button>);
                     this.setState({'quizitems': quizlist});
                 });
             }.bind(this),
