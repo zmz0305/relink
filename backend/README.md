@@ -3,7 +3,9 @@
 ## configure
 
 python manager.py makemigrations
+
 python manager.py migrate
+
 python manager.py runser
 
 Home Page
