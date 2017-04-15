@@ -11,16 +11,23 @@ export default class Room extends React.Component {
         super(props);
 
         const storeState = store.getState();
-        this.state = {anonymous: false, roomId: storeState.roomId, username: storeState.username, messages: [], message: '', counter: 0};
+        this.state = {
+            anonymous: false,
+            roomId: storeState.roomId,
+            username: storeState.username,
+            isInstructor:storeState.isInstructor,
+            messages: [], message: '', counter: 0
+        };
         this.socket = storeState.socket;
         const router = this.props.router;
-
-        this.onSubmit = this.onSubmit.bind(this);
-        this.setValue = this.setValue.bind(this);
-        this.setAnonymous = this.setAnonymous.bind(this);
     }
 
     componentDidMount() {
+        this.exitRoom = this.exitRoom.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.setValue = this.setValue.bind(this);
+        this.setAnonymous = this.setAnonymous.bind(this);
+
         const router = this.props.router;
         if(!this.state.username) {
             router.push('/');
@@ -61,6 +68,14 @@ export default class Room extends React.Component {
 
     }
 
+    exitRoom() {
+        console.log('exit room');
+        if(this.state.isInstructor) {
+            this.props.router.push('/instructor');
+        } else {
+            this.props.router.push('/student');
+        }
+    }
     setValue(event) {
         this.setState({[event.target.name]: event.target.value});
     }
@@ -72,7 +87,6 @@ export default class Room extends React.Component {
     render() {
         var messages = [];
         for (var i = 0; i < this.state.messages.length; i++) {
-            console.log('anonymous: ', this.state.messages[i])
             if(this.state.messages[i].anonymous == 'true') {
                 messages.push(<h4 key={i}>{'Anonymous'}:
                     {this.state.messages[i].message}</h4>);
@@ -89,6 +103,7 @@ export default class Room extends React.Component {
                     <input type="checkbox" checked={this.state.anonymous} onClick={this.setAnonymous}/> Anonymous<br/>
                     <Button bsStyle="primary" type="submit">Send Message</Button>
                 </form>
+                <button onClick={this.exitRoom}>Exit Room</button>
                 <br/>
                 {messages}
             </div>
