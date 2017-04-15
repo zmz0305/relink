@@ -6,29 +6,242 @@
 [33m[nodemon] to restart at any time, enter `rs`[39m
 [33m[nodemon] watching: *.*[39m
 [32m[nodemon] starting `node ./app.js`[39m
-Incomming connection from: T1_Hqy1qktT5x4UBAAAA
-Incomming connection from: eDrE5JekVqxGACidAAAB
-new join
-{ room_id: null, user: '' }
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node ./app.js`[39m
-Incomming connection from: ZBPKR7TX4CNKUfXSAAAA
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node ./app.js`[39m
-Incomming connection from: ZZhQisUKeRX51klBAAAA
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node ./app.js`[39m
-Incomming connection from: itgHxAmAD7F5WFftAAAA
-Incomming connection from: 6wquKGDe61oKUZ3EAAAB
-new join:  { room_id: '12', user: '1.1@1.com' }
-room_id: 12
-found! { _id: 58e947d70bdcbb479db4c756,
-  room_id: '12',
+Incomming connection from: x3I27DdG89OVlBfsAAAA
+socketio logout:  { user: '1.1@1.com', room_id: null }
+disconnect!
+Incomming connection from: sLFjOqut41t7ERmVAAAB
+disconnect!
+Incomming connection from: x2huW7XcI8gPU1wnAAAC
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
   room_name: '',
-  room_user: [],
-  createdAt: 2017-04-08T20:27:26.001Z }
--1
-user not in room
-[0mPOST /sock/send [33m404 [0m17.847 ms - 61[0m
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:15:26.425Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', x2huW7XcI8gPU1wnAAAC: 'x2huW7XcI8gPU1wnAAAC' }
+socketio logout:  { user: '1.1@1.com', room_id: '1' }
+disconnect!
+Incomming connection from: 6o6sIOr_0-CV4cNWAAAD
+disconnect!
+Incomming connection from: htXI8Z45jbkXDKalAAAE
+socketio logout:  { user: '1.1@1.com', room_id: null }
+disconnect!
+Incomming connection from: D93XrBwj8-ieooCMAAAF
+new join:  { room_id: '3', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '3', user: '1.1@1.com' }
+room data:  { _id: 58f273c90bdcbb9e91115220,
+  room_id: '3',
+  room_name: '',
+  room_user: [ { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:15:26.425Z }
+try to find user:  1.1@1.com
+0
+{ '3': '3', 'D93XrBwj8-ieooCMAAAF': 'D93XrBwj8-ieooCMAAAF' }
+disconnect!
+Incomming connection from: BHHtX_mRan1Pf8xDAAAG
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:15:26.425Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', BHHtX_mRan1Pf8xDAAAG: 'BHHtX_mRan1Pf8xDAAAG' }
+disconnect!
+Incomming connection from: 1honTCX4rVQTM1IWAAAH
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node ./app.js`[39m
+Incomming connection from: S3E-by4SpD-yjgCFAAAA
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node ./app.js`[39m
+Incomming connection from: Aprhob9HalOL5S9ZAAAA
+disconnect!transport close
+Incomming connection from: QSx-ks8qO9sbxrM9AAAB
+disconnect!transport close
+Incomming connection from: 4nI9cqjdIxUjIfrWAAAC
+new join:  { room_id: '2', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '2', user: '1.1@1.com' }
+room data:  { _id: 58e95ea70bdcbb08aa440aae,
+  room_id: '2',
+  room_name: '',
+  room_user: [ { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+0
+{ '2': '2', '4nI9cqjdIxUjIfrWAAAC': '4nI9cqjdIxUjIfrWAAAC' }
+[0mGET / [36m304 [0m3.845 ms - -[0m
+[0mGET /bower_components/jquery/dist/jquery.min.js [33m404 [0m359.463 ms - 1917[0m
+Incomming connection from: dolLWyzuSgVxI8yyAAAD
+[0mGET /favicon.ico [33m404 [0m39.139 ms - 1917[0m
+{ my: 'data' }
+disconnect!transport close
+Incomming connection from: UbVPWjpI4-JBDjkUAAAE
+new join:  { room_id: '1', user: '2.2@2.com' }
+dbCheckRoom:  { room_id: '1', user: '2.2@2.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  2.2@2.com
+0
+{ '1': '1', 'UbVPWjpI4-JBDjkUAAAE': 'UbVPWjpI4-JBDjkUAAAE' }
+{ message: '111',
+  room_id: '1',
+  user: '2.2@2.com',
+  anonymous: 'false' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  2.2@2.com
+0
+[0mPOST /sock/send [32m200 [0m23.018 ms - 41[0m
+Incomming connection from: gcKvz3m3FeRfGQJ2AAAF
+disconnect!transport close
+disconnect!transport close
+disconnect!transport close
+Incomming connection from: NiU_3h49gZJiDG2MAAAG
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', NiU_3h49gZJiDG2MAAAG: 'NiU_3h49gZJiDG2MAAAG' }
+disconnect!transport close
+Incomming connection from: eYjcSmP9zni46XAjAAAH
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', eYjcSmP9zni46XAjAAAH: 'eYjcSmP9zni46XAjAAAH' }
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', eYjcSmP9zni46XAjAAAH: 'eYjcSmP9zni46XAjAAAH' }
+disconnect!transport close
+Incomming connection from: znsbmprQ0ghhcdtPAAAI
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', znsbmprQ0ghhcdtPAAAI: 'znsbmprQ0ghhcdtPAAAI' }
+disconnect!transport close
+Incomming connection from: yua7HUyPg5rLzOzXAAAJ
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', yua7HUyPg5rLzOzXAAAJ: 'yua7HUyPg5rLzOzXAAAJ' }
+disconnect!transport close
+Incomming connection from: -qMjFGV8BVaD1I4tAAAK
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', '-qMjFGV8BVaD1I4tAAAK': '-qMjFGV8BVaD1I4tAAAK' }
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', '-qMjFGV8BVaD1I4tAAAK': '-qMjFGV8BVaD1I4tAAAK' }
+{ message: '111',
+  room_id: '1',
+  user: '1.1@1.com',
+  anonymous: 'false' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+[0mPOST /sock/send [32m200 [0m2.843 ms - 41[0m
+disconnect!transport close
+Incomming connection from: i-NvwNGlwFw96darAAAL
+new join:  { room_id: '1', user: '1.1@1.com' }
+dbCheckRoom:  { room_id: '1', user: '1.1@1.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+{ '1': '1', 'i-NvwNGlwFw96darAAAL': 'i-NvwNGlwFw96darAAAL' }
+{ message: '123',
+  room_id: '1',
+  user: '1.1@1.com',
+  anonymous: 'false' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  1.1@1.com
+1
+[0mPOST /sock/send [32m200 [0m3.296 ms - 41[0m
+Incomming connection from: ldimdVfd4q6VskzMAAAM
+new join:  { room_id: '1', user: '2.2@2.com' }
+dbCheckRoom:  { room_id: '1', user: '2.2@2.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  2.2@2.com
+0
+{ '1': '1', ldimdVfd4q6VskzMAAAM: 'ldimdVfd4q6VskzMAAAM' }
+new join:  { room_id: '1', user: '2.2@2.com' }
+dbCheckRoom:  { room_id: '1', user: '2.2@2.com' }
+room data:  { _id: 58e95d110bdcbb0100606893,
+  room_name: '',
+  room_id: '1',
+  room_user: [ { user_id: '2.2@2.com' }, { user_id: '1.1@1.com' } ],
+  createdAt: 2017-04-15T19:34:54.610Z }
+try to find user:  2.2@2.com
+0
+{ '1': '1', ldimdVfd4q6VskzMAAAM: 'ldimdVfd4q6VskzMAAAM' }
+socketio logout:  { user: '2.2@2.com', room_id: '1' }
+disconnect!server namespace disconnect
