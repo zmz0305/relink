@@ -217,12 +217,27 @@ def create_quiz(request):
     if current_user.groups.filter(name="instructor").exists():
         user_folder = os.path.join(quiz_dir, str(current_user.id))
         ensure_dir(user_folder)
+        quizfolder = os.path.join(user_folder, "questions")
+        answerfolder = os.path.join(user_folder, "answers")
+        ensure_dir(quizfolder)
+        ensure_dir(answerfolder)
+
         try:
-            quiz_name = request.POST['quizname']
-            quiz_file_name = os.path.join(quiz_dir, str(current_user.id), quiz_name)
-            quiz_content = request.POST['quiz']
+            question =  request.POST['questions']
+            quiz = json.dumps(question)
+            json_quiz = json.loads(json.loads(quiz))
+            quiz_name = json_quiz['quizname']
+            quiz_content = json.dumps(json_quiz['quiz'])
+
+            quiz_file_name = os.path.join(quizfolder, quiz_name)
             with open(quiz_file_name, 'w') as quiz_file:
                 quiz_file.write(quiz_content)
+
+            answers = request.POST['answers']
+            answers_file_name = os.path.join(answerfolder, quiz_name)
+            with open(answers_file_name, 'w') as answer_file:
+                answer_file.write(answers)
+
             return HttpResponse(quiz_file_name)
         except KeyError:
             return HttpResponse("Please check if quiz field exists", status=500)
@@ -268,6 +283,8 @@ def post_quiz(request):
             return HttpResponse("Please check the quizid is valid", status=500)
     except KeyError:
         return HttpResponse("Please check if quizid field exists", status=500)
+
+
 
 
 @csrf_exempt
