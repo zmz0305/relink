@@ -102,6 +102,15 @@ def login_view(request):
 #@login_required
 @csrf_exempt
 def logout_view(request):
+    mongo_user_id = str(request.user.username)
+    mongo_user = {"user_id": mongo_user_id}
+    for room in db.rooms.find():
+        users = room['room_user']
+        #print users
+        if mongo_user in users:
+            users.remove(mongo_user)
+            db.rooms.save(room)
+        #print "after remove: ",users
     logout(request)
     return HttpResponse("user get logout")
 
@@ -176,12 +185,16 @@ def send_message(request):
     try:
         roomid = request.POST['room_id']
     except KeyError:
-        return HttpResponse('missing room_id in request')
+        return HttpResponse('Missing room_id in request')
     try:
         msg = request.POST['message']
     except KeyError:
-        return HttpResponse('Please check message')
-    data = {"message": str(msg), "user": str(request.user.username), "room_id": str(roomid)}
+        return HttpResponse('Missing message in request')
+    try:
+        anon = request.POST['anonymous']
+    except KeyError:
+        return HttpResponse('Missing anonymous information in request')
+    data = {"message": str(msg), "user": str(request.user.username), "room_id": str(roomid), "anonymous": anon}
     url = chat_service_url+"sock/send"
     print(url)
     response = requests.post(url, data=data)

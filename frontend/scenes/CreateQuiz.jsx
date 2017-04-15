@@ -2,66 +2,74 @@ import React from 'react';
 import store from '../main.js'
 import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl } from 'react-bootstrap'
 import QuizQuestionTemplate from '../components/QuizQuestionTemplate.jsx'
+import { createStore } from 'redux';
+import quiz from '../reducers/quiz.js';
 var ajax = require('../components/AjaxCall.jsx');
 
-export default class CreateQuiz extends React.Component {
+var quizStore = createStore(quiz);
+
+class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {questionCount: 1, questions: [null]};
-    /*const quiz = store.getState();
-    if(quiz.quizName!=''){
-      ajax("POST", "/accounts/postquiz", {"quizname": quiz.quizName ,"instructor_id": quiz.username},
-      function(success) {
-        console.log(success);      
-      },
-      function(error) {
-        console.log(error);
-      }
-    );
-    } */
-    this.setValue = this.setValue.bind(this);
+      // ajax("POST", "/accounts/postquiz", {"quizname": quiz.quizName ,"instructor_id": quiz.username},
+      // function(success) {
+      //   console.log(success);  
+      //   var quiz = JSON.parse(success)['questions'];
+      //   self.setState({'questionCount' : quiz.length+1})
+      //   self.setState({'questionsHTML': quiz});
+      // },
+      // function(error) {
+      //   console.log(error);
+      // }
+    this.state = {questionCount: 1, quizName: ''};
+
+    quizStore.subscribe(() => {
+      var state = quizStore.getState()
+      this.setState({
+        quizName: state.quizName,
+        questionCount: state.questions.length
+      })
+    });
+
+    this.setQuizName = this.setQuizName.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.saveQuiz = this.saveQuiz.bind(this);
   }
 
-  setValue(event) {
-    this.setState({[event.target.name]: event.target.value});
-  }
-
-  setQuestion(index, question) {
-    var newArray = this.state.questions.slice();
-    newArray[index] = question;
-    this.setState({questions: newArray});
+  setQuizName(event) {
+    quizStore.dispatch({
+      type: 'SETQUIZNAME',
+      quizName: event.target.value
+    })
   }
 
   addQuestion() {
-    var newArray = this.state.questions.concat([null]);
-		this.setState({questionCount: this.state.questionCount + 1, questions: newArray});
+    quizStore.dispatch({
+      type: 'ADDQUESTION'
+    })
 	}
 
 	removeQuestion() {
-		if (this.state.questionCount != 1) {
-      var newArray = this.state.questions.slice(0,-1)
-			this.setState({questionCount: this.state.questionCount - 1, questions: newArray});
-    }
+		quizStore.dispatch({
+      type: 'DELETEQUESTION'
+    })
 	}
 
   saveQuiz() {
-    console.log(this.state);
+    console.log(quizStore.getState())
   }
 
   render() {
     var questions = [];
     for (var i = 0; i < this.state.questionCount; i++) {
-      questions.push(<QuizQuestionTemplate questionCount={i} name={"question" + i} key={i} onChange={this.setQuestion} />);
+      questions.push(<QuizQuestionTemplate questionCount={i} name={"question" + i} key={i} />);
     }
-
+    
     return (
        <div>
           <PageHeader>Create a quiz!</PageHeader>
-          <FormControl bsSize="lg" type="text" placeholder="Quiz Title"  />
-
+          <FormControl bsSize="lg" type="text" value={this.quizName} name="quizName" placeholder="Quiz Name" onChange={this.setQuizName} />
   		    {questions}
   		    <Col smOffset={5} sm={5}>
   	        <Button bsStyle="primary" onClick={this.removeQuestion} >
@@ -76,3 +84,5 @@ export default class CreateQuiz extends React.Component {
     ); 
   }
 };
+
+export {quizStore, CreateQuiz}
