@@ -140,7 +140,7 @@ accounts/createquiz
 POST request to send a quiz to backend for authentication
 
 ```
-{
+question: {
         "quiz": {
 	        "questions": [
                         {
@@ -157,7 +157,7 @@ POST request to send a quiz to backend for authentication
         "quizname": "somename"
 }
 
-{
+answers: {
 	"quizname": "somename",
 	answers: [0,1]
 }
