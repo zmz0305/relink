@@ -63,6 +63,7 @@ export default class AddClass extends React.Component {
 
     postQuiz(event) {
         this.setState({'quiz': event.target.name}, function after() {
+            console.log(this.state.quiz);
             store.dispatch({type: 'EDITQUIZ', quizName: this.state.quiz});
             this.props.router.push('/createQuiz');
         });
