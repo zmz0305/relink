@@ -22,7 +22,19 @@ export default class AddClass extends React.Component {
 
         ajax("POST", "/accounts/listquiz", {},
             function (success) {
+<<<<<<< HEAD
                 this.setState({'quizNames': JSON.parse(success)});
+=======
+                console.log(success);
+                var success = JSON.parse(success);
+                this.setState({'quizzes': success}, function after() {
+                    console.log(this.state.quizzes);
+                    var quizzes = this.state.quizzes;
+                    var quizlist = quizzes.map((quiz, i) =>
+                        <Button key={i} bsStyle="primary" name={quiz} onClick={this.postQuiz}>{quiz}</Button>);
+                    this.setState({'quizitems': quizlist});
+                });
+>>>>>>> 52034835b9800e5c0bbdbb28950161bdd0ee8ce7
             }.bind(this),
             function (error) {
                 console.log(error);
