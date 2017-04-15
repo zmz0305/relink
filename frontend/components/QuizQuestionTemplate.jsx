@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormGroup, FormControl, Col, Button } from 'react-bootstrap'
 import AnswerInput from './AnswerInput.jsx'
+import { quizStore } from '../scenes/CreateQuiz.jsx'
 
 export default class QuizQuestionTemplate extends React.Component {
 	constructor(props) {
@@ -10,45 +11,54 @@ export default class QuizQuestionTemplate extends React.Component {
 		this.setAnswers = this.setAnswers.bind(this);
 		this.setValue = this.setValue.bind(this);
 
-		this.state = { count: 2, question:"hi", answers: [null, null], correct: 0 }
+		this.state = { count: 2,  question: '' }
+
+		const questionCount = this.props.questionCount
+		quizStore.subscribe(() => {
+			var state = quizStore.getState()
+			this.setState({
+				count: state.questions[questionCount].answers.length,
+				question: state.questions[questionCount].question
+			})
+		});
 	}
 
 	addAnswer() {
-		this.setState({count: this.state.count + 1});
+		quizStore.dispatch({
+			type: 'ADDANSWER',
+			questionCount: this.props.questionCount
+		})
 	}
 
 	removeAnswer() {
-		if (this.state.count != 2)
-			this.setState({count: this.state.count - 1});
+		quizStore.dispatch({
+			type: 'REMOVEANSWER',
+			questionCount: this.props.questionCount
+		})
 	}
 	setAnswers(answers){
 		this.setState({count: answers});
 	}
 	setValue(event) {
-    this.setState({[event.target.name]: event.target.value});
+    quizStore.dispatch({
+    	type: 'UPDATEQUESTION',
+    	questionCount: this.props.questionCount,
+    	question: event.target.value
+    })
   }
 
 	render() {
-		const { name, onChange, questionCount, question, savedAnswers, correctAnswer } = this.props;
+		const { questionCount } = this.props;
+
 		var answers = [
-  		<AnswerInput key={0} name={name} checked={true} onChange={onChange} value=''/>
-		]; 
-		savedAnswersHTML ='';
-		if(savedAnswers!=''){
-			var savedAnswersHTML =  savedAnswers.map(function(name, index){
-					if(index==correctAnswer)
-                    	return <AnswerInput key={index} name={name} checked='true' value={name} onChange={onChange}/>;
-                    else
-                    	return <AnswerInput key={index} name={name} checked='false' value={name} onChange={onChange}/>;
-			  });
-		 }
+  		<AnswerInput key={0} questionCount={questionCount} answerCount={0}  checked={true} />
+		];
 		for (var i = 1; i < this.state.count; i++) {
-  		answers.push(<AnswerInput key={i} name={name} checked={false} onChange={onChange} value=''/>);
-		} 
-		 
+  		answers.push(<AnswerInput key={i} questionCount={questionCount} answerCount={i} />);
+		}
 
 		return (
-			<FormGroup style={{marginBottom: '1cm'}} onChange={() => onChange(0, this.state)}>
+			<FormGroup style={{marginBottom: '1cm'}}>
 				<h3>Question {questionCount + 1} :</h3>
 				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?" value={question} />
 				{savedAnswersHTML}

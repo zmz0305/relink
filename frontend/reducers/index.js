@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 
-
 const initialState = {
     username: "",
     isInstructor: null,
@@ -8,7 +7,7 @@ const initialState = {
     socket: null,
 }
 
-const inc = (state = initialState, action) => {
+const index = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
             state.username = action.username;
@@ -35,4 +34,4 @@ const inc = (state = initialState, action) => {
     }
 }
 
-export default inc;
+export default index;

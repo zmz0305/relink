@@ -4,16 +4,16 @@ import { Router, Route, hashHistory } from 'react-router'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import inc from './reducers/index.js';
+import index from './reducers/index.js';
 import Home from './scenes/Home.jsx';
 import Login from './scenes/Login.jsx';
 import Register from './scenes/Register.jsx';
 import Student from './scenes/Student.jsx';
 import Instructor from './scenes/Instructor.jsx';
 import Room from './scenes/Room.jsx';
-import CreateQuiz from './scenes/CreateQuiz.jsx'
+import {CreateQuiz} from './scenes/CreateQuiz.jsx'
 
-const store = createStore(inc);
+const store = createStore(index);
 export default store;
 
 ReactDOM.render(
