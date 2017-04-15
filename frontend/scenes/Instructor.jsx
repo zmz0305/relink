@@ -22,19 +22,7 @@ export default class AddClass extends React.Component {
 
         ajax("POST", "/accounts/listquiz", {},
             function (success) {
-<<<<<<< HEAD
                 this.setState({'quizNames': JSON.parse(success)});
-=======
-                console.log(success);
-                var success = JSON.parse(success);
-                this.setState({'quizzes': success}, function after() {
-                    console.log(this.state.quizzes);
-                    var quizzes = this.state.quizzes;
-                    var quizlist = quizzes.map((quiz, i) =>
-                        <Button key={i} bsStyle="primary" name={quiz} onClick={this.postQuiz}>{quiz}</Button>);
-                    this.setState({'quizitems': quizlist});
-                });
->>>>>>> 52034835b9800e5c0bbdbb28950161bdd0ee8ce7
             }.bind(this),
             function (error) {
                 console.log(error);
@@ -82,9 +70,10 @@ export default class AddClass extends React.Component {
                 router.push('/room');
             },
             function(error) {
+                this.setState({error: 'Error join room, make sure this room exists.'});
                 console.log(JSON.stringify(error) + " error");
             }
-        )
+        ).bind(this)
     }
 
     setValue(event) {
@@ -105,6 +94,7 @@ export default class AddClass extends React.Component {
                 <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
                 <br />
                 <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
+                <div>{this.state.error}</div>
                 <h3>Saved Quizzes</h3>
                 {quizList}
             </div>
