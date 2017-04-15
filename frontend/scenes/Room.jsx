@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import store from '../main.js'
 import LabelInput from '../components/LabelInput.jsx';
 import {Button} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
 var ajax = require('../components/AjaxCall.jsx');
 // let socket = io('http://localhost:3000');
 
@@ -86,15 +87,27 @@ export default class Room extends React.Component {
 
     render() {
         var messages = [];
+        var colors = ['#FBFCFC', '#FFFFFF'];
         for (var i = 0; i < this.state.messages.length; i++) {
+            var color = colors[i%2];
+            var style = {backgroundColor: color, margin: '0px', padding:'5px'};
             if(this.state.messages[i].anonymous == 'true') {
-                messages.push(<h4 key={i}>{'Anonymous'}:
+                messages.push(<h4 style={style} key={i}>{'Anonymous'}:
                     {this.state.messages[i].message}</h4>);
             } else {
-                messages.push(<h4 key={i}>{this.state.messages[i].user}:
+                messages.push(<h4 style={style} key={i}>{this.state.messages[i].user}:
                     {this.state.messages[i].message}</h4>);
             }
         }
+        const styleDiv = {
+            backgroundColor: '#FBFCFC',
+            width: '100%',
+            height: '50%',
+            borderColor: '#4682b4',
+            borderWidth: 1,
+            marginTop:'10px',
+            borderStyle: 'solid'
+          }; 
 
         return (
             <div>
@@ -105,7 +118,9 @@ export default class Room extends React.Component {
                 </form>
                 <button onClick={this.exitRoom}>Exit Room</button>
                 <br/>
+                <div>
                 {messages}
+                </div>
             </div>
         );
     }
