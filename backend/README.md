@@ -1,6 +1,6 @@
 # Relink_backend
 
-##configure
+## configure
 
 python manager.py makemigrations
 python manager.py migrate
