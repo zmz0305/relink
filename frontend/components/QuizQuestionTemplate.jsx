@@ -8,7 +8,6 @@ export default class QuizQuestionTemplate extends React.Component {
 		super(props);
 		this.addAnswer = this.addAnswer.bind(this);
 		this.removeAnswer = this.removeAnswer.bind(this);
-		this.setAnswers = this.setAnswers.bind(this);
 		this.setValue = this.setValue.bind(this);
 
 		this.state = { count: 2,  question: '' }
@@ -35,9 +34,7 @@ export default class QuizQuestionTemplate extends React.Component {
 			type: 'REMOVEANSWER',
 			questionCount: this.props.questionCount
 		})
-	}
-	setAnswers(answers){
-		this.setState({count: answers});
+
 	}
 	setValue(event) {
     quizStore.dispatch({
@@ -60,8 +57,7 @@ export default class QuizQuestionTemplate extends React.Component {
 		return (
 			<FormGroup style={{marginBottom: '1cm'}}>
 				<h3>Question {questionCount + 1} :</h3>
-				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?" value={question} />
-				{savedAnswersHTML}
+				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?" value={this.state.question} />
 				{answers}
 				<Col smOffset={5} sm={5}>
 	        <Button bsStyle="primary" onClick={this.removeAnswer} >

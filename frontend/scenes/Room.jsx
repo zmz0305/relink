@@ -12,6 +12,7 @@ export default class Room extends React.Component {
         super(props);
 
         const storeState = store.getState();
+
         this.state = {
             anonymous: false,
             roomId: storeState.roomId,

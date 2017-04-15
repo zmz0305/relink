@@ -17,13 +17,6 @@ export default class Login extends React.Component {
         this.state = {username: '', password: ''};
         this.onSubmit = this.onSubmit.bind(this);
         this.setValue = this.setValue.bind(this);
-
-        // store.subscribe(() => {
-        //   // When state will be updated(in our case, when items will be fetched), we will update local component state and force component to rerender with new data.
-        //   this.setState({
-        //     username: store.getState().username
-        //   });
-        // });
     }
 
     onSubmit(event) {
