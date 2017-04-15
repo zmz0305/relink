@@ -8,14 +8,15 @@ var ajax = require('../components/AjaxCall.jsx');
 export default class AddClass extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {roomId:'', quizzes: [], quizitems: [], quiz: ''};
-        const userObj = store.getState();
-        if (userObj.username == "" || userObj.isInstructor == false) {
-            this.props.router.push('/');
-        }
+        this.state = {roomId:'', quizzes: [], quizitems: [], quiz: '', error: ''};
+
     }
 
     componentDidMount () {
+        const userObj = store.getState();
+        if (!userObj.username || userObj.isInstructor == false) {
+            this.props.router.push('/');
+        }
         this.createClass = this.createClass.bind(this);
         this.createQuiz = this.createQuiz.bind(this);
         this.postQuiz = this.postQuiz.bind(this);
@@ -80,9 +81,10 @@ export default class AddClass extends React.Component {
                 router.push('/room');
             },
             function(error) {
+                this.setState({error: 'Error join room, make sure this room exists.'});
                 console.log(JSON.stringify(error) + " error");
             }
-        )
+        ).bind(this)
     }
 
     setValue(event) {
@@ -99,6 +101,7 @@ export default class AddClass extends React.Component {
                 <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
                 <br />
                 <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
+                <div>{this.state.error}</div>
                 <h3>Saved Quizzes</h3>
                 {this.state.quizitems}
             </div>
