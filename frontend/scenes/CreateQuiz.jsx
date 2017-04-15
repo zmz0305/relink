@@ -4,6 +4,7 @@ import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl 
 import QuizQuestionTemplate from '../components/QuizQuestionTemplate.jsx'
 import { createStore } from 'redux';
 import quiz from '../reducers/quiz.js'
+
 var ajax = require('../components/AjaxCall.jsx');
 
 var quizStore = createStore(quiz);
@@ -11,7 +12,6 @@ var quizStore = createStore(quiz);
 class CreateQuiz extends React.Component {
   constructor(props) {
     super(props);
-
     var state = store.getState()
     console.log(state)
     if(state.quizName != '') {
@@ -23,6 +23,7 @@ class CreateQuiz extends React.Component {
         console.log(error);
       })
     }
+
     this.state = {questionCount: 1, quizName: ''};
 
     quizStore.subscribe(() => {
