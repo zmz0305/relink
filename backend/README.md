@@ -140,7 +140,7 @@ accounts/createquiz
 POST request to send a quiz to backend for authentication
 
 ```
-question: {
+questions: {
         "quiz": {
 	        "questions": [
                         {
