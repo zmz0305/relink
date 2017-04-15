@@ -145,18 +145,21 @@ POST request to send a quiz to backend for authentication
 	        "questions": [
                         {
                                 "question": "Some question",
-                                "answers": ["Answer 1", "Answer 2", "Anwser 3"],
-                                "correct": 0
+                                "answers": ["Answer 1", "Answer 2", "Anwser 3"]
                         },
                         {
                                 "question": "Some question",
-                                "answers": ["Answer 1", "Answer 2", "Anwser 3"],
-                                "correct": 1
+                                "answers": ["Answer 1", "Answer 2", "Anwser 3"]
                         }
 	        ]
         },
 
         "quizname": "somename"
+}
+
+{
+	"quizname": "somename",
+	answers: [0,1]
 }
 
 ```
