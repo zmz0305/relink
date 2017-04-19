@@ -6,7 +6,9 @@ python manage.py makemigrations
 
 python manage.py migrate
 
-python manage.py runser
+python manage.py runserver
+
+## API document
 
 Home Page
 
