@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import store from '../main.js'
 import LabelInput from '../components/LabelInput.jsx';
 import {Button} from 'react-bootstrap'
-import {Col} from 'react-bootstrap'
+import {Col, ListGroup, ListGroupItem, FormControl, FormGroup, Checkbox, Jumbotron, Row} from 'react-bootstrap'
 var ajax = require('../components/AjaxCall.jsx');
 // let socket = io('http://localhost:3000');
 
@@ -54,20 +54,20 @@ export default class Room extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
-
         const roomId = this.state.roomId;
         const message = this.state.message;
         const anon = this.state.anonymous;
-        ajax("POST", "/accounts/message",
-            {room_id: roomId, message: message, anonymous: anon},
-            function (success) {
-                console.log(success);
-            },
-            function (error) {
-                console.log(error)
-            }
-        );
-
+        if(message!=''){
+            ajax("POST", "/accounts/message",
+                {room_id: roomId, message: message, anonymous: anon},
+                function (success) {
+                    console.log(success);
+                },
+                function (error) {
+                    console.log(error)
+                }
+            );
+        }
     }
 
     exitRoom() {
@@ -92,36 +92,57 @@ export default class Room extends React.Component {
         for (var i = 0; i < this.state.messages.length; i++) {
             var color = colors[i%2];
             var style = {backgroundColor: color, margin: '0px', padding:'5px'};
-            if(this.state.messages[i].anonymous == 'true') {
-                messages.push(<h4 style={style} key={i}>{'Anonymous'}:
-                    {this.state.messages[i].message}</h4>);
-            } else {
-                messages.push(<h4 style={style} key={i}>{this.state.messages[i].user}:
-                    {this.state.messages[i].message}</h4>);
+            if(this.state.messages[i].anonymous == 'true'){
+                messages.push(<ListGroupItem style={style} key={i}>{'Anonymous'}:{this.state.messages[i].message}</ListGroupItem>);
+            }
+            else{
+                 messages.push(<ListGroupItem style={style} key={i}>{this.state.messages[i].user}:{this.state.messages[i].message}</ListGroupItem>);
             }
         }
+        const styleChat = {
+            height: '500px',
+            width: '95%',
+            backgroundColor:'#ffffff',
+            overflow:'scroll',
+            margin: 'auto',
+            top: '0px'
+        }
         const styleDiv = {
-            backgroundColor: '#FBFCFC',
-            width: '100%',
-            height: '50%',
-            borderColor: '#4682b4',
-            borderWidth: 1,
-            marginTop:'10px',
-            borderStyle: 'solid'
-          }; 
+            width: '95%',
+            margin: 'auto'
+        }
 
         return (
             <div>
-                <form onSubmit={this.onSubmit}>
-                    <LabelInput name="message" label="Message" type="text" onChange={this.setValue}/>
-                    <input type="checkbox" checked={this.state.anonymous} onClick={this.setAnonymous}/> Anonymous<br/>
-                    <Button bsStyle="primary" type="submit">Send Message</Button>
-                </form>
-                <button onClick={this.exitRoom}>Exit Room</button>
-                <br/>
-                <div>
+                <Jumbotron>
+                <div style={styleChat}>
+                <ListGroup>
                 {messages}
+                </ListGroup>
                 </div>
+                <br/>
+                <form onSubmit={this.onSubmit} style={styleDiv}>
+                    <FormGroup>
+                      <Row>
+                      <Col xs={12} md={8}>
+                      <FormControl type="text" name="message" type="text" onChange={this.setValue}/>
+                      </Col>
+                      <Col xs={6} md={4} >
+                      <Button bsStyle="primary" type="submit">Send Message</Button>
+                      </Col>
+                      </Row>
+                      <Row>
+                      <Col xs={6} md={4}>
+                        <Checkbox checked={this.state.anonymous} onClick={this.setAnonymous}>Anonymous</Checkbox>
+                      </Col>
+                      </Row>
+                    </FormGroup>
+                </form>
+                
+                <Col xs={2} xsOffset={10}>
+                <p><Button bsStyle="info" onClick={this.exitRoom}>Exit Room</Button></p>
+                </Col>
+                </Jumbotron>
             </div>
         );
     }
