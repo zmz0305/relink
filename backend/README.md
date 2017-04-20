@@ -176,7 +176,7 @@ answers: {
 New Format
 ```
 {
-	"questions": [
+	questions: [
 		{
 			"question": "Some question",
 			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
@@ -187,9 +187,9 @@ New Format
 		}
 	],
 
-        "quizname": "somename",
+        quizname: "somename",
 
-	answers: answers: [0,1]
+	answers: [0,1]
 }
 
 ```
