@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 const initialState = {
     username: null,
     isInstructor: null,
+    isStudent: null,
     roomId: null,
     socket: null,
 }
@@ -12,15 +13,27 @@ const index = (state = initialState, action) => {
         case 'LOGIN':
             state.username = action.username;
             state.isInstructor = action.isInstructor;
+            state.isStudent = !action.isInstructor;
             state.socket = io('http://localhost:3000');
+            action.router.push(state.isInstructor ? '/instructor' : '/student')
             return state;
         case 'LOGOUT':
-            state = initialState;
-            console.log('leaveroom: user ' + state.username + ', room_id: ' + state.roomId);
-            state.socket.emit('leaveroom', {user: state.username, room_id: state.roomId});
+            if (state.socket != null) {
+                state.socket.emit('leaveroom', {user: state.username, room_id: state.roomId});
+            }
+            state = {
+                username: null,
+                isInstructor: null,
+                isStudent: null,
+                roomId: null,
+                socket: null,
+            };
+            action.router.push('/')
             return state;
         case 'JOINROOM':
             state.roomId = action.roomId;
+            console.log(action.roomId)
+            console.log(state)
             state.socket.emit('join', {
                 room_id: state.roomId,
                 user: state.username
@@ -30,7 +43,6 @@ const index = (state = initialState, action) => {
             state.quizName = action.quizName;
             return state;
         default:
-            console.log(action);
             return state;
     }
 }

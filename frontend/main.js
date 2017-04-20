@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
-import { createStore } from 'redux';
+import { createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
+import { autoRehydrate } from 'redux-persist'
 
 import index from './reducers/index.js';
 import Home from './scenes/Home.jsx';
@@ -13,7 +14,8 @@ import Instructor from './scenes/Instructor.jsx';
 import Room from './scenes/Room.jsx';
 import {CreateQuiz} from './scenes/CreateQuiz.jsx'
 
-const store = createStore(index);
+// const store = compose(autoRehydrate())(createStore)(index)
+const store = createStore(index)
 export default store;
 
 ReactDOM.render(

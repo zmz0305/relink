@@ -1,14 +1,32 @@
 import React from 'react';
 import store from '../main.js'
-import { Button, Nav, Navbar, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
-import { Route, RouteHandler, Link } from 'react-router';
+import { Nav, Navbar } from 'react-bootstrap';
+import NavButton from '../components/NavButton.jsx'
+import { persistStore } from 'redux-persist'
+import LandingPage from '../components/LandingPage.jsx'
 var ajax = require('../components/AjaxCall.jsx');
 
 export default class Home extends React.Component{
-   constructor(props) {
+    constructor(props) {
       super(props);
+      this.state = {userState: 'out'}
       this.navigate = this.navigate.bind(this);
       this.logout = this.logout.bind(this);
+
+      this.unsubscribe = store.subscribe(function() {
+        var state = store.getState()
+        console.log(state)
+        if (state.username != null) {
+          var currState = state.isInstructor ? 'instructor' : 'student';
+          this.setState({userState: currState})
+        } else {
+          this.setState({userState: 'out'})
+        }
+      }.bind(this))
+    }
+
+   componentWillUnmount() {
+    this.unsubscribe()
    }
 
    navigate(dst) {
@@ -20,8 +38,8 @@ export default class Home extends React.Component{
 
       ajax("POST", "/accounts/logout", {},
         function(success) {
-          store.dispatch({type: 'LOGOUT'});
-          router.push('/');
+          store.dispatch({type: 'LOGOUT', router: router});
+          persistStore(store).purge();
         },
         function(error) {
           console.log(error);
@@ -30,20 +48,25 @@ export default class Home extends React.Component{
    }
 
    render() {
-      const { value } = this.props
+      const { value, location } = this.props
       return (
-         <div>
-         <Nav bsStyle="pills">
-          <NavItem eventKey={1} onClick={() => {this.navigate('/')}}>Home</NavItem>
-          <NavItem eventKey={2} onClick={() => {this.navigate('/login')}}>Login</NavItem>
-          <NavItem eventKey={3} onClick={() => {this.navigate('/register')}}>Register</NavItem>
-          <NavItem eventKey={4} onClick={this.logout}>Logout</NavItem>
-        </Nav>
-        <div style={{marginLeft: '1in', marginRight: '1in'}}>
-               {this.props.children}
-         </div>
-         </div>
-
+        <div>
+          <Navbar>
+            <Navbar.Header>
+              <Navbar.Brand><a href="#">Relink</a></Navbar.Brand>
+            </Navbar.Header>
+            <Nav bsStyle="pills">
+              {this.state.userState === 'out' ? <NavButton dst='/login' label='Login' /> : null}
+              {this.state.userState === 'out' ? <NavButton dst='/register' label='Register' /> : null }
+              {this.state.userState === 'instructor' ? <NavButton dst='createQuiz' label='Create Quiz' /> : null }
+              {this.state.userState != 'out' ? <NavButton dst='/' label='Logout' onClick={this.logout} /> : null }
+            </Nav>
+          </Navbar>
+          <div style={{marginLeft: '1in', marginRight: '1in'}}>
+            {location.pathname === '/' ? <LandingPage /> : null}
+            {this.props.children}
+          </div>
+        </div>
       ); 
    }
 };

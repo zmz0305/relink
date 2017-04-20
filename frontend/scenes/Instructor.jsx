@@ -6,17 +6,13 @@ import {Grid} from 'react-bootstrap'
 import {Row} from 'react-bootstrap'
 import {Col} from 'react-bootstrap'
 import {Jumbotron} from 'react-bootstrap'
-var ajax = require('../components/AjaxCall.jsx');
 
+var ajax = require('../components/AjaxCall.jsx');
 
 export default class AddClass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {roomId:'', quizNames: []};
-        const userObj = store.getState();
-        if (userObj.username == "" || userObj.isInstructor == false) {
-            this.props.router.push('/');
-        }
 
         this.createClass = this.createClass.bind(this);
         this.createQuiz = this.createQuiz.bind(this);
@@ -36,13 +32,12 @@ export default class AddClass extends React.Component {
 
     createClass(event) {
         const username = store.getState().username;
-        const router = this.props.router;
 
         ajax("GET", "/accounts/newroom", {},
             function (success) {
                 store.dispatch({type: 'JOINROOM', roomId: success});
-                router.push('/room');
-            },
+                this.router.push('/room');
+            }.bind(this),
             function (error) {
                 console.log(error);
             }

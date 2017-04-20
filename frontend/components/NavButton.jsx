@@ -1,22 +1,25 @@
 import React from 'react';
+import { NavItem } from 'react-bootstrap';
+import { withRouter } from 'react-router'
 
-export default class NavButton extends React.Component {
+class NavButton extends React.Component {
 	constructor(props) {
 		super(props);
   	this.navigate = this.navigate.bind(this);
   }
 
-	navigate(dst, router) {
-		console.log(this.props);
-		router.push(dst);
+	navigate(dst) {
+		if (this.props.onClick != undefined) {
+			this.props.onClick()
+		}
+		this.props.router.push(dst);
 	}
 
 	render() {
-		const {dst, name, router} = this.props;
+		const { dst, label } = this.props;
 		return (
-			<div>
-				<button onClick={() => {this.navigate(dst, router)}}>{name}</button>
-			</div>
+			<NavItem onClick={() => this.navigate(dst)}>{label}</NavItem>
 		);
 	}
 }
+export default withRouter(NavButton);
