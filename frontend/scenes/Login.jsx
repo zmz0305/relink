@@ -58,7 +58,9 @@ export default class Login extends React.Component {
     }
 
     render() {
-
+        const soleRow = {
+          top : "25px"
+        }
         return (
           <Grid>
             <Row className="show-grid">
@@ -68,7 +70,7 @@ export default class Login extends React.Component {
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
                     <InputGroup>
-                      <Row className="show-grid">
+                      <Row className="show-grid" style = {soleRow}>
                       <Col sm={4}>
                         <FormControl name="username" label="Email/Username" type="text" onChange={this.setValue}/>
                       </Col>
