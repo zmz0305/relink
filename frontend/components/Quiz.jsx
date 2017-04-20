@@ -58,7 +58,23 @@ class Quiz extends React.Component {
 	}
 
 	saveQuiz() {
-    console.log(quizStore.getState())
+    const router = this.props.router;
+    var state = quizStore.getState()
+    console.log(state)
+
+    var data = {
+      "quiz": {"questions": state.questions},
+      "quizname": state.quizName,
+      answers: {answers:state.answers}
+    }
+    console.log(data)
+    ajax("POST", "/accounts/createquiz",data
+    , function(success) {
+      console.log(success)
+      router.push('/instructor')
+    }, function(error) {
+      console.log(error.responseText)
+    })
   }
 
   componentWillUnmount() {
