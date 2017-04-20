@@ -21,7 +21,7 @@ export default class Student extends React.Component {
         ajax("GET", "/accounts/classroom/" + roomId, null,
             function (success) {
                 store.dispatch({type: 'JOINROOM', roomId: roomId});
-                this.router.push('/room');
+                this.props.router.push('/room');
             }.bind(this),
             function (error) {
                 console.log(error);
