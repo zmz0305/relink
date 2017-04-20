@@ -26,15 +26,16 @@ export default class Login extends React.Component {
 
         ajax("POST", "/accounts/login", this.state,
             function (sucess) {
-                console.log(sucess)
-                if (sucess == "Student login") {
-                    store.dispatch(login(username, false));
-                    router.push('/student');
-                } else if (sucess == "Teacher login") {
-                    store.dispatch(login(username, true));
-                    router.push('/instructor');
-                } else if (sucess == "Authentication Failed") {
-                    alert("Authentication Failed");
+                if (sucess == "Authentication Failed") {
+                    alert("Authentication Failed")
+                } else {
+                    var isInstructor = sucess == "Teacher login";
+                    store.dispatch({
+                        type: 'LOGIN',
+                        username: username,
+                        isInstructor: isInstructor,
+                        router: router
+                    })
                 }
             },
             function (error) {

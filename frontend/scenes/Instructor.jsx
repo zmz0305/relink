@@ -1,18 +1,18 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
-import {Button, Accordion, Panel} from 'react-bootstrap'
-var ajax = require('../components/AjaxCall.jsx');
+import {Button} from 'react-bootstrap'
+import {Grid} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
+import {Jumbotron} from 'react-bootstrap'
 
+var ajax = require('../components/AjaxCall.jsx');
 
 export default class AddClass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {roomId:'', quizNames: []};
-        const userObj = store.getState();
-        if (userObj.username == "" || userObj.isInstructor == false) {
-            this.props.router.push('/');
-        }
 
         this.createClass = this.createClass.bind(this);
         this.createQuiz = this.createQuiz.bind(this);
@@ -32,13 +32,12 @@ export default class AddClass extends React.Component {
 
     createClass(event) {
         const username = store.getState().username;
-        const router = this.props.router;
 
         ajax("GET", "/accounts/newroom", {},
             function (success) {
                 store.dispatch({type: 'JOINROOM', roomId: success});
-                router.push('/room');
-            },
+                this.router.push('/room');
+            }.bind(this),
             function (error) {
                 console.log(error);
             }
@@ -82,29 +81,46 @@ export default class AddClass extends React.Component {
     }
 
     render() {
+
+    const listelem = {
+        
+         margin: '5px'
+        
+    }
+
         var quizList = [];
         for(var i = 0; i < this.state.quizNames.length; i++) {
-            quizList.push(<Button bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
-        }       
+            quizList.push(<Button style = {listelem} bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
+        }
         return (
-            <div>
-                <div>{this.state.error}</div>
-                <Accordion>
-                    <Panel header="Join Class" eventKey="1">
-                      <form onSubmit = {this.onSubmit}>
+    <div>
+        <Grid>
+        <Row className="show-grid">
+                <Col md={9}>
+        <Jumbotron>
+        <div>
+                    <form onSubmit = {this.onSubmit}>
                         <LabelInput name="roomId" label="Class Code" type="text" onChange={this.setValue} />
                         <button type="submit">Submit Code</button>
-                      </form>
-                    </Panel>
-                    <Panel header="Create Class" eventKey="2" onClick={this.createClass}>
-                    </Panel>
-                    <Panel header="Create New Quiz" eventKey="3" onClick={this.createQuiz}>
-                    </Panel>
-                    <Panel header="Access Saved Quizzes" eventKey="4">
-                      {quizList}
-                    </Panel>
-                  </Accordion>
-            </div>
+                    </form>
+                    <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
+                    <br />
+                    <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
+                    <div>{this.state.error}</div>
+        </div>
+        </Jumbotron>
+        </Col>
+        <Col md={3}>
+        <Jumbotron>
+        <div>
+                    <h3>Saved Quizzes</h3>
+                    {quizList}
+        </div>
+        </Jumbotron>
+        </Col>
+        </Row>
+        </Grid>
+    </div>
         );
     }
 };

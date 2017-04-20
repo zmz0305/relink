@@ -2,14 +2,6 @@ import React from 'react';
 
 module.exports = function(type, url, data, success, error) {    
   $.support.cors = true;
-	// $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-	//   options.crossDomain ={
-	//     crossDomain: true
-	//   };
-	//   options.xhrFields = {
-	//     withCredentials: true
-	//   };
-	// });
 
 	$.ajax({
 	  type: type,
