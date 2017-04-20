@@ -39,6 +39,10 @@ const index = (state = initialState, action) => {
                 user: state.username
             });
             return state;
+        case 'LEAVEROOM':
+            state.roomId = null;
+            action.router.push(state.isInstructor ? '/instructor' : '/student')
+            return state
         case 'EDITQUIZ':
             state.quizName = action.quizName;
             return state;

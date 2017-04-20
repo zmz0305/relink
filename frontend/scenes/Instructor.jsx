@@ -34,7 +34,7 @@ export default class AddClass extends React.Component {
         ajax("GET", "/accounts/newroom", {},
             function (success) {
                 store.dispatch({type: 'JOINROOM', roomId: success});
-                this.router.push('/room');
+                this.props.router.push('/room');
             }.bind(this),
             function (error) {
                 console.log(error);
