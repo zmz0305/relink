@@ -64,7 +64,9 @@ export default class Home extends React.Component{
             <Nav bsStyle="pills">
               {this.state.userState === 'out' ? <NavButton dst='/login' label='Login' /> : null}
               {this.state.userState === 'out' ? <NavButton dst='/register' label='Register' /> : null }
-              {this.state.userState === 'instructor' ? <NavButton dst='createQuiz' label='Create Quiz' /> : null }
+              {this.state.userState === 'instructor' ? <NavButton dst='/instructor' label='Instructor' /> : null}
+              {this.state.userState === 'student' ? <NavButton dst='/student' label='Student' /> : null}
+              {this.state.userState === 'instructor' ? <NavButton dst='/createQuiz' label='Create Quiz' /> : null }
               {this.state.userState === 'inRoom' ? <NavButton nodst="true" label='Leave Room' onClick={this.leaveRoom} /> : null}
               {this.state.userState != 'out' ? <NavButton dst='/' label='Logout' onClick={this.logout} /> : null }
             </Nav>
