@@ -3,9 +3,7 @@ import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
 import {Button} from 'react-bootstrap'
 import {Grid} from 'react-bootstrap'
-import {Row} from 'react-bootstrap'
-import {Col} from 'react-bootstrap'
-import {Jumbotron} from 'react-bootstrap'
+import {Col, ListGroup, ListGroupItem, FormControl, FormGroup, Checkbox, Jumbotron, Row} from 'react-bootstrap'
 
 var ajax = require('../components/AjaxCall.jsx');
 
@@ -77,50 +75,64 @@ export default class AddClass extends React.Component {
     }
 
     setValue(event) {
+        console.log(event.target.value);
         this.setState({[event.target.name]: event.target.value});
     }
 
     render() {
 
-	const listelem = {
-		
-		 margin: '5px'
-		
-	}
+    const buttonStyle={
+        width:'100%',
+        marginBottom: '10px'
+    }
+    const headerStyle={
+        padding:'0px',
+        margin:'0 auto 10px'
+    }
+    const pStyle={
+        textAlign:'center'
+    }
 
         var quizList = [];
         for(var i = 0; i < this.state.quizNames.length; i++) {
-            quizList.push(<Button style = {listelem} bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
+            quizList.push(<Button style = {buttonStyle} bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
         }
         return (
-	<div>
-	    <Grid>
-		<Row className="show-grid">
+    <div>
+        <Grid>
+        <Row className="show-grid">
                 <Col md={9}>
-		<Jumbotron>
-		<div>
+        <Jumbotron>
+        <div>
+                    <Button style={buttonStyle} bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
                     <form onSubmit = {this.onSubmit}>
-                        <LabelInput name="roomId" label="Class Code" type="text" onChange={this.setValue} />
-                        <button type="submit">Submit Code</button>
+                        <FormGroup>
+                          <Row>
+                          <Col xs={12} md={8}>
+                          <FormControl type="text" name="roomId" type="text" placeholder='Class Code' onChange={this.setValue}/>
+                          </Col>
+                          <Col xs={6} md={4} >
+                          <Button bsStyle="primary" type="submit" style={buttonStyle}>Join Class</Button>
+                          </Col>
+                          </Row>
+                        </FormGroup>
                     </form>
-                    <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
                     <br />
-                    <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
                     <div>{this.state.error}</div>
-		</div>
-		</Jumbotron>
-		</Col>
-		<Col md={3}>
-		<Jumbotron>
-		<div>
-                    <h3>Saved Quizzes</h3>
+        </div>
+        </Jumbotron>
+        </Col>
+        <Col md={3}>
+        <Jumbotron>
+        <div>
+                    <p style={pStyle}>Saved <b>Quizzes</b></p>
                     {quizList}
-		</div>
-		</Jumbotron>
-		</Col>
-		</Row>
-	    </Grid>
-	</div>
+        </div>
+        </Jumbotron>
+        </Col>
+        </Row>
+        </Grid>
+    </div>
         );
     }
 };

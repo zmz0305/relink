@@ -111,7 +111,10 @@ export default class Room extends React.Component {
             width: '95%',
             margin: 'auto'
         }
-
+        const buttonStyle={
+            width:'100%',
+            marginBottom: '10px'
+        }
         return (
             <div>
                 <Jumbotron>
@@ -124,11 +127,11 @@ export default class Room extends React.Component {
                 <form onSubmit={this.onSubmit} style={styleDiv}>
                     <FormGroup>
                       <Row>
-                      <Col xs={12} md={8}>
+                      <Col xs={15} md={10}>
                       <FormControl type="text" name="message" type="text" onChange={this.setValue}/>
                       </Col>
-                      <Col xs={6} md={4} >
-                      <Button bsStyle="primary" type="submit">Send Message</Button>
+                      <Col xs={3} md={2} >
+                      <Button style={buttonStyle} bsStyle="primary" type="submit">Send Message</Button>
                       </Col>
                       </Row>
                       <Row>
@@ -138,10 +141,6 @@ export default class Room extends React.Component {
                       </Row>
                     </FormGroup>
                 </form>
-                
-                <Col xs={2} xsOffset={10}>
-                <p><Button bsStyle="info" onClick={this.exitRoom}>Exit Room</Button></p>
-                </Col>
                 </Jumbotron>
             </div>
         );
