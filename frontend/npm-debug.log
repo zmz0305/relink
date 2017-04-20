@@ -1,35 +1,33 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/Cellar/node/7.6.0/bin/node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'start' ]
-2 info using npm@4.1.2
-3 info using node@v7.6.0
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@3.10.10
+3 info using node@v6.9.5
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle frontend@1.0.0~prestart: frontend@1.0.0
 6 silly lifecycle frontend@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle frontend@1.0.0~start: frontend@1.0.0
 8 verbose lifecycle frontend@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle frontend@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/xmxz023/workspace/relink/frontend/node_modules/.bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-10 verbose lifecycle frontend@1.0.0~start: CWD: /Users/xmxz023/workspace/relink/frontend
+9 verbose lifecycle frontend@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/sahanajain/relink1/relink/frontend/node_modules/.bin:/usr/local/mysql/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle frontend@1.0.0~start: CWD: /Users/sahanajain/relink1/relink/frontend
 11 silly lifecycle frontend@1.0.0~start: Args: [ '-c', 'webpack-dev-server --hot' ]
 12 silly lifecycle frontend@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle frontend@1.0.0~start: Failed to exec start script
 14 verbose stack Error: frontend@1.0.0 start: `webpack-dev-server --hot`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:279:16)
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
 14 verbose stack     at emitTwo (events.js:106:13)
-14 verbose stack     at EventEmitter.emit (events.js:192:7)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
 14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:40:14)
 14 verbose stack     at emitTwo (events.js:106:13)
-14 verbose stack     at ChildProcess.emit (events.js:192:7)
-14 verbose stack     at maybeClose (internal/child_process.js:890:16)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid frontend@1.0.0
-16 verbose cwd /Users/xmxz023/workspace/relink/frontend
-17 error Darwin 16.5.0
-18 error argv "/usr/local/Cellar/node/7.6.0/bin/node" "/usr/local/bin/npm" "start"
-19 error node v7.6.0
-20 error npm  v4.1.2
+16 verbose cwd /Users/sahanajain/relink1/relink/frontend
+17 error Darwin 14.1.0
+18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+19 error node v6.9.5
+20 error npm  v3.10.10
 21 error code ELIFECYCLE
 22 error frontend@1.0.0 start: `webpack-dev-server --hot`
 22 error Exit status 1

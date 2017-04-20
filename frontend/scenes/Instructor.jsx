@@ -1,7 +1,7 @@
 import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
-import {Button} from 'react-bootstrap'
+import {Button, Accordion, Panel} from 'react-bootstrap'
 var ajax = require('../components/AjaxCall.jsx');
 
 
@@ -88,16 +88,22 @@ export default class AddClass extends React.Component {
         }       
         return (
             <div>
-                <form onSubmit = {this.onSubmit}>
-                    <LabelInput name="roomId" label="Class Code" type="text" onChange={this.setValue} />
-                    <button type="submit">Submit Code</button>
-                </form>
-                <Button bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
-                <br />
-                <Button bsStyle="primary" onClick={this.createQuiz}>Create New Quiz</Button>
                 <div>{this.state.error}</div>
-                <h3>Saved Quizzes</h3>
-                {quizList}
+                <Accordion>
+                    <Panel header="Join Class" eventKey="1">
+                      <form onSubmit = {this.onSubmit}>
+                        <LabelInput name="roomId" label="Class Code" type="text" onChange={this.setValue} />
+                        <button type="submit">Submit Code</button>
+                      </form>
+                    </Panel>
+                    <Panel header="Create Class" eventKey="2" onClick={this.createClass}>
+                    </Panel>
+                    <Panel header="Create New Quiz" eventKey="3" onClick={this.createQuiz}>
+                    </Panel>
+                    <Panel header="Access Saved Quizzes" eventKey="4">
+                      {quizList}
+                    </Panel>
+                  </Accordion>
             </div>
         );
     }
