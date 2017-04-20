@@ -2,6 +2,15 @@ import React from 'react';
 import LabelInput from '../components/LabelInput.jsx';
 import store from '../main.js'
 var ajax = require('../components/AjaxCall.jsx');
+import {Button} from 'react-bootstrap'
+import {Grid} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
+import {Form} from 'react-bootstrap'
+import {Jumbotron} from 'react-bootstrap'
+import {FormGroup} from 'react-bootstrap'
+import {InputGroup} from 'react-bootstrap'
+import {FormControl} from 'react-bootstrap'
 
 function login(name, isInstructor) {
     return {
@@ -49,15 +58,37 @@ export default class Login extends React.Component {
     }
 
     render() {
+        const soleRow = {
+          top : "25px"
+        }
         return (
-            <div>
-                LOGIN<br/>
-                <form onSubmit={this.onSubmit}>
-                    <LabelInput name="username" label="Email/Username" type="text" onChange={this.setValue}/>
-                    <LabelInput name="password" label="Password" type="password" onChange={this.setValue}/>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
+          <Grid>
+            <Row className="show-grid">
+              <Col md={3}/>
+              <Col md={6}>
+              <Jumbotron>
+                <Form onSubmit={this.onSubmit}>
+                  <FormGroup>
+                    <InputGroup>
+                      <Row className="show-grid" style = {soleRow}>
+                      <Col md={4}>
+                        <FormControl name="username" label="Email/Username" type="text" onChange={this.setValue}/>
+                      </Col>
+                      <Col md={4}>
+                        <FormControl name="password" label="Password" type="password" onChange={this.setValue}/>
+                      </Col>
+                      <Col md={4}>
+                        <Button type="submit">Login</Button>
+                      </Col>
+                      </Row>
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+              </Jumbotron>
+              </Col>
+              <Col md={3}/>
+            </Row>
+          </Grid>
         );
     }
 };

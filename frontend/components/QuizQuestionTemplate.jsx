@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, FormControl, Col, Button } from 'react-bootstrap'
 import AnswerInput from './AnswerInput.jsx'
-import { quizStore } from '../scenes/CreateQuiz.jsx'
+import { quizStore } from './Quiz.jsx'
 
 export default class QuizQuestionTemplate extends React.Component {
 	constructor(props) {
@@ -13,13 +13,17 @@ export default class QuizQuestionTemplate extends React.Component {
 		this.state = { count: 2,  question: '' }
 
 		const questionCount = this.props.questionCount
-		quizStore.subscribe(() => {
+		this.unsubscribe = quizStore.subscribe(() => {
 			var state = quizStore.getState()
 			this.setState({
 				count: state.questions[questionCount].answers.length,
 				question: state.questions[questionCount].question
 			})
 		});
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe()
 	}
 
 	addAnswer() {
@@ -45,21 +49,19 @@ export default class QuizQuestionTemplate extends React.Component {
   }
 
 	render() {
-		const { questionCount } = this.props;
+		const { questionCount, readOnly } = this.props;
 
-		var answers = [
-  		<AnswerInput key={0} questionCount={questionCount} answerCount={0}  checked={true} />
-		];
-		for (var i = 1; i < this.state.count; i++) {
-  		answers.push(<AnswerInput key={i} questionCount={questionCount} answerCount={i} />);
+		var answers = [];
+		for (var i = 0; i < this.state.count; i++) {
+  		answers.push(<AnswerInput readOnly={readOnly} key={i} questionCount={questionCount} answerCount={i} />);
 		}
 
 		return (
 			<FormGroup style={{marginBottom: '1cm'}}>
 				<h3>Question {questionCount + 1} :</h3>
-				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?" value={this.state.question} />
+				<FormControl name="question" onChange={this.setValue} type="text" placeholder="What is your favorite color?" value={this.state.question} readOnly={readOnly} />
 				{answers}
-				<Col smOffset={5} sm={5}>
+				<Col smOffset={5} sm={5} hidden={readOnly}>
 	        <Button bsStyle="primary" onClick={this.removeAnswer} >
 	          - Answer
 	        </Button>

@@ -12,7 +12,8 @@ import Register from './scenes/Register.jsx';
 import Student from './scenes/Student.jsx';
 import Instructor from './scenes/Instructor.jsx';
 import Room from './scenes/Room.jsx';
-import {CreateQuiz} from './scenes/CreateQuiz.jsx'
+import CreateQuiz from './scenes/CreateQuiz.jsx'
+import Quiz from './scenes/Quiz.jsx'
 
 // const store = compose(autoRehydrate())(createStore)(index)
 const store = createStore(index)
@@ -28,6 +29,7 @@ ReactDOM.render(
 	        <Route path="/student" component={Student} />
 	        <Route path="/room" component={Room} />
 	        <Route path="/createquiz" component={CreateQuiz} />
+	        <Route path="/quiz" component={Quiz} />
 	    </Route>
 	  </Router>
   </Provider>

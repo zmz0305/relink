@@ -171,6 +171,27 @@ answers: {
 	answers: [0,1]
 }
 
+
+```
+New Format
+```
+{
+	"questions": [
+		{
+			"question": "Some question",
+			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
+		},
+		{
+			"question": "Some question",
+			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
+		}
+	],
+
+        "quizname": "somename",
+
+	answers: answers: [0,1]
+}
+
 ```
 
 Response

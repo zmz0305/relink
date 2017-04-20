@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputGroup, FormControl } from 'react-bootstrap'
-import { quizStore } from '../scenes/CreateQuiz.jsx'
+import { quizStore } from './Quiz.jsx'
 
 export default class AnswerInput extends React.Component {
 	constructor(props) {
@@ -11,10 +11,9 @@ export default class AnswerInput extends React.Component {
 
 		const questionCount = this.props.questionCount
 		const answerCount = this.props.answerCount
-		quizStore.subscribe(() => {
+		this.unsubscribe = quizStore.subscribe(() => {
 			var state = quizStore.getState()
 			var checked = state.answers[questionCount] == answerCount ? true : false
-			console.log(state.answers[questionCount])
 			this.setState({
 				answer: state.questions[questionCount].answers[answerCount],
 				checked: checked
@@ -24,6 +23,10 @@ export default class AnswerInput extends React.Component {
 		if (quizStore.getState().answers[questionCount] == answerCount) {
 			this.state.checked = true
 		}
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	setValue(event) {
@@ -44,13 +47,13 @@ export default class AnswerInput extends React.Component {
   }
 
 	render() {
-		const { name } = this.props;
+		const { readOnly } = this.props;
 		return (
 			<InputGroup>
 				<InputGroup.Addon>
-					<input type="radio" name={name} aria-label="..." onChange={this.setAnswerValue} checked={this.state.checked} />
+					<input type="radio" aria-label="..." onChange={this.setAnswerValue} checked={this.state.checked} />
 				</InputGroup.Addon>
-				<FormControl type="text" onChange={this.setValue} />
+				<FormControl type="text" onChange={this.setValue} readOnly={readOnly} />
 			</InputGroup>
 		);
 	}
