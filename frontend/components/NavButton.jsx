@@ -12,7 +12,9 @@ class NavButton extends React.Component {
 		if (this.props.onClick != undefined) {
 			this.props.onClick()
 		}
-		this.props.router.push(dst);
+
+		if (this.props.nodst != "true")
+			this.props.router.push(dst);
 	}
 
 	render() {
