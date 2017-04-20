@@ -27,7 +27,6 @@ export default class Home extends React.Component{
 
       this.unsubscribe = store.subscribe(function() {
         var state = store.getState()
-        console.log(state)
         if (state.username != null) {
           var currState = state.isInstructor ? 'instructor' : 'student';
           currState = state.roomId != null ? 'inRoom' : currState;
@@ -77,7 +76,6 @@ export default class Home extends React.Component{
               {this.state.userState === 'out' ? <NavButton dst='/register' label='Register' /> : null }
               {this.state.userState === 'instructor' ? <NavButton dst='/instructor' label='Instructor' /> : null}
               {this.state.userState === 'student' ? <NavButton dst='/student' label='Student' /> : null}
-              {this.state.userState === 'instructor' ? <NavButton dst='/createQuiz' label='Create Quiz' /> : null }
               {this.state.userState === 'inRoom' ? <NavButton nodst="true" label='Leave Room' onClick={this.leaveRoom} /> : null}
               {this.state.userState != 'out' ? <NavButton dst='/' label='Logout' onClick={this.logout} /> : null }
             </Nav>

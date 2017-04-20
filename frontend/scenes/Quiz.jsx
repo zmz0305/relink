@@ -10,8 +10,8 @@ export default class CreateQuiz extends React.Component {
   render() {
     return (
        <div>
-        <PageHeader>Create a quiz!</PageHeader>
-        <Quiz readOnly={false} />
+        <PageHeader>Complete the Quiz!</PageHeader>
+        <Quiz readOnly={true} />
        </div>
     ); 
   }

@@ -17,6 +17,7 @@ export default class AddClass extends React.Component {
         this.postQuiz = this.postQuiz.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.setValue = this.setValue.bind(this);
+        this.navigate = this.navigate.bind(this);
 
         ajax("POST", "/accounts/listquiz", {},
             function (success) {
@@ -79,6 +80,10 @@ export default class AddClass extends React.Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
+    navigate(dst) {
+        this.props.router.push(dst)
+    }
+
     render() {
 
     const buttonStyle={
@@ -104,6 +109,7 @@ export default class AddClass extends React.Component {
                 <Col md={9}>
         <Jumbotron>
         <div>
+                    <Button style={buttonStyle} bsStyle="primary" onClick={() => this.navigate('/createQuiz')}>Create New Quiz</Button>
                     <Button style={buttonStyle} bsStyle="primary" onClick={this.createClass}>Create New Class</Button>
                     <form onSubmit = {this.onSubmit}>
                         <FormGroup>
