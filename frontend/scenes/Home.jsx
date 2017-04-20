@@ -5,6 +5,17 @@ import NavButton from '../components/NavButton.jsx'
 import { persistStore } from 'redux-persist'
 import LandingPage from '../components/LandingPage.jsx'
 var ajax = require('../components/AjaxCall.jsx');
+import {Button} from 'react-bootstrap'
+import {Grid} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
+import {Form} from 'react-bootstrap'
+import {Jumbotron} from 'react-bootstrap'
+import {FormGroup} from 'react-bootstrap'
+import {InputGroup} from 'react-bootstrap'
+import {FormControl} from 'react-bootstrap'
+import {Radio} from 'react-bootstrap'
+import {ControlLabel} from 'react-bootstrap'
 
 export default class Home extends React.Component{
     constructor(props) {
@@ -71,11 +82,16 @@ export default class Home extends React.Component{
               {this.state.userState != 'out' ? <NavButton dst='/' label='Logout' onClick={this.logout} /> : null }
             </Nav>
           </Navbar>
-          <div style={{marginLeft: '1in', marginRight: '1in'}}>
-            {location.pathname === '/' ? <LandingPage /> : null}
-            {this.props.children}
-          </div>
+          <Grid>
+            <Row className="show-grid">
+              <Col md={8}>
+                {location.pathname === '/' ? <LandingPage /> : null}
+                {this.props.children}
+              </Col>
+              <Col md={4}/>
+          </Row>
+          </Grid>
         </div>
-      ); 
+      );
    }
 };

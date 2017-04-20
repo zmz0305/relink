@@ -71,13 +71,13 @@ export default class Login extends React.Component {
                   <FormGroup>
                     <InputGroup>
                       <Row className="show-grid" style = {soleRow}>
-                      <Col sm={4}>
+                      <Col md={4}>
                         <FormControl name="username" label="Email/Username" type="text" onChange={this.setValue}/>
                       </Col>
-                      <Col sm={4}>
+                      <Col md={4}>
                         <FormControl name="password" label="Password" type="password" onChange={this.setValue}/>
                       </Col>
-                      <Col sm={4}>
+                      <Col md={4}>
                         <Button type="submit">Login</Button>
                       </Col>
                       </Row>
