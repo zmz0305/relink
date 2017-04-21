@@ -44,7 +44,7 @@ function init(done) {
                 callback(err, res);
             })
             console.log('generator finished!');
-            done();
+            if(done) done();
         },
         // close connections
         // function (callback) {

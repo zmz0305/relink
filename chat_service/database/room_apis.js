@@ -53,16 +53,12 @@ module.exports.existRoom = function (room_id, cb) {
         cb(err, undefined);
     } else {
         Room.findOne({room_id: room_id}, function (err, data) {
-            console.log('room_id:', room_id);
             if (err) {
-                console.log('err', err);
                 cb(err, undefined);
             } else {
                 if (!data || data.length == 0) {
-                    console.log('not found', data);
                     cb(err, {status: 'existRoom ok, but not found', data: undefined});
                 } else {
-                    console.log('found!', data);
                     cb(err, {status: 'existRoom ok', data: data});
                 }
             }
@@ -98,11 +94,11 @@ module.exports.existUserInRoom = function(data, cb) {
                 if (!data || data.length == 0) {
                     cb(err, {code: 404, status: 'Room not found', data: undefined});
                 } else {
-                    console.log("room data: ", data);
-                    console.log("try to find user: ", user_id);
+                    // console.log("Looking for user: ", user_id);
+                    // console.log('In room: ', data);
                     var users = data.room_user;
                     var idx = users.map(function(e){return e.user_id}).indexOf(user_id);
-                    console.log(idx);
+                    // console.log('User index: ', idx);
                     if(idx == -1){
                         cb(err, {code: 404, status: 'user not in room', data: data});
                     } else {
@@ -125,12 +121,14 @@ module.exports.joinRoom = function (data, cb) {
     if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
-        Room.findOneAndUpdate({room_id: room_id},
+        Room.findOneAndUpdate(
+            {room_id: room_id},
             {$addToSet: {'room_user': {'user_id': userid}}},
             {new: true},
             function (err, res) {
                 cb(err, res);
-            });
+            }
+        );
     }
 }
 
@@ -145,12 +143,14 @@ module.exports.leaveRoom = function (data, cb) {
     if (!room_id || !userid) {
         cb({status: 'error', data: 'room_id and user name is required'}, undefined);
     } else {
-        Room.findOneAndUpdate({room_id: room_id},
+        Room.findOneAndUpdate(
+            {room_id: room_id},
             {$pull: {'room_user': {'user_id': userid}}},
             {new: true},
             function (err, res) {
                 cb(err, res);
-            });
+            }
+        );
     }
 }
 
