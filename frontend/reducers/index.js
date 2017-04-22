@@ -33,7 +33,6 @@ const index = (state = initialState, action) => {
         case 'JOINROOM':
             state.roomId = action.roomId;
             console.log(action.roomId)
-            console.log(state)
             state.socket.emit('join', {
                 room_id: state.roomId,
                 user: state.username
@@ -45,6 +44,7 @@ const index = (state = initialState, action) => {
             return state
         case 'EDITQUIZ':
             state.quizName = action.quizName;
+            action.router.push('/createQuiz')
             return state;
         default:
             return state;
