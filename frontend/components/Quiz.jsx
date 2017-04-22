@@ -4,6 +4,7 @@ import quiz from '../reducers/quiz.js'
 import { createStore } from 'redux';
 import { Button, PageHeader, Grid, Row, Col, InputGroup, FormGroup, FormControl } from 'react-bootstrap'
 import QuizQuestionTemplate from './QuizQuestionTemplate.jsx'
+import { withRouter } from 'react-router'
 var ajax = require('../components/AjaxCall.jsx');
 
 var quizStore = createStore(quiz);
@@ -13,7 +14,8 @@ class Quiz extends React.Component {
     super(props); 
     var state = store.getState()
     if(state.quizName != null) {
-      ajax("POST", "/accounts/postquiz", {"quizname": state.quizName ,"instructor_id": state.username},
+      console.log({quizname: state.quizName ,instructor_id: state.username})
+      ajax("POST", "/accounts/postquiz", {quizname: state.quizName ,instructor_id: state.username},
       function(success) {
         console.log(success);
       },
@@ -60,16 +62,15 @@ class Quiz extends React.Component {
 	saveQuiz() {
     const router = this.props.router;
     var state = quizStore.getState()
-    console.log(state)
 
     var data = {
-      "quiz": {"questions": state.questions},
-      "quizname": state.quizName,
-      answers: {answers:state.answers}
+      questions: JSON.stringify(state.questions),
+      quizname: state.quizName,
+      answers: JSON.stringify(state.answers)
     }
     console.log(data)
-    ajax("POST", "/accounts/createquiz",data
-    , function(success) {
+    ajax("POST", "/accounts/createquiz",data,
+    function(success) {
       console.log(success)
       router.push('/instructor')
     }, function(error) {
@@ -108,4 +109,5 @@ class Quiz extends React.Component {
   }
 }
 
+Quiz = withRouter(Quiz)
 export { Quiz, quizStore }
