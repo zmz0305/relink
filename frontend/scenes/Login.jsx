@@ -61,34 +61,29 @@ export default class Login extends React.Component {
         const soleRow = {
           top : "25px"
         }
+        const buttonStyle = {
+          width:'100%'
+        }
         return (
-          <Grid>
-            <Row className="show-grid">
-              <Col md={3}/>
-              <Col md={6}>
               <Jumbotron>
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
                     <InputGroup>
-                      <Row className="show-grid" style = {soleRow}>
-                      <Col md={4}>
                         <FormControl name="username" label="Email/Username" type="text" onChange={this.setValue}/>
-                      </Col>
-                      <Col md={4}>
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup>
+                    <InputGroup>
                         <FormControl name="password" label="Password" type="password" onChange={this.setValue}/>
-                      </Col>
-                      <Col md={4}>
-                        <Button type="submit">Login</Button>
-                      </Col>
-                      </Row>
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup>
+                    <InputGroup>
+                        <Button type="submit" style={buttonStyle}>Login</Button>
                     </InputGroup>
                   </FormGroup>
                 </Form>
               </Jumbotron>
-              </Col>
-              <Col md={3}/>
-            </Row>
-          </Grid>
         );
     }
 };
