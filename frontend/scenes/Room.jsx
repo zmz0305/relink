@@ -138,7 +138,6 @@ export default class Room extends React.Component {
                 <Row className="show-grid">
                 <Col md={9}>
                 <Jumbotron>
-                    <h3>{this.state.roomId}</h3>
                 <div style={styleChat}>
                 <ListGroup>
                 {messages}
