@@ -213,6 +213,8 @@ def ensure_dir(file_path):
 @csrf_exempt
 @login_required
 def create_quiz(request):
+    print(request.POST)
+    print(type(request.POST.lists()[0][0]))
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         user_folder = os.path.join(quiz_dir, str(current_user.id))
@@ -221,19 +223,14 @@ def create_quiz(request):
         answerfolder = os.path.join(user_folder, "answers")
         ensure_dir(quizfolder)
         ensure_dir(answerfolder)
-
         try:
-            question =  request.POST['questions']
-            quiz = json.dumps(question)
-            json_quiz = json.loads(json.loads(quiz))
-            quiz_name = json_quiz['quizname']
-            quiz_content = json.dumps(json_quiz['quiz'])
-
+            question = request.POST[unicode('questions')]
+            quiz_name = request.POST[unicode('quizname')]
             quiz_file_name = os.path.join(quizfolder, quiz_name)
             with open(quiz_file_name, 'w') as quiz_file:
-                quiz_file.write(quiz_content)
+                quiz_file.write(question)
 
-            answers = request.POST['answers']
+            answers = request.POST[unicode('answers')]
             answers_file_name = os.path.join(answerfolder, quiz_name)
             with open(answers_file_name, 'w') as answer_file:
                 answer_file.write(answers)
@@ -268,21 +265,19 @@ def send_quiz(request):
 @csrf_exempt
 @login_required
 def post_quiz(request):
-    #current_user = request.user
+    print(request.user.username)
     instuctorid = request.POST["instructor_id"]
-    user = User.objects.get(username=instuctorid)
-
-
+    user = User.objects.get(id=instuctorid)
     try:
         quiz_file_name = request.POST['quizname']
-        quiz_file_path = os.path.join(quiz_dir, str(user.id), quiz_file_name)
+        quiz_file_path = os.path.join(quiz_dir, str(user.id), 'questions', quiz_file_name)
         try:
             with open(quiz_file_path, 'r') as quiz_file:
                 return HttpResponse(quiz_file.read())
         except IOError:
-            return HttpResponse("Please check the quizid is valid", status=500)
+            return HttpResponse("Please check the quizid and instructor id is valid", status=500)
     except KeyError:
-        return HttpResponse("Please check if quizid field exists", status=500)
+        return HttpResponse("Please check if quizid and instructor field exists", status=500)
 
 
 
@@ -293,7 +288,7 @@ def list_all_quiz(request):
     current_user = request.user
     result = []
     if current_user.groups.filter(name="instructor").exists():
-        quiz_file_path = os.path.join(quiz_dir, str(current_user.id))
+        quiz_file_path = os.path.join(quiz_dir, str(current_user.id), 'questions')
         if os.path.exists(quiz_file_path):
             for quiz in os.listdir(quiz_file_path):
                 result.append(quiz)

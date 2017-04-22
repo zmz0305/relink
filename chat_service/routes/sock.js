@@ -7,16 +7,16 @@ var logger = require('../utility/logger');
 var room_apis = require('../database/room_apis');
 var resMsg = require('../utility/utils').resMsg;
 
-router.post("/send", function (req, res) {
+router.post("/send", function (req, res, next) {
     var room_id = req.body.room_id;
     var message = req.body.message;
     var user = req.body.user;
-    console.log(req.body);
     // if any of the three values is missing, throw error
     if(!room_id || !message || !user){
         res.status(500);
         res.send({status: '500 Internal Error',
             data: 'missing values, must have room_id, message, user'});
+        return;
     }
 
     // send using io from parent module (which is app in app.js)
@@ -51,13 +51,14 @@ router.post("/sendQuiz", function (req, res) {
         res.status(500);
         res.send({status: '500 Internal Error',
             data: 'missing values, must have room_id, quiz_name, user'});
+        return;
     }
 
     // send using io from parent module (which is app in app.js)
     room_apis.existUserInRoom({room_id: room_id, user_id: user}, function (err, data) {
         if(err) {
             res.status(500);
-            res.send({status: '500 internal error', data: 'Error in confirming room_id'});
+            res.send({status: '500 internal error', data: 'Error in confirming room_id and user_id'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
                 console.log(data.status)
@@ -75,7 +76,6 @@ router.post("/sendQuiz", function (req, res) {
 })
 
 router.post("/createRoom", function (req, res) {
-    logger.debug('/createRoom: room_id: ' + req.body.room_id);
     var room_id = req.body.room_id;
     var room_name = req.body.room_name;
 
@@ -84,6 +84,7 @@ router.post("/createRoom", function (req, res) {
     if(!room_id){
         res.status(500);
         res.send({status: '500 internal error', data: 'Missing room_id in request body'});
+        return;
     } else {
         room_apis.createRoom({room_id: room_id, room_name: room_name}, function (err, data) {
             if(err) {
