@@ -219,7 +219,7 @@ Response
 ```
 {
     "status": "200 ok" or "500 error",
-    "data": quiz content
+    "data": [quizs, answer] (json list)
 }
 ```
 

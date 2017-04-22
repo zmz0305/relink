@@ -33,11 +33,20 @@ chat_service_url = "http://localhost:3000/"
 
 
 def index(request):
-    # return HttpResponse('Login requred!');
+    """
+    Index page of back end
+    :param request:
+    :return:
+    """
     return HttpResponse('session from index: ' + escape((request.session.keys())))
 
 @csrf_exempt
 def register_view(request):
+    """
+    End point for register
+    :param request: HTTP request
+    :return: HTTP response
+    """
     instructor, created = Group.objects.get_or_create(name='instructor')
     student, created = Group.objects.get_or_create(name='student')
     try:
@@ -86,6 +95,11 @@ def register_view(request):
 
 @csrf_exempt
 def login_view(request):
+    """
+    End point for logging in users
+    :param request: HTTP request
+    :return: HTTP response
+    """
     email = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=email, password=password)
@@ -99,24 +113,32 @@ def login_view(request):
         return HttpResponse("Authentication Failed")
 
 
-#@login_required
 @csrf_exempt
 def logout_view(request):
+    """
+    End Point for logging user out
+    :param request: HTTP request
+    :return: HTTP response
+    """
     mongo_user_id = str(request.user.username)
+    # logout the user from chat service
     mongo_user = {"user_id": mongo_user_id}
     for room in db.rooms.find():
         users = room['room_user']
-        #print users
         if mongo_user in users:
             users.remove(mongo_user)
             db.rooms.save(room)
-        #print "after remove: ",users
     logout(request)
     return HttpResponse("user get logout")
 
 
 @csrf_exempt
 def delete_user(request):
+    """
+    End Point for deleting user
+    :param request: HTTP request
+    :return: HTTP response
+    """
     try:
         email = request.POST['username']
     except KeyError:
@@ -130,6 +152,12 @@ def delete_user(request):
 
 
 def insert_room_to_mongo(room, instructor_id):
+    """
+    Register user to chat service
+    :param room: chat room id
+    :param instructor_id: id of instructor
+    :return: None
+    """
     result = {"room_name": room.name,
               "room_id": str(room.id),
               "room_user": [{"user_id": str(instructor_id)}]}
@@ -141,8 +169,11 @@ def insert_room_to_mongo(room, instructor_id):
 @csrf_exempt
 @login_required
 def create_classroom(request):
-    # return HttpResponse('session from index: ' + escape((request.session.keys())))
-    print(request)
+    """
+    End point for creating a new virtual classroom
+    :param request: HTTP request
+    :return: ID of the classroom
+    """
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         room = VirtualClassroom.objects.create()
@@ -158,6 +189,12 @@ def create_classroom(request):
 @csrf_exempt
 @login_required
 def join_room_view(request, room_id):
+    """
+    End point for joining to a classroom
+    :param request: HTTP request
+    :param room_id: id of classroom to join
+    :return: HTTP response
+    """
     mongo_user_id = str(request.user.username)
     mongo_user = {"user_id": mongo_user_id}
     if VirtualClassroom.objects.filter(id=int(room_id)).exists():
@@ -182,6 +219,11 @@ def join_room_view(request, room_id):
 @csrf_exempt
 @login_required
 def send_message(request):
+    """
+    End point for sending message to chat service
+    :param request: HTTP request
+    :return: HTTP response
+    """
     try:
         roomid = request.POST['room_id']
     except KeyError:
@@ -213,6 +255,11 @@ def ensure_dir(file_path):
 @csrf_exempt
 @login_required
 def create_quiz(request):
+    """
+    End point for storing quiz
+    :param request: HTTP request
+    :return: HTTP response
+    """
     print(request.POST)
     print(type(request.POST.lists()[0][0]))
     current_user = request.user
@@ -246,6 +293,11 @@ def create_quiz(request):
 @csrf_exempt
 @login_required
 def send_quiz(request):
+    """
+    End point for sending quiz to chat service
+    :param request: HTTP request
+    :return: HTTP response
+    """
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
         quiz_file_name = request.POST['quizname']
@@ -265,30 +317,42 @@ def send_quiz(request):
 @csrf_exempt
 @login_required
 def post_quiz(request):
+    """
+    End point for posting quiz to front end
+    :param request: HTTP request
+    :return: HTTP response
+    """
     print(request.user.username)
     instuctorid = request.POST["instructor_id"]
-    user = User.objects.get(id=instuctorid)
+    user = User.objects.get(username=instuctorid)
     try:
         quiz_file_name = request.POST['quizname']
         quiz_file_path = os.path.join(quiz_dir, str(user.id), 'questions', quiz_file_name)
+        quiz_answer_path = os.path.join(quiz_dir, str(user.id), 'answers', quiz_file_name)
         try:
             with open(quiz_file_path, 'r') as quiz_file:
-                return HttpResponse(quiz_file.read())
+                quiz_content = quiz_file.read()
+            with open(quiz_answer_path, 'r') as answer_file:
+                answer_content = answer_file.read()
+            return HttpResponse(json.dumps([quiz_content, answer_content]))
         except IOError:
             return HttpResponse("Please check the quizid and instructor id is valid", status=500)
     except KeyError:
         return HttpResponse("Please check if quizid and instructor field exists", status=500)
 
 
-
-
 @csrf_exempt
 @login_required
 def list_all_quiz(request):
+    """
+    End point for listing all the quiz an instructor has
+    :param request: HTTP request
+    :return: HTTP response
+    """
     current_user = request.user
     result = []
     if current_user.groups.filter(name="instructor").exists():
-        quiz_file_path = os.path.join(quiz_dir, str(current_user.id))
+        quiz_file_path = os.path.join(quiz_dir, str(current_user.id), 'questions')
         if os.path.exists(quiz_file_path):
             for quiz in os.listdir(quiz_file_path):
                 result.append(quiz)
