@@ -26,7 +26,6 @@ router.post("/send", function (req, res, next) {
             res.send({status: '500 internal error', data: 'Error in confirming room_id'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
-                console.log("error in sock/send: ", data.status);
                 res.status(404);
                 res.send({status: '404 not found', data: 'room_id or user not found'});
             } else {
@@ -61,7 +60,6 @@ router.post("/sendQuiz", function (req, res) {
             res.send({status: '500 internal error', data: 'Error in confirming room_id and user_id'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
-                console.log(data.status)
                 res.status(404);
                 res.send({status: '404 not found', data: 'room_id or user not found'});
             } else {
@@ -112,7 +110,8 @@ router.get("/getRoomById", function(req, res) {
                 res.send(resMsg('500 internal error',
                     'Error when searching database for ' + room_id));
             } else {
-                if(!data) {
+                console.log(data);
+                if(!data.data) {
                     res.status(404);
                     res.send(resMsg('404 not found',
                         'Cannot find room that is associated with this id'))
@@ -125,7 +124,5 @@ router.get("/getRoomById", function(req, res) {
     }
 });
 
-router.post("/logout", function(req, res) {
 
-})
 module.exports = router;

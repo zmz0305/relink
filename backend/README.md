@@ -148,35 +148,9 @@ Response
 accounts/createquiz
 
 POST request to send a quiz to backend for authentication
-
-```
-questions: {
-        "quiz": {
-	        "questions": [
-                        {
-                                "question": "Some question",
-                                "answers": ["Answer 1", "Answer 2", "Anwser 3"]
-                        },
-                        {
-                                "question": "Some question",
-                                "answers": ["Answer 1", "Answer 2", "Anwser 3"]
-                        }
-	        ]
-        },
-
-        "quizname": "somename"
-}
-
-answers: {
-	answers: [0,1]
-}
-
-
-```
-New Format
 ```
 {
-	questions: [
+	"questions": [
 		{
 			"question": "Some question",
 			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
@@ -187,9 +161,9 @@ New Format
 		}
 	],
 
-        quizname: "somename",
+        "quizname": "somename",
 
-	answers: [0,1]
+	"answers": [0,1]
 }
 
 ```
