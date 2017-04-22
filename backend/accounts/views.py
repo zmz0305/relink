@@ -288,7 +288,7 @@ def list_all_quiz(request):
     current_user = request.user
     result = []
     if current_user.groups.filter(name="instructor").exists():
-        quiz_file_path = os.path.join(quiz_dir, str(current_user.id))
+        quiz_file_path = os.path.join(quiz_dir, str(current_user.id), 'questions')
         if os.path.exists(quiz_file_path):
             for quiz in os.listdir(quiz_file_path):
                 result.append(quiz)
