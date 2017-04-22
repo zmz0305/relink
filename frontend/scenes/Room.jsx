@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import store from '../main.js'
 import LabelInput from '../components/LabelInput.jsx';
 import {Button} from 'react-bootstrap'
-import {Col, ListGroup, ListGroupItem, FormControl, FormGroup, Checkbox, Jumbotron, Row} from 'react-bootstrap'
+import {Col, ListGroup, ListGroupItem, FormControl, FormGroup, Checkbox, Jumbotron, Row, Grid} from 'react-bootstrap'
 var ajax = require('../components/AjaxCall.jsx');
 // let socket = io('http://localhost:3000');
 
@@ -18,10 +18,20 @@ export default class Room extends React.Component {
             roomId: storeState.roomId,
             username: storeState.username,
             isInstructor:storeState.isInstructor,
-            messages: [], message: '', counter: 0
+            messages: [], message: '', counter: 0,
+            quizNames: []
         };
         this.socket = storeState.socket;
         const router = this.props.router;
+
+        ajax("POST", "/accounts/listquiz", {},
+            function (success) {
+                this.setState({'quizNames': JSON.parse(success)});
+            }.bind(this),
+            function (error) {
+                console.log(error);
+            }
+        );
     }
 
     componentDidMount() {
@@ -101,22 +111,32 @@ export default class Room extends React.Component {
         }
         const styleChat = {
             height: '500px',
-            width: '95%',
+            width: '100%',
             backgroundColor:'#ffffff',
             overflow:'scroll',
             margin: 'auto',
             top: '0px'
         }
         const styleDiv = {
-            width: '95%',
+            width: '100%',
             margin: 'auto'
         }
         const buttonStyle={
             width:'100%',
             marginBottom: '10px'
         }
+        const pStyle={
+            textAlign:'center'
+        }
+        var quizList = [];
+        for(var i = 0; i < this.state.quizNames.length; i++) {
+            quizList.push(<Button style = {buttonStyle} bsStyle="primary" key={i} name={this.state.quizNames[i]} onClick={this.postQuiz}>{this.state.quizNames[i]}</Button>);
+        }
         return (
             <div>
+                <Grid>
+                <Row className="show-grid">
+                <Col md={9}>
                 <Jumbotron>
                 <div style={styleChat}>
                 <ListGroup>
@@ -127,10 +147,10 @@ export default class Room extends React.Component {
                 <form onSubmit={this.onSubmit} style={styleDiv}>
                     <FormGroup>
                       <Row>
-                      <Col xs={15} md={10}>
+                      <Col xs={12} md={9}>
                       <FormControl type="text" name="message" type="text" onChange={this.setValue}/>
                       </Col>
-                      <Col xs={3} md={2} >
+                      <Col xs={6} md={3} >
                       <Button style={buttonStyle} bsStyle="primary" type="submit">Send Message</Button>
                       </Col>
                       </Row>
@@ -142,6 +162,17 @@ export default class Room extends React.Component {
                     </FormGroup>
                 </form>
                 </Jumbotron>
+                </Col>
+                <Col md={3}>
+                <Jumbotron>
+                <div>
+                            <p style={pStyle}>Saved <b>Quizzes</b></p>
+                            {quizList}
+                </div>
+                </Jumbotron>
+                </Col>
+                </Row>
+                </Grid>
             </div>
         );
     }
