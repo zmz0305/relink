@@ -294,9 +294,9 @@ def create_quiz(request):
 @login_required
 def send_quiz(request):
     """
-
-    :param request:
-    :return:
+    End point for sending quiz to chat service
+    :param request: HTTP request
+    :return: HTTP response
     """
     current_user = request.user
     if current_user.groups.filter(name="instructor").exists():
@@ -317,26 +317,38 @@ def send_quiz(request):
 @csrf_exempt
 @login_required
 def post_quiz(request):
+    """
+    End point for posting quiz to front end
+    :param request: HTTP request
+    :return: HTTP response
+    """
     print(request.user.username)
     instuctorid = request.POST["instructor_id"]
     user = User.objects.get(username=instuctorid)
     try:
         quiz_file_name = request.POST['quizname']
         quiz_file_path = os.path.join(quiz_dir, str(user.id), 'questions', quiz_file_name)
+        quiz_answer_path = os.path.join(quiz_dir, str(user.id), 'answers', quiz_file_name)
         try:
             with open(quiz_file_path, 'r') as quiz_file:
-                return HttpResponse(quiz_file.read())
+                quiz_content = quiz_file.read()
+            with open(quiz_answer_path, 'r') as answer_file:
+                answer_content = answer_file.read()
+            return HttpResponse(json.dumps([quiz_content, answer_content]))
         except IOError:
             return HttpResponse("Please check the quizid and instructor id is valid", status=500)
     except KeyError:
         return HttpResponse("Please check if quizid and instructor field exists", status=500)
 
 
-
-
 @csrf_exempt
 @login_required
 def list_all_quiz(request):
+    """
+    End point for listing all the quiz an instructor has
+    :param request: HTTP request
+    :return: HTTP response
+    """
     current_user = request.user
     result = []
     if current_user.groups.filter(name="instructor").exists():
