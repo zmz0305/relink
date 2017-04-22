@@ -118,6 +118,7 @@ export default class Room extends React.Component {
         return (
             <div>
                 <Jumbotron>
+                    <h3>{this.state.roomId}</h3>
                 <div style={styleChat}>
                 <ListGroup>
                 {messages}
