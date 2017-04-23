@@ -60,6 +60,19 @@ export default class Room extends React.Component {
                 messages: this.state.messages.concat([message])
             }));
         })
+        this.socket.on('commands', (data) => {
+            // data looks loke {type: 'quiz', quiz_name: 'quiz_name', user: 'user_id'}
+            ajax('POST', 'accounts/postquiz',
+                {quizname: data.quiz_name, instructor_id: data.user},
+                function (success) {
+                    console.log(success);
+                }, 
+                function (error) {
+                    console.log(error);
+                }
+            );
+            console.log('received quiz command');
+        })
     }
 
     onSubmit(event) {
@@ -67,7 +80,22 @@ export default class Room extends React.Component {
         const roomId = this.state.roomId;
         const message = this.state.message;
         const anon = this.state.anonymous;
-        if(message!=''){
+
+        if(message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
+            const args = message.split(' ')
+            if(args[1] == 'sendquiz' && args[2]) {
+                ajax('POST', '/accounts/sendquiz',
+                    {room_id: roomId, quizname: args[2]},
+                    function (success) {
+                        console.log(success);
+                    },
+                    function(error) {
+                        console.log(error);
+                    }
+                )
+            }
+        }
+        else if(message!=''){
             ajax("POST", "/accounts/message",
                 {room_id: roomId, message: message, anonymous: anon},
                 function (success) {
@@ -148,7 +176,7 @@ export default class Room extends React.Component {
                     <FormGroup>
                       <Row>
                       <Col xs={12} md={9}>
-                      <FormControl type="text" name="message" type="text" onChange={this.setValue}/>
+                      <FormControl type="text" name="message" onChange={this.setValue}/>
                       </Col>
                       <Col xs={6} md={3} >
                       <Button style={buttonStyle} bsStyle="primary" type="submit">Send Message</Button>
