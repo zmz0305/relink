@@ -59,20 +59,20 @@ export default class Room extends React.Component {
             this.setState(() => ({
                 messages: this.state.messages.concat([message])
             }));
-        })
+        });
         this.socket.on('commands', (data) => {
             // data looks loke {type: 'quiz', quiz_name: 'quiz_name', user: 'user_id'}
-            ajax('POST', 'accounts/postquiz',
+            ajax('POST', '/accounts/postquiz',
                 {quizname: data.quiz_name, instructor_id: data.user},
                 function (success) {
-                    console.log(success);
+                    console.log('success', success); // it is the quiz, render it in this page
                 }, 
                 function (error) {
-                    console.log(error);
+                    console.log('error', error);
                 }
             );
             console.log('received quiz command');
-        })
+        });
     }
 
     onSubmit(event) {
