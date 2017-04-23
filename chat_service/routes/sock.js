@@ -11,6 +11,7 @@ router.post("/send", function (req, res, next) {
     var room_id = req.body.room_id;
     var message = req.body.message;
     var user = req.body.user;
+
     // if any of the three values is missing, throw error
     if(!room_id || !message || !user){
         res.status(500);
