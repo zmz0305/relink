@@ -75,12 +75,12 @@ export default class AddClass extends React.Component {
                 console.log(success);
                 store.dispatch({type: 'JOINROOM', roomId: roomId});
                 router.push('/room');
-            },
+            }.bind(this),
             function(error) {
                 this.setState({error: 'Error join room, make sure this room exists.'});
                 console.log(JSON.stringify(error) + " error");
-            }
-        ).bind(this)
+            }.bind(this)
+        )
     }
 
     setValue(event) {
@@ -133,7 +133,7 @@ export default class AddClass extends React.Component {
                         <FormGroup>
                           <Row>
                           <Col xs={12} md={8}>
-                          <FormControl type="text" name="roomId" type="text" placeholder='Class Code' onChange={this.setValue}/>
+                          <FormControl type="text" name="roomId" placeholder='Class Code' onChange={this.setValue}/>
                           </Col>
                           <Col xs={6} md={4} >
                           <Button bsStyle="primary" type="submit" style={buttonStyle}>Join Class</Button>

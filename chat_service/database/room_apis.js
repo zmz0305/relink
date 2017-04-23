@@ -94,6 +94,7 @@ module.exports.existUserInRoom = function(data, cb) {
                 if (!data || data.length == 0) {
                     cb(err, {code: 404, status: 'Room not found', data: undefined});
                 } else {
+                    console.log('Searching user: ' + user_id + ' in room ' + room_id);
                     var users = data.room_user;
                     var idx = users.map(function(e){return e.user_id}).indexOf(user_id);
                     if(idx == -1){
