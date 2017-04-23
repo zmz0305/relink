@@ -26,6 +26,7 @@ router.post("/send", function (req, res, next) {
             res.send({status: '500 internal error', data: 'Error in confirming room_id'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
+                console.log('/sock/send 404', data);
                 res.status(404);
                 res.send({status: '404 not found', data: 'room_id or user not found'});
             } else {
@@ -57,11 +58,11 @@ router.post("/sendQuiz", function (req, res) {
     room_apis.existUserInRoom({room_id: room_id, user_id: user}, function (err, data) {
         if(err) {
             res.status(500);
-            res.send({status: '500 internal error', data: 'Error in confirming room_id and user_id'});
+            res.send({status: '500 internal error', data: 'Error when confirming room_id and user_id in /sock/sendquiz'});
         } else {
             if(!data.data || data.code == 404) { // if there is no data returned
                 res.status(404);
-                res.send({status: '404 not found', data: 'room_id or user not found'});
+                res.send({status: '404 not found', data: data});
             } else {
                 // the room_id is valid, send to message to this room
                 module.parent.exports.get('io').to(room_id)
