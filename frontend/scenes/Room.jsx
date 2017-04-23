@@ -83,9 +83,9 @@ export default class Room extends React.Component {
         const message = this.state.message;
         const anon = this.state.anonymous;
         const isInstructor = this.state.isInstructor;
-
         if(isInstructor && message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
             const args = message.split(' ');
+
             if(args[1] == 'sendquiz' && args[2]) {
                 ajax('POST', '/accounts/sendquiz',
                     {room_id: roomId, quizname: args[2]},
@@ -197,12 +197,13 @@ export default class Room extends React.Component {
                 </Jumbotron>
                 </Col>
                 <Col md={3}>
-                <Jumbotron>
+                {this.state.isInstructor === true ? <Jumbotron>
+                <p>{this.state.isInstructor}</p>
                 <div>
                             <p style={pStyle}>Saved <b>Quizzes</b></p>
                             {quizList}
                 </div>
-                </Jumbotron>
+                </Jumbotron> : null}
                 </Col>
                 </Row>
                 </Grid>
