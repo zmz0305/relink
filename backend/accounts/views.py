@@ -302,7 +302,7 @@ def send_quiz(request):
     if current_user.groups.filter(name="instructor").exists():
         quiz_file_name = request.POST['quizname']
         roomid = request.POST['room_id']
-        data = {"quiz_name": quiz_file_name, "user": str(request.user.id), "room_id": str(roomid)}
+        data = {"quiz_name": quiz_file_name, "user": str(request.user.username), "room_id": str(roomid)}
         url = chat_service_url + "sock/sendQuiz"
         print data, url
         response = requests.post(url, data=data)
@@ -358,12 +358,3 @@ def list_all_quiz(request):
                 result.append(quiz)
     return HttpResponse(json.dumps(result))
 
-@csrf_exempt
-@login_required
-def post_topic(request):
-    current_user = request.user
-    if current_user.groups.filter(name="instructor").exists():
-        print "instructor can post topic"
-        #TODO: call chat service api
-    else:
-        return HttpResponseServerError()
