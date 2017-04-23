@@ -309,7 +309,7 @@ def send_quiz(request):
         if response.status_code == 200:
             return HttpResponse("Quiz sent")
         else:
-            return HttpResponseServerError("Quiz send failed")
+            return HttpResponseServerError("Quiz send failed" + response.content)
     else:
          return HttpResponseServerError("Quiz send failed, not instructor")
 
