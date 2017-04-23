@@ -87,26 +87,6 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-// var dbCheckRoom = function (rid, cb1, cb2) {
-//     room_apis.existRoom(rid, function (err, obj) {
-//         if (obj && obj.status == 'existRoom ok') {
-//             cb1(err, obj);
-//         } else {
-//             cb2(err, obj);
-//         }
-//     })
-// }
-
-var dbJoinRoom = function (duser, drid, cb) {
-    room_apis.joinRoom({room_id: drid, user: duser}, function (err, res) {
-        if (err) {
-            console.log(err);
-        } else {
-            cb();
-        }
-    })
-}
-
 var dbCheckRoom = function (data, cb) {
     console.log('dbCheckRoom: ', data);
     room_apis.existUserInRoom(
@@ -137,9 +117,6 @@ io.on('connection', function (socket) {
                 io.to(socket.id).emit("ok", {data: data.user + ' joined room_id:' + data.room_id});
                 socket.join(data.room_id, function () {
                     console.log(socket.rooms);
-                    // dbJoinRoom(data.user, data.room_id, function () {
-                    //     io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
-                    // })
                     io.to(data.room_id, 'a new user ' + data.user + 'entered room.');
                 });
             }
@@ -150,12 +127,12 @@ io.on('connection', function (socket) {
     socket.on('leaveroom', function (data) {
         console.log('socketio logout: ', data);
         socket.disconnect(true);
-    })
+    });
 
     socket.on('disconnect', function(data) {
         console.log('disconnect!' + data);
         socket.disconnect(true);
-    })
+    });
 });
 
 /**

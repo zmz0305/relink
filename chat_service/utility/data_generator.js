@@ -14,9 +14,6 @@ function init(done) {
 
     async.series([
         function (callback) {
-            // if(mongoose.connection.readyState == 0){
-            //     mongoose.connect(config.MONGO_URI);
-            // }
             console.log('Clean up test database.....');
             callback();
         },
@@ -42,19 +39,12 @@ function init(done) {
         function (callback) {
             room_apis.joinRoom({room_id: 'room1', user: 'mgao16'}, function (err, res) {
                 callback(err, res);
-            })
+            });
             console.log('generator finished!');
             if(done) done();
-        },
-        // close connections
-        // function (callback) {
-        //     mongoose.disconnect(callback);
-        //     done();
-        // }
+        }
     ]);
 }
-
-// init();
 
 module.exports = init;
 

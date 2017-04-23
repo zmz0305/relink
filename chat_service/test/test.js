@@ -7,11 +7,9 @@ var mongoose = require('mongoose');
 var config = require('../config');
 var db_init = require('../utility/data_generator');
 var async = require('async');
-//
 var fs = require("fs");
 var querystring = require('querystring');
 var http = require('http');
-
 var request = require('supertest');
 var app = require('../app');
 
@@ -76,7 +74,7 @@ describe('RESTful API Tests', function () {
             request(app)
                 .post('/sock/send')
                 .send({room_id: 'room1', user: 'fakeuser', message: 'sample message'})
-                .expect(404, {status: '404 not found', data: 'room_id or user not found'})
+                .expect(404)
                 .end(function (err, res) {
                     if (err) return done(err);
                     done();
@@ -139,7 +137,7 @@ describe('RESTful API Tests', function () {
             request(app)
                 .post('/sock/sendQuiz')
                 .send({room_id: 'lll', user: 'mgao16', quiz_name: 'quiz1'})
-                .expect(404, {status: '404 not found', data: 'room_id or user not found'})
+                .expect(404)
                 .end(function (err, res) {
                     if (err) return done(err);
                     done();
@@ -150,7 +148,7 @@ describe('RESTful API Tests', function () {
             request(app)
                 .post('/sock/sendQuiz')
                 .send({room_id: 'room1', user: 'fakeuser', quiz_name: 'q1'})
-                .expect(404, {status: '404 not found', data: 'room_id or user not found'})
+                .expect(404)
                 .end(function (err, res) {
                     if (err) return done(err);
                     done();
