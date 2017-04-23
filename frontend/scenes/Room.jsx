@@ -61,17 +61,19 @@ export default class Room extends React.Component {
             }));
         });
         this.socket.on('commands', (data) => {
-            // data looks loke {type: 'quiz', quiz_name: 'quiz_name', user: 'user_id'}
-            ajax('POST', '/accounts/postquiz',
-                {quizname: data.quiz_name, instructor_id: data.user},
-                function (success) {
-                    console.log('success', success); // it is the quiz, render it in this page
-                }, 
-                function (error) {
-                    console.log('error', error);
-                }
-            );
-            console.log('received quiz command');
+            if(!this.state.isInstructor) {
+                // data looks loke {type: 'quiz', quiz_name: 'quiz_name', user: 'user_id'}
+                ajax('POST', '/accounts/postquiz',
+                    {quizname: data.quiz_name, instructor_id: data.user},
+                    function (success) {
+                        console.log('success', success); // it is the quiz, render it in this page
+                    },
+                    function (error) {
+                        console.log('error', error);
+                    }
+                );
+                console.log('received quiz command');
+            }
         });
     }
 
@@ -80,9 +82,10 @@ export default class Room extends React.Component {
         const roomId = this.state.roomId;
         const message = this.state.message;
         const anon = this.state.anonymous;
+        const isInstructor = this.state.isInstructor;
 
-        if(message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
-            const args = message.split(' ')
+        if(isInstructor && message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
+            const args = message.split(' ');
             if(args[1] == 'sendquiz' && args[2]) {
                 ajax('POST', '/accounts/sendquiz',
                     {room_id: roomId, quizname: args[2]},
@@ -93,6 +96,8 @@ export default class Room extends React.Component {
                         console.log(error);
                     }
                 )
+            } else {
+                console.log('Invalid command');
             }
         }
         else if(message!=''){
