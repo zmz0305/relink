@@ -12,17 +12,6 @@ var quizStore = createStore(quiz);
 class Quiz extends React.Component {
   constructor(props) {
     super(props); 
-    var state = store.getState()
-    if(state.quizName != null) {
-      console.log({quizname: state.quizName ,instructor_id: state.username})
-      ajax("POST", "/accounts/postquiz", {quizname: state.quizName ,instructor_id: state.username},
-      function(success) {
-        console.log(success);
-      },
-      function(error) {
-        console.log(error);
-      })
-    }
 
     var state = quizStore.getState()
     this.state = {questionCount: state.questions.length, quizName: state.quizName};
@@ -34,6 +23,25 @@ class Quiz extends React.Component {
       })
     });
 
+    var state = store.getState()
+    if(state.quizName != null) {
+      // console.log({quizname: state.quizName, instructor_id: state.username})
+      ajax("POST", "/accounts/postquiz", {quizname: state.quizName ,instructor_id: state.username},
+      function(success) {
+        var obj = JSON.parse(success);
+        quizStore.dispatch({
+          type: 'SETQUIZ',
+          questions: JSON.parse(obj[0]),
+          answers: JSON.parse(obj[1]),
+          quizName: state.quizName
+        })
+        var questions = JSON.parse(obj[0])
+        var answers = JSON.parse(obj[1])
+      },
+      function(error) {
+        console.log(error);
+      })
+    }
     this.setQuizName = this.setQuizName.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
@@ -91,7 +99,7 @@ class Quiz extends React.Component {
     
     return (
        <div>
-          <FormControl bsSize="lg" type="text" value={this.quizName} name="quizName" placeholder="Quiz Name" onChange={this.setQuizName} readOnly={readOnly} />
+          <FormControl bsSize="lg" type="text" value={this.state.quizName} name="quizName" placeholder="Quiz Name" onChange={this.setQuizName} readOnly={readOnly} />
   		    {questions}
   		    <div hidden={readOnly}>
 	  		    <Col smOffset={5} sm={5} >

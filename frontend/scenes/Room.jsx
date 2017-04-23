@@ -80,6 +80,7 @@ export default class Room extends React.Component {
         const roomId = this.state.roomId;
         const message = this.state.message;
         const anon = this.state.anonymous;
+        const router = this.props.router;
 
         if(message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
             const args = message.split(' ')
@@ -87,7 +88,7 @@ export default class Room extends React.Component {
                 ajax('POST', '/accounts/sendquiz',
                     {room_id: roomId, quizname: args[2]},
                     function (success) {
-                        console.log(success);
+                        router.push('/quiz')
                     },
                     function(error) {
                         console.log(error);

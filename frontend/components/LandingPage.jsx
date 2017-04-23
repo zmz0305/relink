@@ -17,7 +17,7 @@ class LandingPage extends React.Component {
 		return (
 			<Jumbotron>
 		    <h1>Relink!</h1>
-		    <p>Connect with your students in realtime, and make the lecture experience a lot more valuable and enjoyable</p>
+		    <p>Connect with your students in realtime, and make the lecture experience a lot more valuable and enjoyable!</p>
 		  </Jumbotron>
 		);
 	}

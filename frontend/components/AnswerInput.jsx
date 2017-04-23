@@ -7,13 +7,26 @@ export default class AnswerInput extends React.Component {
 		super(props);
 		this.setValue = this.setValue.bind(this);
 		this.setAnswerValue = this.setAnswerValue.bind(this);
-		this.state = { answer: '', checked: false }
 
 		const questionCount = this.props.questionCount
 		const answerCount = this.props.answerCount
+		var currState = quizStore.getState()
+		if (currState.quizName.length > 0) {
+			var checked = currState.answers[questionCount] == answerCount ? true : false
+			this.state = {
+				answer: currState.questions[questionCount].answers[answerCount],
+				checked: checked
+			}
+		} else {
+			this.state = { answer: '', checked: false }
+		}
+
+
 		this.unsubscribe = quizStore.subscribe(() => {
 			var state = quizStore.getState()
 			var checked = state.answers[questionCount] == answerCount ? true : false
+			
+			console.log(questionCount)
 			this.setState({
 				answer: state.questions[questionCount].answers[answerCount],
 				checked: checked
@@ -53,7 +66,7 @@ export default class AnswerInput extends React.Component {
 				<InputGroup.Addon>
 					<input type="radio" aria-label="..." onChange={this.setAnswerValue} checked={this.state.checked} />
 				</InputGroup.Addon>
-				<FormControl type="text" onChange={this.setValue} readOnly={readOnly} />
+				<FormControl type="text" value={this.state.answer} onChange={this.setValue} readOnly={readOnly} />
 			</InputGroup>
 		);
 	}

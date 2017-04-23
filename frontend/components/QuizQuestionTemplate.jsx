@@ -10,11 +10,19 @@ export default class QuizQuestionTemplate extends React.Component {
 		this.removeAnswer = this.removeAnswer.bind(this);
 		this.setValue = this.setValue.bind(this);
 
-		this.state = { count: 2,  question: '' }
-
 		const questionCount = this.props.questionCount
+		var currState = quizStore.getState()
+		if (currState.quizName.length > 0) {
+			this.state = { count: currState.questions[questionCount].answers.length,  question: currState.questions[questionCount].question }
+		} else {
+			this.state = { count: 2, question: ''}
+		}
+
 		this.unsubscribe = quizStore.subscribe(() => {
 			var state = quizStore.getState()
+			if (questionCount >= state.questions.length)
+				return
+			console.log(state.questions[questionCount].question)
 			this.setState({
 				count: state.questions[questionCount].answers.length,
 				question: state.questions[questionCount].question
@@ -55,7 +63,6 @@ export default class QuizQuestionTemplate extends React.Component {
 		for (var i = 0; i < this.state.count; i++) {
   		answers.push(<AnswerInput readOnly={readOnly} key={i} questionCount={questionCount} answerCount={i} />);
 		}
-
 		return (
 			<FormGroup style={{marginBottom: '1cm'}}>
 				<h3>Question {questionCount + 1} :</h3>

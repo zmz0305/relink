@@ -5,7 +5,7 @@ const initialState = {
     isInstructor: null,
     isStudent: null,
     roomId: null,
-    socket: null,
+    socket: null
 }
 
 const index = (state = initialState, action) => {
