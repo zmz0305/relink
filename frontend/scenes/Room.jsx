@@ -67,9 +67,11 @@ export default class Room extends React.Component {
         const roomId = this.state.roomId;
         const message = this.state.message;
         const anon = this.state.anonymous;
+        var data = {room_id: roomId, message: message, anonymous: anon}
+        console.log(data)
         if(message!=''){
-            ajax("POST", "/accounts/message",
-                {room_id: roomId, message: message, anonymous: anon},
+            ajax("POST", "/accounts/message",data
+                ,
                 function (success) {
                     console.log(success);
                 },
