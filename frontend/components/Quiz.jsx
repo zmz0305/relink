@@ -14,7 +14,7 @@ class Quiz extends React.Component {
     super(props); 
 
     var state = quizStore.getState()
-    this.state = {questionCount: state.questions.length, quizName: state.quizName};
+    this.state = {questionCount: state.questions.length, quizName: state.quizName, answers: []};
     this.unsubscribe = quizStore.subscribe(() => {
       var state = quizStore.getState()
       this.setState({
@@ -25,19 +25,26 @@ class Quiz extends React.Component {
 
     var state = store.getState()
     if(state.quizName != null) {
-      // console.log({quizname: state.quizName, instructor_id: state.username})
-      ajax("POST", "/accounts/postquiz", {quizname: state.quizName ,instructor_id: state.username},
+      const instructorId = state.isInstructor ? state.username : state.instructorName
+      console.log(state.quizName, instructorId)
+      ajax("POST", "/accounts/postquiz", {quizname: state.quizName, instructor_id: instructorId},
       function(success) {
         var obj = JSON.parse(success);
+        var answers = JSON.parse(obj[1])
+        this.setState({
+          answers: answers
+        })
+        if (this.props.readOnly) {
+          answers = Array.apply(null, Array(answers.length)).map(Number.prototype.valueOf,-1)
+        }
         quizStore.dispatch({
           type: 'SETQUIZ',
           questions: JSON.parse(obj[0]),
-          answers: JSON.parse(obj[1]),
+          answers: answers,
           quizName: state.quizName
         })
-        var questions = JSON.parse(obj[0])
-        var answers = JSON.parse(obj[1])
-      },
+        console.log()
+      }.bind(this),
       function(error) {
         console.log(error);
       })
@@ -46,6 +53,7 @@ class Quiz extends React.Component {
     this.removeQuestion = this.removeQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.saveQuiz = this.saveQuiz.bind(this);
+    this.submitQuiz = this.submitQuiz.bind(this);
   }
 
   setQuizName(event) {
@@ -76,14 +84,24 @@ class Quiz extends React.Component {
       quizname: state.quizName,
       answers: JSON.stringify(state.answers)
     }
-    console.log(data)
     ajax("POST", "/accounts/createquiz",data,
     function(success) {
-      console.log(success)
       router.push('/instructor')
     }, function(error) {
       console.log(error.responseText)
     })
+  }
+
+  submitQuiz() {
+    var userAnswers = quizStore.getState().answers
+    var correct = 0;
+    for (var i = 0; i < userAnswers.length; i++) {
+      if (userAnswers[i] === this.state.answers[i]) {
+        correct++
+      }
+    }
+    alert('You answered ' + correct + ' out of ' + userAnswers.length + ' questions.')
+    this.props.router.push('/room')
   }
 
   componentWillUnmount() {
@@ -112,6 +130,7 @@ class Quiz extends React.Component {
 	  	      </Col>
           	<Button bsStyle="primary" onClick={this.saveQuiz} hidden>Save Quiz</Button>
           </div>
+          <Button bsStyle="primary" onClick={this.submitQuiz} hidden={!readOnly}>Submit</Button>
        </div>
     ); 
   }

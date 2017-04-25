@@ -26,7 +26,6 @@ export default class AnswerInput extends React.Component {
 			var state = quizStore.getState()
 			var checked = state.answers[questionCount] == answerCount ? true : false
 			
-			console.log(questionCount)
 			this.setState({
 				answer: state.questions[questionCount].answers[answerCount],
 				checked: checked

@@ -22,7 +22,6 @@ export default class QuizQuestionTemplate extends React.Component {
 			var state = quizStore.getState()
 			if (questionCount >= state.questions.length)
 				return
-			console.log(state.questions[questionCount].question)
 			this.setState({
 				count: state.questions[questionCount].answers.length,
 				question: state.questions[questionCount].question

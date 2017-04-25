@@ -68,7 +68,6 @@ export default class AddClass extends React.Component {
 
         ajax("GET", "/accounts/classroom/" + roomId, null,
             function(success) {
-                console.log(success);
                 store.dispatch({type: 'JOINROOM', roomId: roomId});
                 router.push('/room');
             }.bind(this),
@@ -80,7 +79,6 @@ export default class AddClass extends React.Component {
     }
 
     setValue(event) {
-        console.log(event.target.value);
         this.setState({[event.target.name]: event.target.value});
     }
 

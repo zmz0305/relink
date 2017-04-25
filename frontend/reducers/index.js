@@ -46,6 +46,10 @@ const index = (state = initialState, action) => {
             state.quizName = action.quizName;
             action.router.push('/createQuiz')
             return state;
+        case 'SETQUIZ':
+            state.quizName = action.quizName;
+            state.instructorName = action.instructorName;
+            action.router.push('/quiz')
         default:
             return state;
     }

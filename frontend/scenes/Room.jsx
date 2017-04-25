@@ -39,6 +39,7 @@ export default class Room extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.setValue = this.setValue.bind(this);
         this.setAnonymous = this.setAnonymous.bind(this);
+        this.postQuiz = this.postQuiz.bind(this);
 
         const router = this.props.router;
         if(!this.state.username) {
@@ -55,24 +56,19 @@ export default class Room extends React.Component {
         this.socket.on('error', function (data) {
             router.push('/');
         });
-        this.socket.on('message', message => {
+        this.socket.on('message', (message) => {
             this.setState(() => ({
                 messages: this.state.messages.concat([message])
             }));
         });
         this.socket.on('commands', (data) => {
             if(!this.state.isInstructor) {
-                // data looks loke {type: 'quiz', quiz_name: 'quiz_name', user: 'user_id'}
-                ajax('POST', '/accounts/postquiz',
-                    {quizname: data.quiz_name, instructor_id: data.user},
-                    function (success) {
-                        console.log('success', success); // it is the quiz, render it in this page
-                    },
-                    function (error) {
-                        console.log('error', error);
-                    }
-                );
-                console.log('received quiz command');
+                store.dispatch({
+                    type: 'SETQUIZ',
+                    quizName: data.quiz_name,
+                    instructorName: data.user,
+                    router: router
+                })
             }
         });
     }
@@ -84,29 +80,14 @@ export default class Room extends React.Component {
         const anon = this.state.anonymous;
 
         const router = this.props.router;
-        const isInstructor = this.state.isInstructor;
-        if(isInstructor && message.indexOf('/cmd') == 0) { // when instructor put in /cmd sendquiz quizname
-            const args = message.split(' ');
-            if(args[1] == 'sendquiz' && args[2]) {
-                ajax('POST', '/accounts/sendquiz',
-                    {room_id: roomId, quizname: args[2]},
-                    function (success) {
-                        router.push('/quiz')
-                    },
-                    function(error) {
-                        console.log(error);
-                    }
-                )
-            } else {
-                console.log('Invalid command');
-            }
-        }
-        else if(message!=''){
+        if(message!=''){
             ajax("POST", "/accounts/message",
                 {room_id: roomId, message: message, anonymous: anon},
                 function (success) {
-                    console.log(success);
-                },
+                    this.setState({
+                        message: ''
+                    })
+                }.bind(this),
                 function (error) {
                     console.log(error)
                 }
@@ -115,7 +96,6 @@ export default class Room extends React.Component {
     }
 
     exitRoom() {
-        console.log('exit room');
         if(this.state.isInstructor) {
             this.props.router.push('/instructor');
         } else {
@@ -128,6 +108,22 @@ export default class Room extends React.Component {
 
     setAnonymous(even) {
        this.setState({anonymous: !this.state.anonymous});
+    }
+
+    postQuiz(event) {
+        const quizName = event.target.name;
+        const roomId = this.state.roomId;
+        const router = this.props.router;
+
+        ajax('POST', '/accounts/sendquiz',
+            {room_id: roomId, quizname: quizName},
+            function (success) {
+                console.log('sent quiz')
+            },
+            function(error) {
+                console.log(error);
+            }
+        )
     }
 
     render() {
@@ -182,7 +178,7 @@ export default class Room extends React.Component {
                     <FormGroup>
                       <Row>
                       <Col xs={12} md={9}>
-                      <FormControl type="text" name="message" onChange={this.setValue}/>
+                      <FormControl type="text" value={this.state.message} name="message" onChange={this.setValue}/>
                       </Col>
                       <Col xs={6} md={3} >
                       <Button style={buttonStyle} bsStyle="primary" type="submit">Send Message</Button>
