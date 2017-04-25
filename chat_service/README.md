@@ -4,7 +4,7 @@
 - ```npm initdb``` to cleanup and initialize test database.
 - <b>Warning!</b> running ```npm test``` and ```npm initdb``` will restore test database to original state. Check your database url! Do not run them on production database!
 
-# RESTful API (third draft)
+# RESTful API
 ### Send message 
 ##### POST sock/send
 <pre>
@@ -52,7 +52,7 @@ response
 }
 ```
 
-### Chatroom related
+### Chatroom
 ##### GET sock/room
 ```
 response
@@ -87,7 +87,7 @@ response
 
 
 # SOCKET
-#### Join room
+#### Join Room
 
 ```
 frontend sends
@@ -103,7 +103,7 @@ or
 emit("ok", {data: 'joined room_id'});
 ```
 
-#### receive message
+#### Receive Message
 ```
 backend sends
 ('message', {room_id})
