@@ -38,6 +38,6 @@ Students are unwilling to talk to strangers next to them even when instructors t
 System testing of the whole project.
 Build with security in mind.
 
-## How to run server using script
-Use `sh main.sh` to start all services and press ctrl-c (or sending SIGINT) to kill all server processes.
-You cannot kill process running main.sh before pressing ctrl-c, otherwise it will be a big pain to kill all your server processes.
+## Configuration and Deployment
+See <a href = "https://github.com/zmz0305/relink/wiki/Configuration-Manual">Repositery Wiki Page</a> for Configuration Manual.
+
