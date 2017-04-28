@@ -42,3 +42,5 @@ Build with security in mind.
 ## Configuration and Deployment
 See <a href = "https://github.com/zmz0305/relink/wiki/Configuration-Manual">Repositery Wiki Page</a> for Configuration Manual.
 
+## Project Documentation
+See <a href = "https://github.com/zmz0305/relink/wiki/Project-Documentation">Repositery Wiki Page</a>
