@@ -121,7 +121,7 @@ def logout_view(request):
     :return: HTTP response
     """
     mongo_user_id = str(request.user.username)
-    # logout the user from chat service
+    # logout the user (from chat service and website)
     mongo_user = {"user_id": mongo_user_id}
     for room in db.rooms.find():
         users = room['room_user']
