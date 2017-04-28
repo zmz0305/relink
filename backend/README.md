@@ -47,7 +47,7 @@ POST: {
 
    username = "username"
    
-   passwrod = "password"
+   password = "password"
    
 }
 
