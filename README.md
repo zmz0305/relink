@@ -27,9 +27,10 @@ Students are unwilling to talk to strangers next to them even when instructors t
   - Does not boost communication
   - Question forms are not fun
 ## Programming languages, libraries, frameworks, platforms
-- Backend: Nodejs, Socket.io
+- Backend: python, Nodejs
+- Chat-service: Socket.io
 - Frontend: React
-- Database: MySQL, MongoDB
+- Database: MongoDB
 - Environment: Unix based OS
 ## Risks/Challenges
 - Build real-time communication system.
