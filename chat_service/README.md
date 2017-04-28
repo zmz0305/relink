@@ -47,7 +47,7 @@ response
 {
     "status":
     "data": {
-
+	... // some detailed info
     }
 }
 ```
