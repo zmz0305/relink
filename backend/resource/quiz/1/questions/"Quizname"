@@ -1,0 +1,10 @@
+[
+		{
+			"question": "Some question",
+			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
+		},
+		{
+			"question": "Some question",
+			"answers": ["Answer 1", "Answer 2", "Anwser 3"]
+		}
+	]
