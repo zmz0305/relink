@@ -100,7 +100,7 @@ class Quiz extends React.Component {
         correct++
       }
     }
-    alert('You answered ' + correct + ' out of ' + userAnswers.length + ' questions.')
+    alert('You answered ' + correct + ' out of ' + userAnswers.length + ' questions correctly.')
     this.props.router.push('/room')
   }
 
