@@ -43,4 +43,4 @@ Build with security in mind.
 See <a href = "https://github.com/zmz0305/relink/wiki/Configuration-Manual">Repository Wiki Page</a> for Configuration Manual.
 
 ## Project Documentation
-See <a href = "https://github.com/zmz0305/relink/wiki/Project-Documentation">Repository Wiki Page</a>
+See <a href = "https://github.com/zmz0305/relink/blob/master/RelinkFinalDocumentation.pdf">Repository Wiki Page</a>
